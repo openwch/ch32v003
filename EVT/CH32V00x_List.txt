@@ -1,0 +1,83 @@
+
+南京沁恒微电子股份有限公司 2022.08
+最新资料请到我们的网站上查询
+http://wch.cn
+
+
+文件目录
+  |
+  |-- CH32V00x：RISC-V内核微控制器
+  |      |-- EVT: CH32V00x评估板和CH32V00x相关例程
+  |      |      |-- PUB: 
+  |      |      |      |-- CH32V00x评估板说明书.pdf：CH32V00x评估板说明及工程创建说明
+  |      |      |      |-- CH32V00xSCH.pdf：CH32V00x评估板原理图
+  |      |      |-- EXAM: 
+  |      |      |      |-- SRC  
+  |      |      |      |      |-- Core：内核系统头文件
+  |      |      |      |      |-- Debug：延时函数、串口调试源文件及头文件
+  |      |      |      |      |-- Ld：ld文件  
+  |      |      |      |      |-- Peripheral：基本外设驱动源文件及头文件
+  |      |      |      |      |-- Startup：启动文件。 
+  |      |      |      |-- ADC
+  |      |      |      |      |-- ADC_DMA：ADC使用DMA采样例程
+  |      |      |      |      |-- AnalogWatchdog：模拟看门狗例程
+  |      |      |      |      |-- Auto_Injection：自动注入模式例程
+  |      |      |      |      |-- Discontinuous_mode：间断模式例程
+  |      |      |      |      |-- ExtLines_Trigger：外部触发ADC转换例程
+  |      |      |      |-- DMA
+  |      |      |      |      |-- DMA_MEM2MEM：储存器到储存器模式例程
+  |      |      |      |      |-- DMA_MEM2PERIP：储存器到外设模式、外设到储存器模式例程见各外设子例程
+  |      |      |      |-- EXTI
+  |      |      |      |      |-- EXTI0：外部中断线例程 
+  |      |      |      |-- FLASH
+  |      |      |      |      |-- FLASH_Program：FLASH的擦/读/写，以及快速编程 
+  |      |      |      |-- GPIO
+  |      |      |      |      |-- GPIO_Toggle：GPIO例程  
+  |      |      |      |-- I2C
+  |      |      |      |      |-- I2C_7bit_Mode：7位地址模式，Master/Slave 模式收发例程
+  |      |      |      |      |-- I2C_10bit_Mode：10位地址模式，Master/Slave 模式收发例程
+  |      |      |      |      |-- I2C_DMA：I2C使用DMA，Master/Slave 模式收发例程
+  |      |      |      |      |-- I2C_EEPROM：I2C接口操作EEPROM外设例程
+  |      |      |      |      |-- I2C_PEC：使用PEC错误校验，Master/Slave 模式收发例程  
+  |      |      |      |-- IAP
+  |      |      |      |      |-- V00x_APP：APP跳转IAP例程    
+  |      |      |      |-- IWDG
+  |      |      |      |      |-- IWDG：独立看门狗例程  
+  |      |      |      |-- OPA
+  |      |      |      |      |-- OPA：OPA作电压跟随器输出例程    
+  |      |      |      |-- PWR
+  |      |      |      |      |-- Sleep_Mode：低功耗，睡眠模式例程
+  |      |      |      |      |-- Standby_Mode：低功耗，待机模式例程
+  |      |      |      |-- RCC
+  |      |      |      |      |-- Get_CLK：获取system-HCLK-AHB1-AHB2时钟例程  
+  |      |      |      |      |-- MCO：MCO引脚时钟输出例程
+  |      |      |      |-- SPI
+  |      |      |      |      |-- 1Lines_half-duplex：单线半双工模式，Master/Slave 模式数据收发
+  |      |      |      |      |-- 2Lines_FullDuplex：双线全双工模式，Master/Slave 模式数据收发
+  |      |      |      |      |-- FullDuplex_HardNSS：硬件NSS模式，Master/Slave 模式数据收发
+  |      |      |      |      |-- SPI_CRC：使用CRC错误校验，Master/Slave 模式收发例程
+  |      |      |      |      |-- SPI_DMA：SPI使用DMA，Master/Slave 模式收发例程
+  |      |      |      |-- SYSTICK
+  |      |      |      |      |-- SYSTICK_Interrupt：systick中断例程   
+  |      |      |      |-- TIM
+  |      |      |      |      |-- Clock_Select：时钟源选择例程
+  |      |      |      |      |-- ComplementaryOutput_DeadTime：互补输出和死区插入模式例程
+  |      |      |      |      |-- ExtTrigger_Start_Two_Timer：外部触发同步启动两个定时器例程
+  |      |      |      |      |-- Input_Capture：输入捕获例程
+  |      |      |      |      |-- One_Pulse：单脉冲输出例程
+  |      |      |      |      |-- Output_Compare_Mode：输出比较模式例程
+  |      |      |      |      |-- PWM_Output：PWM输出例程
+  |      |      |      |      |-- Synchro_ExtTrigger：从模式例程，包括复位模式、门控模式、触发模式
+  |      |      |      |      |-- Synchro_Timer：定时器同步模式
+  |      |      |      |      |-- TIM_DMA：定时器使用DMA例程
+  |      |      |      |-- USART
+  |      |      |      |      |-- USART_DMA：USART使用DMA，Master/Slave 模式收发例程
+  |      |      |      |      |-- USART_HalfDuplex：单线半双工模式，Master/Slave 模式收发例程
+  |      |      |      |      |-- USART_HardwareFlowControl：硬件流控制模式，Master/Slave 模式收发例程
+  |      |      |      |      |-- USART_Interrupt：USART中断例程，Master/Slave 模式收发例程
+  |      |      |      |      |-- USART_MultiProcessorCommunication：多处理器通信模式例程
+  |      |      |      |      |-- USART_Polling：轮询收发模式，Master/Slave 模式收发例程
+  |      |      |      |      |-- USART_Printf：串口打印调试例程
+  |      |      |      |      |-- USART_SynchronousMode：同步模式，Master/Slave 模式收发例程    
+  |      |      |      |-- WWDG
+  |      |      |      |      |-- WWDG：窗口看门狗例程
