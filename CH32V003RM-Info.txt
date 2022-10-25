@@ -1,0 +1,8 @@
+Reference Manual:CH32V003RM.PDF
+Version:1.2
+Introduction:CH32V003 series are industrial-grade general-purpose microcontrollers designed based on 32-bit RISC-V instruction set and architecture. It adopts QingKe V2A core, RV32EC instruction set, and supports 2 levels of interrupt nesting. The series are mounted with rich peripheral interfaces and function modules. Its internal organizational structure meets the low-cost and low-power embedded application scenarios.
+Application scope:CH32V003
+Related information:CH32V003EVT.ZIP
+Keywords:003,QingKe,V2A,RISC-V,RV32EC,low-cost,low-power
+
+
