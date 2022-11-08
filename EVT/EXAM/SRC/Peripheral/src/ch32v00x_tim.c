@@ -1962,9 +1962,9 @@ uint16_t TIM_GetCapture2(TIM_TypeDef *TIMx)
 }
 
 /*********************************************************************
- * @fn      TIM_GetCapture2
+ * @fn      TIM_GetCapture3
  *
- * @brief   Gets the TIMx Input Capture 2 value.
+ * @brief   Gets the TIMx Input Capture 3 value.
  *
  * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *

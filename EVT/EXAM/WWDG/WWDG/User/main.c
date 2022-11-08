@@ -99,7 +99,7 @@ int main(void)
     wwdg_wr = WWDG->CFGR & 0x7F;
     while(1)
     {
-        Delay_Ms(50);
+        Delay_Ms(10);
 
         printf("**********\r\n");
         wwdg_tr = WWDG->CTLR & 0x7F;

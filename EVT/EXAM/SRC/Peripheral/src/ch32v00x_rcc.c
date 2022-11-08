@@ -196,13 +196,13 @@ void RCC_HSICmd(FunctionalState NewState)
  *
  * @return  none
  */
-void RCC_PLLConfig(uint32_t RCC_PLLSource, uint32_t RCC_PLLMul)
+void RCC_PLLConfig(uint32_t RCC_PLLSource)
 {
     uint32_t tmpreg = 0;
 
     tmpreg = RCC->CFGR0;
     tmpreg &= CFGR0_PLL_Mask;
-    tmpreg |= RCC_PLLSource | RCC_PLLMul;
+    tmpreg |= RCC_PLLSource;
     RCC->CFGR0 = tmpreg;
 }
 
@@ -437,6 +437,7 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef *RCC_Clocks)
     RCC_Clocks->PCLK2_Frequency = RCC_Clocks->HCLK_Frequency;
     tmp = RCC->CFGR0 & CFGR0_ADCPRE_Set_Mask;
     tmp = tmp >> 11;
+    tmp = ((tmp & 0x18) >> 3) | ((tmp & 0x7) << 2);
 
     if((tmp & 0x13) >= 4)
     {

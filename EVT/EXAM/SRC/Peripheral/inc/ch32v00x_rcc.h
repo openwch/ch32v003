@@ -64,17 +64,17 @@ typedef struct
 
 /* ADC_clock_source */
 #define RCC_PCLK2_Div2                   ((uint32_t)0x00000000)
-#define RCC_PCLK2_Div4                   ((uint32_t)0x00000800)
-#define RCC_PCLK2_Div6                   ((uint32_t)0x00001000)
-#define RCC_PCLK2_Div8                   ((uint32_t)0x00001800)
-#define RCC_PCLK2_Div12                  ((uint32_t)0x00009000)
-#define RCC_PCLK2_Div16                  ((uint32_t)0x00009100)
-#define RCC_PCLK2_Div24                  ((uint32_t)0x0000B000)
-#define RCC_PCLK2_Div32                  ((uint32_t)0x0000B100)
-#define RCC_PCLK2_Div48                  ((uint32_t)0x0000D000)
-#define RCC_PCLK2_Div64                  ((uint32_t)0x0000D100)
-#define RCC_PCLK2_Div96                  ((uint32_t)0x0000F000)
-#define RCC_PCLK2_Div128                 ((uint32_t)0x0000F100)
+#define RCC_PCLK2_Div4                   ((uint32_t)0x00004000)
+#define RCC_PCLK2_Div6                   ((uint32_t)0x00008000)
+#define RCC_PCLK2_Div8                   ((uint32_t)0x0000C000)
+#define RCC_PCLK2_Div12                  ((uint32_t)0x0000A000)
+#define RCC_PCLK2_Div16                  ((uint32_t)0x0000E000)
+#define RCC_PCLK2_Div24                  ((uint32_t)0x0000A800)
+#define RCC_PCLK2_Div32                  ((uint32_t)0x0000E800)
+#define RCC_PCLK2_Div48                  ((uint32_t)0x0000B000)
+#define RCC_PCLK2_Div64                  ((uint32_t)0x0000F000)
+#define RCC_PCLK2_Div96                  ((uint32_t)0x0000B800)
+#define RCC_PCLK2_Div128                 ((uint32_t)0x0000F800)
 
 /* AHB_peripheral */
 #define RCC_AHBPeriph_DMA1               ((uint32_t)0x00000001)
@@ -124,7 +124,7 @@ void        RCC_HSEConfig(uint32_t RCC_HSE);
 ErrorStatus RCC_WaitForHSEStartUp(void);
 void        RCC_AdjustHSICalibrationValue(uint8_t HSICalibrationValue);
 void        RCC_HSICmd(FunctionalState NewState);
-void        RCC_PLLConfig(uint32_t RCC_PLLSource, uint32_t RCC_PLLMul);
+void        RCC_PLLConfig(uint32_t RCC_PLLSource);
 void        RCC_PLLCmd(FunctionalState NewState);
 void        RCC_SYSCLKConfig(uint32_t RCC_SYSCLKSource);
 uint8_t     RCC_GetSYSCLKSource(void);
