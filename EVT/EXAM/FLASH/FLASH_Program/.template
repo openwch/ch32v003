@@ -1,6 +1,6 @@
 Mcu Type=CH32V00x
 Address=0x08000000
-Target Path=obj\FLASH_Test.bin
+Target Path=obj\FLASH_Test.hex
 Erase All=true
 Program=true
 Verify=true

@@ -367,7 +367,6 @@ typedef struct
 
 #define FLASH_R_BASE                            (AHBPERIPH_BASE + 0x2000) /* Flash registers base address */
 #define OB_BASE                                 ((uint32_t)0x1FFFF800)    /* Flash Option Bytes base address */
-#define DBGMCU_BASE                             ((uint32_t)0xE000D000)
 #define EXTEN_BASE                              ((uint32_t)0x40023800)
 
 /* Peripheral declaration */
@@ -396,7 +395,6 @@ typedef struct
 #define RCC                                     ((RCC_TypeDef *)RCC_BASE)
 #define FLASH                                   ((FLASH_TypeDef *)FLASH_R_BASE)
 #define OB                                      ((OB_TypeDef *)OB_BASE)
-#define DBGMCU                                  ((DBGMCU_TypeDef *)DBGMCU_BASE)
 #define EXTEN                                   ((EXTEN_TypeDef *)EXTEN_BASE)
 
 /******************************************************************************/
