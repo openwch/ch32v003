@@ -4,9 +4,11 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : This file provides all the SPI firmware functions.
+ *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *********************************************************************************/
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 #include <ch32v00x_rcc.h>
 #include <ch32v00x_spi.h>
 
@@ -422,7 +424,15 @@ FlagStatus SPI_I2S_GetFlagStatus(SPI_TypeDef *SPIx, uint16_t SPI_I2S_FLAG)
  *            - 1 in SPI mode.
  *          SPI_I2S_FLAG - specifies the SPI flag to clear.
  *            SPI_FLAG_CRCERR - CRC Error flag.
- *
+ *          Note-
+ *          - OVR (OverRun error) flag is cleared by software sequence: a read 
+ *          operation to SPI_DATAR register (SPI_I2S_ReceiveData()) followed by a read 
+ *          operation to SPI_STATR register (SPI_I2S_GetFlagStatus()).
+ *          - UDR (UnderRun error) flag is cleared by a read operation to 
+ *          SPI_STATR register (SPI_I2S_GetFlagStatus()).
+ *          - MODF (Mode Fault) flag is cleared by software sequence: a read/write 
+ *          operation to SPI_STATR register (SPI_I2S_GetFlagStatus()) followed by a 
+ *          write operation to SPI_CTLR1 register (SPI_Cmd() to enable the SPI).
  * @return  FlagStatus: SET or RESET.
  */
 void SPI_I2S_ClearFlag(SPI_TypeDef *SPIx, uint16_t SPI_I2S_FLAG)
@@ -478,7 +488,16 @@ ITStatus SPI_I2S_GetITStatus(SPI_TypeDef *SPIx, uint8_t SPI_I2S_IT)
  *            - 1 in SPI mode.
  *          SPI_I2S_IT - specifies the SPI interrupt pending bit to clear.
  *            SPI_IT_CRCERR - CRC Error interrupt.
- *
+ *         Note-
+ *         - OVR (OverRun Error) interrupt pending bit is cleared by software 
+ *         sequence: a read operation to SPI_DATAR register (SPI_I2S_ReceiveData()) 
+ *         followed by a read operation to SPI_STATR register (SPI_I2S_GetITStatus()).
+ *         - UDR (UnderRun Error) interrupt pending bit is cleared by a read 
+ *         operation to SPI_STATR register (SPI_I2S_GetITStatus()).
+ *         - MODF (Mode Fault) interrupt pending bit is cleared by software sequence:
+ *         a read/write operation to SPI_STATR register (SPI_I2S_GetITStatus()) 
+ *         followed by a write operation to SPI_CTLR1 register (SPI_Cmd() to enable 
+ *         the SPI).      
  * @return  none
  */
 void SPI_I2S_ClearITPendingBit(SPI_TypeDef *SPIx, uint8_t SPI_I2S_IT)

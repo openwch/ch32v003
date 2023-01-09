@@ -4,21 +4,26 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- SPI使用DMA，Master/Slave 模式收发例程：
- Master：SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6)。
- Slave：SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6)。
+ SPI DMA, master/slave mode transceiver routine:
+ Master:PI1_SCK(PC5)\PI1_MISO(PC7)\PI1_MOSI(PC6).
+ Slave:PI1_SCK(PC5)\PI1_MISO(PC7)\PI1_MOSI(PC6).
 
- 本例程演示 Master 和 Slave 同时全双工收发。
- 注：两块板子分别下载 Master 和 Slave 程序，同时上电。
-     硬件连线：PC5 —— PC5
-           PC6 —— PC6
-           PC7 —— PC7
+ This example demonstrates simultaneous full-duplex transmission and reception
+  between Master and Slave.
+ Note: The two boards download the Master and Slave programs respectively,
+ and power on at the same time.
+     Hardware connection:
+           PC5  -- PC5
+           PC6 -- PC6
+           PC7 -- PC7
 
 */
 
@@ -31,8 +36,8 @@
 #define SLAVE_MODE    1
 
 /* SPI Communication Mode Selection */
-//#define SPI_MODE   HOST_MODE
-#define SPI_MODE      SLAVE_MODE
+#define SPI_MODE   HOST_MODE
+//#define SPI_MODE      SLAVE_MODE
 
 /* Global define */
 #define Size          18

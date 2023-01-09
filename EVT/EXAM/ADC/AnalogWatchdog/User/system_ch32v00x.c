@@ -4,9 +4,11 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : CH32V00x Device Peripheral Access Layer System Source File.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *********************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 #include <ch32v00x.h>
 
 /* 
@@ -154,7 +156,7 @@ static void SetSysClock(void)
     SetSysClockTo_48MHz_HSE();
 #endif
  
- /* If none of the define above is enabled, the HSI is used as System clock£¬
+ /* If none of the define above is enabled, the HSI is used as System clock.
   * source (default after reset) 
 	*/ 
 }

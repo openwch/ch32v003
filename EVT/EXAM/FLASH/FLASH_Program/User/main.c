@@ -4,14 +4,16 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- FLASH的擦/读/写例程：
-   包括标准擦除和编程、快速擦除和编程。
+ FLASH erase/read/write, and fast programming:
+   Includes Standard Erase and Program, Fast Erase and Program.
 
 */
 

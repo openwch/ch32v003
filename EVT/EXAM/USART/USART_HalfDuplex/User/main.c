@@ -4,19 +4,23 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 单线半双工模式，Master/Slave 模式收发例程：
- Master：USART1_Tx(PD5)
+ Single wire half duplex mode, master/slave mode transceiver routine:
+ Master:USART1_Tx(PD5)
 
- 本例程演示 两块板子单线半双工模式数据收发，收发成功后PD0接LED，闪烁。
- 注：
-     硬件连线：PD5 —— PD5
-           PDO —— LED
+ This routine demonstrates the data transmission and reception of two boards in
+ single-wire half-duplex mode. After successful transmission and reception, PD0 is
+  connected to the LED, and the LED light flashes.
+
+    Hardware connection:PD5 -- PD5
+                        PDO -- LED
 
 */
 

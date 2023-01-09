@@ -4,20 +4,23 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 单线半双工模式，Master/Slave 模式数据收发：
- Master：SPI1_SCK(PC5)、SPI1_MOSI(PC6)。
- Slave：SPI1_SCK(PC5)、SPI1_MISO(PC7)。
+ single wire half duplex mode, master/slave mode, data transceiver:
+ Master:SPI1_SCK(PC5)\SPI1_MOSI(PC6).
+ Slave:SPI1_SCK(PC5)\SPI1_MISO(PC7).
 
- 本例程演示 Master 发，Slave 收。
- 注：两块板子分别下载 Master 和 Slave 程序，同时上电。
-     硬件连线：PC5 —— PC5
-           PC7 —— PC6
+ This routine demonstrates that Master sends and Slave receives.
+ Note: The two boards download the Master and Slave programs respectively,
+ and power on at the same time.
+     Hardware connection:PC5 -- PC5
+           PC7-- PC6
 
 */
 

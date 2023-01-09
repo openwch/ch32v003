@@ -4,16 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 输入捕获例程：
+ Input capture routine:
  TIM1_CH1(PD2)
- 本例程演示 TIM_CH1(PD2) 引脚浮空输入，该引脚检测到边沿跳变触发 TIM1 捕获中断，
- 上升沿触发 TIM_IT_CC1 中断，下降沿触发 TIM_IT_CC2 中断。
+ This example demonstrates the TIM_CH1(PD2) pin floating input, which detects an
+ edge transition to trigger a TIM1 capture interrupt,The rising edge triggers the
+  TIM_IT_CC1 interrupt, and the falling edge triggers the TIM_IT_CC2 interrupt.
 
 */
 

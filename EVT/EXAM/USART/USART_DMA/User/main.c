@@ -4,20 +4,24 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- USART使用DMA，Master/Slave 模式收发例程：
- USART1_Tx(PD5)、USART1_Rx(PD6)。
+ USART DMA, master/slave mode transceiver routine:
+ USART1_Tx(PD5)\USART1_Rx(PD6).
 
- 本例程演示两块板子使用DMA收发,收发成功后PD0接LED，闪烁
- 注：
-     硬件连线：PD5 —— PD6
-           PD6 —— PD5
-           PDO —— LED
+ This routine demonstrates that two boards use DMA to send and receive.
+ After successful sending and receiving, PD0 is connected to LED,
+ and the LED light flashes.
+
+   Hardware connection:PD5 -- PD6
+                       PD6 -- PD5
+                       PDO -- LED
 
 */
 

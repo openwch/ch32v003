@@ -4,17 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- MCO引脚时钟输出例程：
+ Get system-HCLK-AHB1-AHB2 clock routine:
  MCO(PC4)
- 本例程演示 MCO(PC4) 引脚输出系统时钟和获取时钟;
-    -RCC_GetClocksFreq()函数获取systemclk-HCLK-AHB1-AHB2时钟
-    -SystemCoreClockUpdate()函数获取 HCLK时钟
+ This example demonstrates MCO(PC4) pin output system clock and get clock;
+    -RCC_GetClocksFreq() function to get systemclk-HCLK-AHB1-AHB2 clock
+    -SystemCoreClockUpdate() function to get HCLK clock
 
 */
 

@@ -40,7 +40,7 @@ http://wch.cn
   |      |      |      |      |-- I2C_EEPROM：I2C接口操作EEPROM外设例程
   |      |      |      |      |-- I2C_PEC：使用PEC错误校验，Master/Slave 模式收发例程  
   |      |      |      |-- IAP
-  |      |      |      |      |-- V00x_APP：APP跳转IAP例程    
+  |      |      |      |      |-- V00x_APP：APP跳转IAP例程     
   |      |      |      |-- IWDG
   |      |      |      |      |-- IWDG：独立看门狗例程  
   |      |      |      |-- OPA
@@ -78,6 +78,7 @@ http://wch.cn
   |      |      |      |      |-- USART_MultiProcessorCommunication：多处理器通信模式例程
   |      |      |      |      |-- USART_Polling：轮询收发模式，Master/Slave 模式收发例程
   |      |      |      |      |-- USART_Printf：串口打印调试例程
-  |      |      |      |      |-- USART_SynchronousMode：同步模式，Master/Slave 模式收发例程    
+  |      |      |      |      |-- USART_SynchronousMode：同步模式，Master/Slave 模式收发例程  
+  |      |      |      |-- USART_IAP：IAP升级-内置Hex转Bin工具和IAP升级工具   
   |      |      |      |-- WWDG
   |      |      |      |      |-- WWDG：窗口看门狗例程

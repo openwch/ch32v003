@@ -4,16 +4,18 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 外部触发同步启动两个定时器例程：
+ External trigger routines to start two timers synchronously:
  TIM1_CH1(PD2)
- 本例程演示 TIM_CH1(PD2) 引脚上拉输入，该引脚检测到上升沿，则同时启动 TIM1 和
- TIM2。
+ This example demonstrates the TIM_CH1(PD2) pin pull-up input, the pin detects a rising edge,
+ then starts TIM1 and TIM2.
 
 */
 

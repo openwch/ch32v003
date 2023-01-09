@@ -4,18 +4,22 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 使用PEC错误校验，Master/Slave 模式收发例程：
- I2C1_SCL(PC2)、I2C1_SDA(PC1)。
-  本例程演示 带 PEC 错误校验 Master 发，Slave 收，若传输出错触发错误中断。
-  注：两块板子分别下载 Master 和 Slave 程序，同时上电。
-      硬件连线：PC2 —— PC2
-            PC1 —— PC1
+ PEC error check, master/slave mode transceiver routine:
+ I2C1_SCL(PC2)锟斤拷I2C1_SDA(PC1)锟斤拷
+  This example demonstrates that the Master sends with PEC error checking,
+  and the Slave receives. If a transmission error occurs, an error interrupt is triggered.
+  Note: The two boards download the Master and Slave programs respectively, and power
+  on at the same time.
+      Hardware connection:PC2 -- PC2
+                          PC1 -- PC1
 
 */
 

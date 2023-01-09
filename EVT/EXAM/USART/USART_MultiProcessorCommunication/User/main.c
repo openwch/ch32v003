@@ -4,22 +4,24 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 多处理器通信模式例程：
- Master：USART1_Tx(PD5)、USART1_Rx(PD6)。
- Slave：USART1_Tx(PD5)、USART1_Rx(PD6)。
+ Multiprocessor communication mode routine:
+ Master:USART1_Tx(PD5)\USART1_Rx(PD6).
+ Slave:USART1_Tx(PD5)\USART1_Rx(PD6).
 
- 本例程演示 一块板子作主机，一块板子作从机，主机发送地址 0x02，使 从机退出
- 静默模式，完成后续通信。
- 注：
-     硬件连线：PD5 —— PD6
-           PD6 —— PD5
-           PDO —— LED
+ This routine demonstrates that one board acts as the master, and the other acts as the slave.
+ The master sends address 0x02 to make the slave exit Silent mode, complete follow-up communication.
+
+Hardware connection:PD5 -- PD6
+                    PD6 -- PD5
+                    PDO -- LED
 
 */
 
@@ -36,8 +38,8 @@
 #define SLAVE_MODE    1
 
 /* USART Communication Mode Selection */
-#define USART_MODE      HOST_MODE
-//#define USART_MODE     SLAVE_MODE
+//#define USART_MODE      HOST_MODE
+#define USART_MODE     SLAVE_MODE
 
 /*********************************************************************
  * @fn      GPIO_Toggle_INIT

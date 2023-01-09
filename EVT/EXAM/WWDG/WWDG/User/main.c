@@ -4,14 +4,17 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 窗口看门狗例程：
- 本例程演示在窗口 0x40 —— 0x5f 之间喂狗，防止看门狗复位。
+ Window watchdog routine:
+ This routine demonstrates that the watchdog is fed between the window 0x40 - 0x5f
+  to prevent the watchdog from being reset.
 
 */
 
