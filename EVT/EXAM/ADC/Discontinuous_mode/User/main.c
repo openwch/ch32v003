@@ -4,15 +4,18 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 间断模式例程：
- ADC通道2(PC4)-注入组通道，通道3(PD2)-注入组通道，通道4(PD3)-注入组通道，该模式
- 下，通过TIM1_CC3事件触发一次ADC转换，每次依次转换上述1个注入组通道。
+ Discontinuous mode routine:
+ ADC channel 2 (PC4) - injection group channel, channel 3 (PD2) - injection group channel,
+ channel 4 (PD3) - injection group channel, this mode Next, an ADC conversion is triggered
+ by the TIM1_CC3 event, and each channel of the above-mentioned injection group is converted in turn.
 
 */
 
@@ -142,7 +145,6 @@ int main(void)
         printf("%04d\r\n", ADC1->IDATAR1);
         printf("%04d\r\n", ADC1->IDATAR2);
         printf("%04d\r\n", ADC1->IDATAR3);
-        printf("%04d\r\n", ADC1->IDATAR4);
     }
 }
 

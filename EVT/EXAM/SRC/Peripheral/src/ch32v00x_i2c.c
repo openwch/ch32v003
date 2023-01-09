@@ -4,8 +4,10 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : This file provides all the I2C firmware functions.
+ *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 #include <ch32v00x_i2c.h>
 #include <ch32v00x_rcc.h>
@@ -538,7 +540,10 @@ void I2C_SoftwareResetCmd(I2C_TypeDef *I2Cx, FunctionalState NewState)
  *        the last received byte.
  *            I2C_NACKPosition_Current - indicates that current byte is the
  *        last received byte.
- *
+ *       Note-    
+ *          This function configures the same bit (POS) as I2C_PECPositionConfig() 
+ *          but is intended to be used in I2C mode while I2C_PECPositionConfig() 
+ *          is intended to used in SMBUS mode. 
  * @return  none
  */
 void I2C_NACKPositionConfig(I2C_TypeDef *I2Cx, uint16_t I2C_NACKPosition)
@@ -711,28 +716,28 @@ void I2C_FastModeDutyCycleConfig(I2C_TypeDef *I2Cx, uint16_t I2C_DutyCycle)
  *
  * @param   I2Cx- where x can be 1 to select the I2C peripheral.
  *          I2C_EVENT: specifies the event to be checked.
- *             I2C_EVENT_SLAVE_TRANSMITTER_ADDRESS_MATCHED - EV1.
- *             I2C_EVENT_SLAVE_RECEIVER_ADDRESS_MATCHED - EV1.
- *             I2C_EVENT_SLAVE_TRANSMITTER_SECONDADDRESS_MATCHED - EV1.
- *             I2C_EVENT_SLAVE_RECEIVER_SECONDADDRESS_MATCHED - EV1.
- *             I2C_EVENT_SLAVE_GENERALCALLADDRESS_MATCHED - EV1.
- *             I2C_EVENT_SLAVE_BYTE_RECEIVED - EV2.
- *             (I2C_EVENT_SLAVE_BYTE_RECEIVED | I2C_FLAG_DUALF) - EV2.
- *             (I2C_EVENT_SLAVE_BYTE_RECEIVED | I2C_FLAG_GENCALL) - EV2.
- *             I2C_EVENT_SLAVE_BYTE_TRANSMITTED - EV3.
- *             (I2C_EVENT_SLAVE_BYTE_TRANSMITTED | I2C_FLAG_DUALF) - EV3.
- *             (I2C_EVENT_SLAVE_BYTE_TRANSMITTED | I2C_FLAG_GENCALL) - EV3.
- *             I2C_EVENT_SLAVE_ACK_FAILURE - EV3_2.
- *             I2C_EVENT_SLAVE_STOP_DETECTED - EV4.
- *             I2C_EVENT_MASTER_MODE_SELECT - EV5.
- *             I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED - EV6.
- *             I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED - EV6.
- *             I2C_EVENT_MASTER_BYTE_RECEIVED - EV7.
- *             I2C_EVENT_MASTER_BYTE_TRANSMITTING - EV8.
- *             I2C_EVENT_MASTER_BYTE_TRANSMITTED - EV8_2.
- *             I2C_EVENT_MASTER_MODE_ADDRESS10 - EV9.
+ *             I2C_EVENT_SLAVE_TRANSMITTER_ADDRESS_MATCHED - EVT1.
+ *             I2C_EVENT_SLAVE_RECEIVER_ADDRESS_MATCHED - EVT1.
+ *             I2C_EVENT_SLAVE_TRANSMITTER_SECONDADDRESS_MATCHED - EVT1.
+ *             I2C_EVENT_SLAVE_RECEIVER_SECONDADDRESS_MATCHED - EVT1.
+ *             I2C_EVENT_SLAVE_GENERALCALLADDRESS_MATCHED - EVT1.
+ *             I2C_EVENT_SLAVE_BYTE_RECEIVED - EVT2.
+ *             (I2C_EVENT_SLAVE_BYTE_RECEIVED | I2C_FLAG_DUALF) - EVT2.
+ *             (I2C_EVENT_SLAVE_BYTE_RECEIVED | I2C_FLAG_GENCALL) - EVT2.
+ *             I2C_EVENT_SLAVE_BYTE_TRANSMITTED - EVT3.
+ *             (I2C_EVENT_SLAVE_BYTE_TRANSMITTED | I2C_FLAG_DUALF) - EVT3.
+ *             (I2C_EVENT_SLAVE_BYTE_TRANSMITTED | I2C_FLAG_GENCALL) - EVT3.
+ *             I2C_EVENT_SLAVE_ACK_FAILURE - EVT3_2.
+ *             I2C_EVENT_SLAVE_STOP_DETECTED - EVT4.
+ *             I2C_EVENT_MASTER_MODE_SELECT - EVT5.
+ *             I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED - EVT6.
+ *             I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED - EVT6.
+ *             I2C_EVENT_MASTER_BYTE_RECEIVED - EVT7.
+ *             I2C_EVENT_MASTER_BYTE_TRANSMITTING - EVT8.
+ *             I2C_EVENT_MASTER_BYTE_TRANSMITTED - EVT8_2.
+ *             I2C_EVENT_MASTER_MODE_ADDRESS10 - EVT9.
  *
- * @return  none
+ * @return  ErrorStatus - READY or NoREADY.
  */
 ErrorStatus I2C_CheckEvent(I2C_TypeDef *I2Cx, uint32_t I2C_EVENT)
 {
@@ -807,7 +812,7 @@ uint32_t I2C_GetLastEvent(I2C_TypeDef *I2Cx)
  *        Address matched flag (Slave mode)"ENDA".
  *            I2C_FLAG_SB - Start bit flag (Master mode).
  *
- * @return  none
+ * @return  FlagStatus - SET or RESET.
  */
 FlagStatus I2C_GetFlagStatus(I2C_TypeDef *I2Cx, uint32_t I2C_FLAG)
 {
@@ -854,7 +859,22 @@ FlagStatus I2C_GetFlagStatus(I2C_TypeDef *I2Cx, uint32_t I2C_FLAG)
  *            I2C_FLAG_AF - Acknowledge failure flag.
  *            I2C_FLAG_ARLO - Arbitration lost flag (Master mode).
  *            I2C_FLAG_BERR - Bus error flag.
- *
+ *          Note-
+ *           - STOPF (STOP detection) is cleared by software sequence: a read operation 
+ *             to I2C_STAR1 register (I2C_GetFlagStatus()) followed by a write operation 
+ *             to I2C_CTLR1 register (I2C_Cmd() to re-enable the I2C peripheral).
+ *           - ADD10 (10-bit header sent) is cleared by software sequence: a read 
+ *             operation to I2C_SATR1 (I2C_GetFlagStatus()) followed by writing the 
+ *             second byte of the address in DATAR register.
+ *           - BTF (Byte Transfer Finished) is cleared by software sequence: a read 
+ *             operation to I2C_SATR1 register (I2C_GetFlagStatus()) followed by a 
+ *             read/write to I2C_DATAR register (I2C_SendData()).
+ *           - ADDR (Address sent) is cleared by software sequence: a read operation to 
+ *             I2C_SATR1 register (I2C_GetFlagStatus()) followed by a read operation to 
+ *             I2C_SATR2 register ((void)(I2Cx->SR2)).
+ *           - SB (Start Bit) is cleared software sequence: a read operation to I2C_STAR1
+ *             register (I2C_GetFlagStatus()) followed by a write operation to I2C_DATAR
+ *             register  (I2C_SendData()). 
  * @return  none
  */
 void I2C_ClearFlag(I2C_TypeDef *I2Cx, uint32_t I2C_FLAG)
@@ -920,6 +940,22 @@ ITStatus I2C_GetITStatus(I2C_TypeDef *I2Cx, uint32_t I2C_IT)
  *            I2C_IT_AF - Acknowledge failure interrupt.
  *            I2C_IT_ARLO - Arbitration lost interrupt (Master mode).
  *            I2C_IT_BERR - Bus error interrupt.
+ *          Note-
+ *           - STOPF (STOP detection) is cleared by software sequence: a read operation 
+ *             to I2C_STAR1 register (I2C_GetITStatus()) followed by a write operation to 
+ *             I2C_CTLR1 register (I2C_Cmd() to re-enable the I2C peripheral).
+ *           - ADD10 (10-bit header sent) is cleared by software sequence: a read 
+ *             operation to I2C_STAR1 (I2C_GetITStatus()) followed by writing the second 
+ *             byte of the address in I2C_DATAR register.
+ *           - BTF (Byte Transfer Finished) is cleared by software sequence: a read 
+ *             operation to I2C_STAR1 register (I2C_GetITStatus()) followed by a 
+ *             read/write to I2C_DATAR register (I2C_SendData()).
+ *           - ADDR (Address sent) is cleared by software sequence: a read operation to 
+ *             I2C_STAR1 register (I2C_GetITStatus()) followed by a read operation to 
+ *             I2C_STAR2 register ((void)(I2Cx->SR2)).
+ *           - SB (Start Bit) is cleared by software sequence: a read operation to 
+ *             I2C_STAR1 register (I2C_GetITStatus()) followed by a write operation to 
+ *             I2C_DATAR register (I2C_SendData()).
  *
  * @return  none
  */

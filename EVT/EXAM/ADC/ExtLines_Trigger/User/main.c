@@ -4,15 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 外部触发ADC转换例程：
- ADC通道2(PC4)-规则组通道，外部触发引脚(PD3)高电平触发 EXTI线3 事件，
- 该模式下，通过 EXTI线3 事件触发一次ADC转换，转换结束后产生EOC中断。
+ External lines trigger ADC conversion routine:
+ ADC channel 2 (PC4) - rule group channel, external trigger pin (PD3) high level
+ triggers EXTI line 3 event,In this mode, an ADC conversion is triggered by an
+ event on the EXTI line 3, and an EOC interrupt is generated after the conversion
+  is completed.
 
 */
 

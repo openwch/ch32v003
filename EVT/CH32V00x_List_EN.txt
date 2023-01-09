@@ -40,7 +40,7 @@ Directory
   |      |      |      |      |-- I2C_EEPROM: I2C interface routine to operate EEPROM peripheral 
   |      |      |      |      |-- I2C_PEC: PEC error check, master/slave mode transceiver routine 
   |      |      |      |-- IAP
-  |      |      |      |      |-- V00x_APP£ºAPP go to IAP routine    
+  |      |      |      |      |-- V00x_APP£ºAPP go to IAP routine  
   |      |      |      |-- IWDG
   |      |      |      |      |-- IWDG: independent watchdog routine
   |      |      |      |-- OPA 
@@ -79,5 +79,6 @@ Directory
   |      |      |      |      |-- USART_Polling: polling transceiver mode, master/slave transceiver routine
   |      |      |      |      |-- USART_Printf: USART Print debugging routine
   |      |      |      |      |-- USART_SynchronousMode: synchronous mode, master/slave mode, transceiver routine    
+  |      |      |      |-- USART-IAP£ºIAP Upgrade Routine - Built-in Hex to Bin Tool and IAP Upgrade Tool  
   |      |      |      |-- WWDG: 
   |      |      |      |      |-- WWDG: window watchdog routine

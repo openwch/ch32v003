@@ -4,19 +4,21 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 轮询收发模式例程：
- Master：USART1_Tx(PD5)、USART1_Rx(PD6)。
- 本例程演示 USART1 收到CH341发送的数据取反发出（波特率 115200）。
+ Multiprocessor communication mode routine:
+ Master:USART1_Tx(PD5)\USART1_Rx(PD6).
+ This routine demonstrates that USART1 receives the data sent by CH341 and inverts
+ it and sends it (baud rate 115200).
 
- 注：
-     硬件连线：PD5 —— Rx
-           PD6 —— Tx
+ Hardware connection:PD5 -- Rx
+                     PD6 -- Tx
 
 */
 

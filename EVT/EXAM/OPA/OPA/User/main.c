@@ -4,19 +4,23 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- OPA1作电压跟随器输出，外部电压输出给OPA1，ADC采样OPA1
- OPA1_CHP1——PD7
- OPA1_CHN1——PD0
- OPA1_OUT——PD4
+ OPA1 is used as a voltage follower output, the external voltage
+ is output to OPA1, and the ADC samples OPA1
+ OPA1_CHP1--PD7
+ OPA1_CHN1--PD0
+ OPA1_OUT--PD4
 
-   本例中PD0和PD4短接，外部电压从PD7输入，若负反馈接电阻，也可构成运算放大器
-   注：使用PD7时需将该引脚的复位功能关闭。
+ In this example, PD0 and PD4 are short-circuited, and the external voltage is input from PD7.
+ If the negative feedback is connected to a resistor, it can also form an operational amplifier.
+ Note: When using PD7, the reset function of this pin needs to be turned off.
 */
 
 #include "debug.h"

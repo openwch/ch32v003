@@ -4,15 +4,18 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- IAP例程：
-   演示如何从用户区跳转到IAP。
-   注：IAP程序固化在芯片中，可参考该例程跳转到IAP实现升级。
+ APP go to IAP routine:
+ Demonstrates how to jump from userland to IAP.
+ Note: The IAP program is solidified in the chip,
+  you can refer to this routine to jump to the IAP to upgrade.
 */
 
 #include "debug.h"

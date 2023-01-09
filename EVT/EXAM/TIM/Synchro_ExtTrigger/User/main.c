@@ -4,18 +4,21 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 从模式例程：
+ Slave mode routine:
  TIM1_CH1(PD2)
- 本例程演示当 TIM_CH1(PD2) 引脚检测到上升沿时，在不同从模式下，TIM1 不同工作方式。
- RESET_MODE：TIM1->CNT 复位重新计数
- GATED_MODE：PA8引脚输入低电平，TIM1->CNT 正常计数，否则停止计数。
- TRIGGER__MODE：TIM1->CNT 继续计数。
+ This example demonstrates that when the TIM_CH1(PD2) pin detects a rising edge,
+ TIM1 works differently in different slave modes.
+ RESET_MODE: TIM1->CNT reset and recount
+ GATED_MODE: PA8 pin input low level, TIM1->CNT counts normally, otherwise stop counting.
+ TRIGGER__MODE: TIM1->CNT continues counting.
 
 */
 

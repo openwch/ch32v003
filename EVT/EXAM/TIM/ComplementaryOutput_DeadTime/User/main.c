@@ -4,16 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 互补输出和死区插入模式例程：
+ complementary output and deadband insertion mode routines:
  TIM1_CH1(PD2),TIM1_CH1N(PD0)
- 本例程演示 TIM1 三种带死区互补输出模式：带死区插入的互补输出、死区波形延迟
- 大于负脉冲、死区波形延迟大于正脉冲。
+ This example demonstrates three complementary output modes with dead zone of TIM1: complementary
+ output with dead zone insertion, dead zone waveform delay Greater than the negative pulse, the dead
+  zone waveform delay is greater than the positive pulse.
 
 */
 

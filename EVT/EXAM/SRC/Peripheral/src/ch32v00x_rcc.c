@@ -4,8 +4,10 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : This file provides all the RCC firmware functions.
+ *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 #include <ch32v00x_rcc.h>
 
@@ -86,7 +88,8 @@ void RCC_DeInit(void)
  *            RCC_HSE_OFF - HSE oscillator OFF.
  *            RCC_HSE_ON - HSE oscillator ON.
  *            RCC_HSE_Bypass - HSE oscillator bypassed with external clock.
- *
+ *            Note-
+ *            HSE can not be stopped if it is used directly or through the PLL as system clock.
  * @return  none
  */
 void RCC_HSEConfig(uint32_t RCC_HSE)
@@ -114,8 +117,8 @@ void RCC_HSEConfig(uint32_t RCC_HSE)
  *
  * @brief   Waits for HSE start-up.
  *
- * @return  SUCCESS - HSE oscillator is stable and ready to use.
- *                  ERROR - HSE oscillator not yet ready.
+ * @return  READY - HSE oscillator is stable and ready to use.
+ *          NoREADY - HSE oscillator not yet ready.
  */
 ErrorStatus RCC_WaitForHSEStartUp(void)
 {
@@ -210,6 +213,8 @@ void RCC_PLLConfig(uint32_t RCC_PLLSource)
  * @fn      RCC_PLLCmd
  *
  * @brief   Enables or disables the PLL.
+ *          Note-The PLL can not be disabled if it is used as system clock.
+ *          
  *
  * @param   NewState - ENABLE or DISABLE.
  *
@@ -358,6 +363,8 @@ void RCC_ADCCLKConfig(uint32_t RCC_PCLK2)
  * @fn      RCC_LSICmd
  *
  * @brief   Enables or disables the Internal Low Speed oscillator (LSI).
+ *          Note-
+ *          LSI can not be disabled if the IWDG is running.
  *
  * @param   NewState - ENABLE or DISABLE.
  *
@@ -456,6 +463,8 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef *RCC_Clocks)
  * @param   RCC_AHBPeriph - specifies the AHB peripheral to gates its clock.
  *            RCC_AHBPeriph_DMA1.
  *            RCC_AHBPeriph_SRAM.
+ *          Note-
+ *          SRAM  clock can be disabled only during sleep mode.
  *          NewState: ENABLE or DISABLE.
  *
  * @return  none
@@ -678,7 +687,9 @@ FlagStatus RCC_GetFlagStatus(uint8_t RCC_FLAG)
  * @fn      RCC_ClearFlag
  *
  * @brief   Clears the RCC reset flags.
- *
+ *          Note-   
+ *          The reset flags are: RCC_FLAG_PINRST, RCC_FLAG_PORRST, RCC_FLAG_SFTRST,
+ *          RCC_FLAG_IWDGRST, RCC_FLAG_WWDGRST, RCC_FLAG_LPWRRST
  * @return  none
  */
 void RCC_ClearFlag(void)

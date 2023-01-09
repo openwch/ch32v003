@@ -4,18 +4,22 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 7位地址模式，Master/Slave 模式收发例程：
- I2C1_SCL(PC2)、I2C1_SDA(PC1)。
-  本例程演示 Master 发，Slave 收。
-  注：两块板子分别下载 Master 和 Slave 程序，同时上电。
-      硬件连线：PC2 —— PC2
-            PC1 —— PC1
+ 7-bit addressing mode, master/slave mode, transceiver routine:
+ I2C1_SCL(PC2)\I2C1_SDA(PC1).
+  This routine demonstrates that Master sends and Slave receives.
+  Note: The two boards download the Master and Slave programs respectively,
+   and power on at the same time.
+      Hardware connection:
+            PC2 -- PC2
+            PC1 -- PC1
 
 */
 
@@ -30,13 +34,13 @@
 //#define I2C_MODE   SLAVE_MODE
 
 /* Global define */
-#define Size   7
+#define Size   6
 #define RXAdderss   0x02
 #define TxAdderss   0x02
 
 /* Global Variable */
 u8 TxData[Size] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
-u8 RxData[Size];
+u8 RxData[5][Size];
 
 /*********************************************************************
  * @fn      IIC_Init
@@ -88,8 +92,9 @@ void IIC_Init(u32 bound, u16 address)
  */
 int main(void)
 {
-    u8 i=0;
-
+    u8 i = 0;
+	u8 j = 0;
+	u8 p = 0;
     Delay_Init();
     USART_Printf_Init(460800);
     printf("SystemClk:%d\r\n",SystemCoreClock);
@@ -98,6 +103,8 @@ int main(void)
     printf("IIC Host mode\r\n");
     IIC_Init( 80000, TxAdderss);
 
+	for( j =0; j < 5; j++)
+	 {
     while( I2C_GetFlagStatus( I2C1, I2C_FLAG_BUSY ) != RESET );
 
     I2C_GenerateSTART( I2C1, ENABLE );
@@ -106,40 +113,51 @@ int main(void)
     I2C_Send7bitAddress( I2C1, 0x02, I2C_Direction_Transmitter );
 
     while( !I2C_CheckEvent( I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED ) );
-
-    while( i<6 )
+ 
+   for( i=0; i< 6;i++ )
     {
         if( I2C_GetFlagStatus( I2C1, I2C_FLAG_TXE ) !=  RESET )
         {
+		    Delay_Ms(100);
             I2C_SendData( I2C1, TxData[i] );
-            i++;
         }
     }
 
     while( !I2C_CheckEvent( I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED ) );
     I2C_GenerateSTOP( I2C1, ENABLE );
+	Delay_Ms(1000);
+	 }
 
 #elif (I2C_MODE == SLAVE_MODE)
     printf("IIC Slave mode\r\n");
     IIC_Init( 80000, RXAdderss);
 
-    while( !I2C_CheckEvent( I2C1, I2C_EVENT_SLAVE_RECEIVER_ADDRESS_MATCHED ) );
-
-    while( i<6 )
+	for( p =0; p < 5; p++)
+	{
+	
+    i = 0;
+	while( !I2C_CheckEvent( I2C1, I2C_EVENT_SLAVE_RECEIVER_ADDRESS_MATCHED ) );
+    while( i < 6 )
     {
         if( I2C_GetFlagStatus( I2C1, I2C_FLAG_RXNE ) !=  RESET )
         {
-            RxData[i] = I2C_ReceiveData( I2C1 );
+            RxData[p][i] = I2C_ReceiveData( I2C1 );
             i++;
         }
     }
-
-    printf( "RxData:\r\n" );
-    for( i=0; i<6; i++ )
-    {
-        printf( "%02x\r\n", RxData[i] );
-    }
-
+   I2C1->CTLR1 &= I2C1->CTLR1;
+   }
+	 printf( "RxData:\r\n" );
+	 for(p=0; p<5; p++)
+   {
+        for( i = 0; i < 6; i++ )
+		{
+           printf( "%02x ", RxData[p][i] );
+		}
+		   printf( "\r\n ");
+	 }
+	 
+ 
 #endif
 
     while(1);

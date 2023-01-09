@@ -4,16 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 低功耗，待机模式例程：
- AWU 自动唤醒
- 本例程演示 WFI 进入待机模式，自动唤醒。
- 注：为尽可能的降低功耗，建议将不用的GPIO设置成下拉模式。
+ Low power, standby mode routine:
+ AWU automatically wakes up
+ This example demonstrates that WFI enters standby mode and wakes up automatically.
+ Note: In order to reduce power consumption as much as possible, it is recommended
+  to set the unused GPIO to pull-down mode.
 
 */
 

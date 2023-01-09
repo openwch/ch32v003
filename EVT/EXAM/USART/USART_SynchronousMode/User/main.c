@@ -4,22 +4,26 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 同步模式例程：
- Master：USART1_CK(PD4)、USART1_Tx(PD5)、USART1_Rx(PD6)。
- Slave：SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6)。
- 本例程演示使用 USART1 作主机和 SPI1作从机，全双工收发数据,收发成功后PD0接LED，闪烁。
+ Synchronous mode routine:
+ Master:USART1_CK(PD4)\USART1_Tx(PD5)\USART1_Rx(PD6).
+ Slave:SPI1_SCK(PC5)\SPI1_MISO(PC7)\SPI1_MOSI(PC6).
+ This example demonstrates using USART1 as the master and SPI1 as the slave, sending 
+ and receiving data in full-duplex mode, and connecting the LED to PD0 after successful 
+ sending and receiving, and it will blink.
  UART1-LSB  SPI1-MSB
 
- 硬件连线：PD4  —— PC5
-          PD5  —— PC6
-          PD6  —— PC7
-          PDO —— LED
+Hardware connection:PD4 --PC5
+          PD5--PC6
+          PD6--PC7
+          PDO--LED
 */
 
 #include "debug.h"

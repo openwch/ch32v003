@@ -4,16 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 输出比较模式例程：
+ Output comparison mode routine:
  TIM1_CH1(PD2)
- 本例程演示 TIM_CH1(PD2) 引脚在4种输出比较模式下，输出波形。输出比较模式包括
- OutCompare_Timing、OutCompare_Active、OutCompare_Inactive、OutCompare_Toggle。
+ This example demonstrates the output waveform of the TIM_CH1(PD2) pin in 4 output comparison modes.
+  Output compare modes include
+ OutCompare_Timing\OutCompare_Active\OutCompare_Inactive\OutCompare_Toggle.
 
 */
 

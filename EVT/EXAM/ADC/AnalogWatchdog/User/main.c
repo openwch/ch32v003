@@ -4,15 +4,17 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 模拟看门狗例程：
- ADC通道2(PC4),检测该规则组通道上 ADC转换数据为 500 - 900 之外触发模拟
- 看门狗中断。
+ Analog watchdog routine:
+ ADC channel 2 (PC4), detect that the ADC conversion data on the rule group channel is
+ outside 500 - 900 and trigger the simulation Watchdog interrupt.
 
 */
 

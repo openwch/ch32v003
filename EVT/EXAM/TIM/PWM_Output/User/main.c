@@ -4,15 +4,18 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- PWM输出例程：
+ PWM output routine:
  TIM1_CH1(PD2)
- 本例程演示 TIM_CH1(PD2) 引脚在 PWM模式1和PWM模式2 下，输出 PWM。
+ This example demonstrates that the TIM_CH1(PD2) pin outputs PWM in PWM mode 1
+ and PWM mode 2.
 
 */
 

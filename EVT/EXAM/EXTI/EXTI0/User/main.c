@@ -4,15 +4,17 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 外部中断线例程：
+ External interrupt line routine:
  EXTI_Line0(PD0)
- PD0设置上拉输入，下降沿触发中断。
+ PD0 sets the pull-up input, and the falling edge triggers the interrupt.
 
 */
 

@@ -4,15 +4,17 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *******************************************************************************/
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /*
  *@Note
- 独立看门狗例程：
- 本例程演示 PC1 引脚下拉输入，当输入高电平时，进行喂狗。若不喂狗，
- 则 4s 后触发独立看门狗复位。
+ Independent watchdog routine:
+This routine demonstrates the pull-down input of the PC1 pin. When the input is high,
+ it will feed the dog. If you don't feed the dog,Then trigger independent watchdog reset after 4s.
 
 */
 
