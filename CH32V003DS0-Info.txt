@@ -1,9 +1,0 @@
-Data name:CH32V003DS0.PDF
-Version:1.0
-Information change in the download page (Software introduction/application scope):CH32V003 datasheet, 32-bit RISC-V core, RV32EC instruction set, with wide voltage, single-wire debug, low- power consumption, ultra-small package, etc. Provides commonly used peripheral functions, DMA, ADC, OPA, TIM, USART, I2C, SPI, etc.
-Application scope: CH32V003
-Related information:CH32V00xEVT.ZIP
-Keywords:CH32V003, V003, 5V, V2A, OPA, ADC, USART, I2C, SPI, TIM, SDI
-
-
-
