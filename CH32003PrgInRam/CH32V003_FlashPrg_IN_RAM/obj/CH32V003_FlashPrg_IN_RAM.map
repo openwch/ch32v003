@@ -1,0 +1,193 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x0000000020000000 0x0000000000080000 xr
+RAM              0x0000000020000200 0x0000000000000400 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD ./User/main.o
+LOAD ./Startup/startup_ch32v00x.o
+LOAD d:/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/../../../../riscv-none-embed/lib/rv32ecxw/ilp32e\libprintf.a
+LOAD d:/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/rv32ecxw/ilp32e\libgcc.a
+LOAD d:/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/../../../../riscv-none-embed/lib/rv32ecxw/ilp32e\libg_nano.a
+LOAD d:/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/../../../../riscv-none-embed/lib/rv32ecxw/ilp32e\libc_nano.a
+LOAD d:/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/rv32ecxw/ilp32e\libgcc.a
+START GROUP
+LOAD d:/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/rv32ecxw/ilp32e\libgcc.a
+LOAD d:/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/../../../../riscv-none-embed/lib/rv32ecxw/ilp32e\libc_nano.a
+LOAD d:/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/../../../../riscv-none-embed/lib/rv32ecxw/ilp32e\libnosys.a
+END GROUP
+START GROUP
+LOAD d:/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/rv32ecxw/ilp32e\libgcc.a
+LOAD d:/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/../../../../riscv-none-embed/lib/rv32ecxw/ilp32e\libc_nano.a
+LOAD d:/mounriver/mounriver_studio/toolchain/risc-v embedded gcc/bin/../lib/gcc/riscv-none-embed/8.2.0/../../../../riscv-none-embed/lib/rv32ecxw/ilp32e\libnosys.a
+END GROUP
+                0x0000000000000100                __stack_size = 0x100
+                [!provide]                        PROVIDE (_stack_size = __stack_size)
+
+.init           0x0000000020000000        0x4
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                _sinit = .
+ *(SORT_NONE(.init))
+ .init          0x0000000020000000        0x2 ./Startup/startup_ch32v00x.o
+                0x0000000020000000                _start
+                0x0000000020000004                . = ALIGN (0x4)
+ *fill*         0x0000000020000002        0x2 
+                0x0000000020000004                _einit = .
+
+.text           0x0000000020000004      0x1ac
+                0x0000000020000004                . = ALIGN (0x4)
+ *(.text)
+ .text          0x0000000020000004        0x0 ./User/main.o
+ .text          0x0000000020000004        0x0 ./Startup/startup_ch32v00x.o
+ *(.text.*)
+ .text.Init     0x0000000020000004       0x24 ./User/main.o
+                0x0000000020000004                Init
+ .text.Uninit   0x0000000020000028       0x10 ./User/main.o
+                0x0000000020000028                Uninit
+ .text.EraseChip
+                0x0000000020000038       0x32 ./User/main.o
+                0x0000000020000038                EraseChip
+ .text.EraseSector
+                0x000000002000006a       0x38 ./User/main.o
+                0x000000002000006a                EraseSector
+ .text.ProgramPage
+                0x00000000200000a2       0xd0 ./User/main.o
+                0x00000000200000a2                ProgramPage
+ .text.Verify   0x0000000020000172       0x3c ./User/main.o
+                0x0000000020000172                Verify
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.t.*)
+                0x00000000200001b0                . = ALIGN (0x4)
+ *fill*         0x00000000200001ae        0x2 
+
+.fini           0x00000000200001b0        0x0
+ *(SORT_NONE(.fini))
+                0x00000000200001b0                . = ALIGN (0x4)
+                [!provide]                        PROVIDE (_etext = .)
+                [!provide]                        PROVIDE (_eitcm = .)
+
+.preinit_array  0x00000000200001b0        0x0
+                [!provide]                        PROVIDE (__preinit_array_start = .)
+ *(.preinit_array)
+                [!provide]                        PROVIDE (__preinit_array_end = .)
+
+.init_array     0x00000000200001b0        0x0
+                [!provide]                        PROVIDE (__init_array_start = .)
+ *(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*))
+ *(.init_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .ctors)
+                [!provide]                        PROVIDE (__init_array_end = .)
+
+.fini_array     0x00000000200001b0        0x0
+                [!provide]                        PROVIDE (__fini_array_start = .)
+ *(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*))
+ *(.fini_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .dtors)
+                [!provide]                        PROVIDE (__fini_array_end = .)
+
+.ctors
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend?.o *crtend.o) .ctors)
+ *(SORT_BY_NAME(.ctors.*))
+ *(.ctors)
+
+.dtors
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
+ *(SORT_BY_NAME(.dtors.*))
+ *(.dtors)
+
+.dalign         0x0000000020000200        0x0 load address 0x00000000200001b0
+                0x0000000020000200                . = ALIGN (0x4)
+                [!provide]                        PROVIDE (_data_vma = .)
+
+.dlalign        0x00000000200001b0        0x0
+                0x00000000200001b0                . = ALIGN (0x4)
+                [!provide]                        PROVIDE (_data_lma = .)
+
+.data           0x0000000020000200        0x0 load address 0x00000000200001b0
+                0x0000000020000200                . = ALIGN (0x4)
+ *(.gnu.linkonce.r.*)
+ *(.data .data.*)
+ .data          0x0000000020000200        0x0 ./User/main.o
+ .data          0x0000000020000200        0x0 ./Startup/startup_ch32v00x.o
+ *(.gnu.linkonce.d.*)
+                0x0000000020000200                . = ALIGN (0x8)
+                [!provide]                        PROVIDE (__global_pointer$ = (. + 0x800))
+ *(.sdata .sdata.*)
+ *(.sdata2*)
+ *(.gnu.linkonce.s.*)
+                0x0000000020000200                . = ALIGN (0x8)
+ *(.srodata.cst16)
+ *(.srodata.cst8)
+ *(.srodata.cst4)
+ *(.srodata.cst2)
+ *(.srodata .srodata.*)
+                0x0000000020000200                . = ALIGN (0x4)
+                [!provide]                        PROVIDE (_edata = .)
+
+.bss            0x0000000020000200        0x0 load address 0x00000000200001b0
+                0x0000000020000200                . = ALIGN (0x4)
+                [!provide]                        PROVIDE (_sbss = .)
+ *(.sbss*)
+ *(.gnu.linkonce.sb.*)
+ *(.bss*)
+ .bss           0x0000000020000200        0x0 ./User/main.o
+ .bss           0x0000000020000200        0x0 ./Startup/startup_ch32v00x.o
+ *(.gnu.linkonce.b.*)
+ *(COMMON*)
+                0x0000000020000200                . = ALIGN (0x4)
+                [!provide]                        PROVIDE (_ebss = .)
+                [!provide]                        PROVIDE (_end = _ebss)
+                [!provide]                        PROVIDE (end = .)
+
+.stack          0x0000000020000500      0x100
+                [!provide]                        PROVIDE (_heap_end = .)
+                0x0000000020000500                . = ALIGN (0x4)
+                [!provide]                        PROVIDE (_susrstack = .)
+                0x0000000020000600                . = (. + __stack_size)
+ *fill*         0x0000000020000500      0x100 
+                [!provide]                        PROVIDE (_eusrstack = .)
+OUTPUT(CH32V003_FlashPrg_IN_RAM.elf elf32-littleriscv)
+
+.debug_info     0x0000000000000000      0xc11
+ .debug_info    0x0000000000000000      0xbeb ./User/main.o
+ .debug_info    0x0000000000000beb       0x26 ./Startup/startup_ch32v00x.o
+
+.debug_abbrev   0x0000000000000000      0x25d
+ .debug_abbrev  0x0000000000000000      0x249 ./User/main.o
+ .debug_abbrev  0x0000000000000249       0x14 ./Startup/startup_ch32v00x.o
+
+.debug_loc      0x0000000000000000      0x18d
+ .debug_loc     0x0000000000000000      0x18d ./User/main.o
+
+.debug_aranges  0x0000000000000000       0x68
+ .debug_aranges
+                0x0000000000000000       0x48 ./User/main.o
+ .debug_aranges
+                0x0000000000000048       0x20 ./Startup/startup_ch32v00x.o
+
+.debug_ranges   0x0000000000000000       0x38
+ .debug_ranges  0x0000000000000000       0x38 ./User/main.o
+
+.debug_line     0x0000000000000000      0x94a
+ .debug_line    0x0000000000000000      0x8fc ./User/main.o
+ .debug_line    0x00000000000008fc       0x4e ./Startup/startup_ch32v00x.o
+
+.debug_str      0x0000000000000000      0x612
+ .debug_str     0x0000000000000000      0x5e8 ./User/main.o
+                                        0x66e (size before relaxing)
+ .debug_str     0x00000000000005e8       0x2a ./Startup/startup_ch32v00x.o
+                                         0x63 (size before relaxing)
+
+.comment        0x0000000000000000       0x33
+ .comment       0x0000000000000000       0x33 ./User/main.o
+                                         0x34 (size before relaxing)
+
+.debug_frame    0x0000000000000000       0x88
+ .debug_frame   0x0000000000000000       0x88 ./User/main.o

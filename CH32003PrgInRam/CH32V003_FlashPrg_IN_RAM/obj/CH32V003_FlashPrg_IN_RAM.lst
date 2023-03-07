@@ -1,0 +1,280 @@
+
+CH32V003_FlashPrg_IN_RAM.elf:     file format elf32-littleriscv
+CH32V003_FlashPrg_IN_RAM.elf
+architecture: riscv:rv32, flags 0x00000112:
+EXEC_P, HAS_SYMS, D_PAGED
+start address 0x20000000
+
+Program Header:
+    LOAD off    0x00001000 vaddr 0x20000000 paddr 0x20000000 align 2**12
+         filesz 0x000001b0 memsz 0x000001b0 flags r-x
+    LOAD off    0x00001200 vaddr 0x20000200 paddr 0x200001b0 align 2**12
+         filesz 0x00000000 memsz 0x00000000 flags rw-
+    LOAD off    0x00001500 vaddr 0x20000500 paddr 0x20000500 align 2**12
+         filesz 0x00000000 memsz 0x00000100 flags rw-
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .init         00000004  20000000  20000000  00001000  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .text         000001ac  20000004  20000004  00001004  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .fini         00000000  200001b0  200001b0  00001200  2**0
+                  CONTENTS, ALLOC, LOAD, CODE
+  3 .dalign       00000000  20000200  20000200  00001200  2**0
+                  CONTENTS
+  4 .dlalign      00000000  200001b0  200001b0  00001200  2**0
+                  CONTENTS
+  5 .data         00000000  20000200  200001b0  00001200  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .bss          00000000  20000200  200001b0  00001200  2**0
+                  ALLOC
+  7 .stack        00000100  20000500  20000500  00001500  2**0
+                  ALLOC
+  8 .debug_info   00000c11  00000000  00000000  00001200  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_abbrev 0000025d  00000000  00000000  00001e11  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    0000018d  00000000  00000000  0000206e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_aranges 00000068  00000000  00000000  00002200  2**3
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000038  00000000  00000000  00002268  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_line   0000094a  00000000  00000000  000022a0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .debug_str    00000612  00000000  00000000  00002bea  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 15 .comment      00000033  00000000  00000000  000031fc  2**0
+                  CONTENTS, READONLY
+ 16 .debug_frame  00000088  00000000  00000000  00003230  2**2
+                  CONTENTS, READONLY, DEBUGGING
+SYMBOL TABLE:
+20000000 l    d  .init	00000000 .init
+20000004 l    d  .text	00000000 .text
+200001b0 l    d  .fini	00000000 .fini
+20000200 l    d  .dalign	00000000 .dalign
+200001b0 l    d  .dlalign	00000000 .dlalign
+20000200 l    d  .data	00000000 .data
+20000200 l    d  .bss	00000000 .bss
+20000500 l    d  .stack	00000000 .stack
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_loc	00000000 .debug_loc
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_ranges	00000000 .debug_ranges
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    df *ABS*	00000000 main.c
+20000028 g     F .text	00000010 Uninit
+20000004 g     F .text	00000024 Init
+20000038 g     F .text	00000032 EraseChip
+00000100 g       *ABS*	00000000 __stack_size
+20000004 g       .init	00000000 _einit
+200000a2 g     F .text	000000d0 ProgramPage
+20000000 g       .init	00000000 _start
+20000000 g       .init	00000000 _sinit
+2000006a g     F .text	00000038 EraseSector
+20000172 g     F .text	0000003c Verify
+
+
+
+Disassembly of section .init:
+
+20000000 <_sinit>:
+20000000:	9002                	ebreak
+	...
+
+Disassembly of section .text:
+
+20000004 <Init>:
+20000004:	400227b7          	lui	a5,0x40022
+20000008:	456706b7          	lui	a3,0x45670
+2000000c:	0007a023          	sw	zero,0(a5) # 40022000 <Verify+0x20021e8e>
+20000010:	12368693          	addi	a3,a3,291 # 45670123 <Verify+0x2566ffb1>
+20000014:	cdef9737          	lui	a4,0xcdef9
+20000018:	c3d4                	sw	a3,4(a5)
+2000001a:	9ab70713          	addi	a4,a4,-1621 # cdef89ab <Verify+0xadef8839>
+2000001e:	c3d8                	sw	a4,4(a5)
+20000020:	d3d4                	sw	a3,36(a5)
+20000022:	d3d8                	sw	a4,36(a5)
+20000024:	4501                	li	a0,0
+20000026:	8082                	ret
+
+20000028 <Uninit>:
+20000028:	40022737          	lui	a4,0x40022
+2000002c:	4b1c                	lw	a5,16(a4)
+2000002e:	4501                	li	a0,0
+20000030:	0807e793          	ori	a5,a5,128
+20000034:	cb1c                	sw	a5,16(a4)
+20000036:	8082                	ret
+
+20000038 <EraseChip>:
+20000038:	400227b7          	lui	a5,0x40022
+2000003c:	4b98                	lw	a4,16(a5)
+2000003e:	66ad                	lui	a3,0xb
+20000040:	40003637          	lui	a2,0x40003
+20000044:	00476713          	ori	a4,a4,4
+20000048:	cb98                	sw	a4,16(a5)
+2000004a:	4b98                	lw	a4,16(a5)
+2000004c:	aaa68693          	addi	a3,a3,-1366 # aaaa <__stack_size+0xa9aa>
+20000050:	04076713          	ori	a4,a4,64
+20000054:	cb98                	sw	a4,16(a5)
+20000056:	47d8                	lw	a4,12(a5)
+20000058:	8b05                	andi	a4,a4,1
+2000005a:	e711                	bnez	a4,20000066 <EraseChip+0x2e>
+2000005c:	4b98                	lw	a4,16(a5)
+2000005e:	4501                	li	a0,0
+20000060:	9b6d                	andi	a4,a4,-5
+20000062:	cb98                	sw	a4,16(a5)
+20000064:	8082                	ret
+20000066:	c214                	sw	a3,0(a2)
+20000068:	b7fd                	j	20000056 <EraseChip+0x1e>
+
+2000006a <EraseSector>:
+2000006a:	400227b7          	lui	a5,0x40022
+2000006e:	4b98                	lw	a4,16(a5)
+20000070:	000206b7          	lui	a3,0x20
+20000074:	40003637          	lui	a2,0x40003
+20000078:	8f55                	or	a4,a4,a3
+2000007a:	cb98                	sw	a4,16(a5)
+2000007c:	cbc8                	sw	a0,20(a5)
+2000007e:	4b98                	lw	a4,16(a5)
+20000080:	66ad                	lui	a3,0xb
+20000082:	aaa68693          	addi	a3,a3,-1366 # aaaa <__stack_size+0xa9aa>
+20000086:	04076713          	ori	a4,a4,64
+2000008a:	cb98                	sw	a4,16(a5)
+2000008c:	47d8                	lw	a4,12(a5)
+2000008e:	8b05                	andi	a4,a4,1
+20000090:	e719                	bnez	a4,2000009e <EraseSector+0x34>
+20000092:	4b98                	lw	a4,16(a5)
+20000094:	4501                	li	a0,0
+20000096:	fbf77713          	andi	a4,a4,-65
+2000009a:	cb98                	sw	a4,16(a5)
+2000009c:	8082                	ret
+2000009e:	c214                	sw	a3,0(a2)
+200000a0:	b7f5                	j	2000008c <EraseSector+0x22>
+
+200000a2 <ProgramPage>:
+200000a2:	1141                	addi	sp,sp,-16
+200000a4:	c22a                	sw	a0,4(sp)
+200000a6:	c402                	sw	zero,8(sp)
+200000a8:	03f58593          	addi	a1,a1,63
+200000ac:	c602                	sw	zero,12(sp)
+200000ae:	8199                	srli	a1,a1,0x6
+200000b0:	c62e                	sw	a1,12(sp)
+200000b2:	40022737          	lui	a4,0x40022
+200000b6:	4b1c                	lw	a5,16(a4)
+200000b8:	66c1                	lui	a3,0x10
+200000ba:	00080537          	lui	a0,0x80
+200000be:	8fd5                	or	a5,a5,a3
+200000c0:	66ad                	lui	a3,0xb
+200000c2:	cb1c                	sw	a5,16(a4)
+200000c4:	400035b7          	lui	a1,0x40003
+200000c8:	400227b7          	lui	a5,0x40022
+200000cc:	aaa68693          	addi	a3,a3,-1366 # aaaa <__stack_size+0xa9aa>
+200000d0:	4b98                	lw	a4,16(a5)
+200000d2:	8f49                	or	a4,a4,a0
+200000d4:	cb98                	sw	a4,16(a5)
+200000d6:	47d8                	lw	a4,12(a5)
+200000d8:	8b05                	andi	a4,a4,1
+200000da:	e73d                	bnez	a4,20000148 <ProgramPage+0xa6>
+200000dc:	4712                	lw	a4,4(sp)
+200000de:	82b2                	mv	t0,a2
+200000e0:	00040337          	lui	t1,0x40
+200000e4:	c43a                	sw	a4,8(sp)
+200000e6:	4741                	li	a4,16
+200000e8:	81d8                	sb	a4,3(sp)
+200000ea:	4722                	lw	a4,8(sp)
+200000ec:	0002a283          	lw	t0,0(t0)
+200000f0:	0611                	addi	a2,a2,4
+200000f2:	00572023          	sw	t0,0(a4) # 40022000 <Verify+0x20021e8e>
+200000f6:	4b98                	lw	a4,16(a5)
+200000f8:	00676733          	or	a4,a4,t1
+200000fc:	cb98                	sw	a4,16(a5)
+200000fe:	47d8                	lw	a4,12(a5)
+20000100:	8b05                	andi	a4,a4,1
+20000102:	e729                	bnez	a4,2000014c <ProgramPage+0xaa>
+20000104:	4722                	lw	a4,8(sp)
+20000106:	82b2                	mv	t0,a2
+20000108:	0711                	addi	a4,a4,4
+2000010a:	c43a                	sw	a4,8(sp)
+2000010c:	8198                	lbu	a4,3(sp)
+2000010e:	177d                	addi	a4,a4,-1
+20000110:	0ff77713          	andi	a4,a4,255
+20000114:	81d8                	sb	a4,3(sp)
+20000116:	fb71                	bnez	a4,200000ea <ProgramPage+0x48>
+20000118:	4712                	lw	a4,4(sp)
+2000011a:	cbd8                	sw	a4,20(a5)
+2000011c:	4b98                	lw	a4,16(a5)
+2000011e:	04076713          	ori	a4,a4,64
+20000122:	cb98                	sw	a4,16(a5)
+20000124:	47d8                	lw	a4,12(a5)
+20000126:	8b05                	andi	a4,a4,1
+20000128:	e705                	bnez	a4,20000150 <ProgramPage+0xae>
+2000012a:	47d8                	lw	a4,12(a5)
+2000012c:	8b41                	andi	a4,a4,16
+2000012e:	c31d                	beqz	a4,20000154 <ProgramPage+0xb2>
+20000130:	47d8                	lw	a4,12(a5)
+20000132:	76c1                	lui	a3,0xffff0
+20000134:	16fd                	addi	a3,a3,-1
+20000136:	01076713          	ori	a4,a4,16
+2000013a:	c7d8                	sw	a4,12(a5)
+2000013c:	4b98                	lw	a4,16(a5)
+2000013e:	4505                	li	a0,1
+20000140:	8f75                	and	a4,a4,a3
+20000142:	cb98                	sw	a4,16(a5)
+20000144:	0141                	addi	sp,sp,16
+20000146:	8082                	ret
+20000148:	c194                	sw	a3,0(a1)
+2000014a:	b771                	j	200000d6 <ProgramPage+0x34>
+2000014c:	c194                	sw	a3,0(a1)
+2000014e:	bf45                	j	200000fe <ProgramPage+0x5c>
+20000150:	c194                	sw	a3,0(a1)
+20000152:	bfc9                	j	20000124 <ProgramPage+0x82>
+20000154:	4712                	lw	a4,4(sp)
+20000156:	04070713          	addi	a4,a4,64
+2000015a:	c23a                	sw	a4,4(sp)
+2000015c:	4732                	lw	a4,12(sp)
+2000015e:	177d                	addi	a4,a4,-1
+20000160:	c63a                	sw	a4,12(sp)
+20000162:	f73d                	bnez	a4,200000d0 <ProgramPage+0x2e>
+20000164:	4b98                	lw	a4,16(a5)
+20000166:	76c1                	lui	a3,0xffff0
+20000168:	16fd                	addi	a3,a3,-1
+2000016a:	8f75                	and	a4,a4,a3
+2000016c:	cb98                	sw	a4,16(a5)
+2000016e:	4501                	li	a0,0
+20000170:	bfd1                	j	20000144 <ProgramPage+0xa2>
+
+20000172 <Verify>:
+20000172:	1151                	addi	sp,sp,-12
+20000174:	c02a                	sw	a0,0(sp)
+20000176:	c202                	sw	zero,4(sp)
+20000178:	058d                	addi	a1,a1,3
+2000017a:	c402                	sw	zero,8(sp)
+2000017c:	8189                	srli	a1,a1,0x2
+2000017e:	c42e                	sw	a1,8(sp)
+20000180:	4218                	lw	a4,0(a2)
+20000182:	4792                	lw	a5,4(sp)
+20000184:	00460693          	addi	a3,a2,4 # 40003004 <Verify+0x20002e92>
+20000188:	4602                	lw	a2,0(sp)
+2000018a:	078a                	slli	a5,a5,0x2
+2000018c:	97b2                	add	a5,a5,a2
+2000018e:	439c                	lw	a5,0(a5)
+20000190:	00f71d63          	bne	a4,a5,200001aa <Verify+0x38>
+20000194:	4792                	lw	a5,4(sp)
+20000196:	8636                	mv	a2,a3
+20000198:	0785                	addi	a5,a5,1
+2000019a:	c23e                	sw	a5,4(sp)
+2000019c:	4712                	lw	a4,4(sp)
+2000019e:	47a2                	lw	a5,8(sp)
+200001a0:	fef760e3          	bltu	a4,a5,20000180 <Verify+0xe>
+200001a4:	4501                	li	a0,0
+200001a6:	0131                	addi	sp,sp,12
+200001a8:	8082                	ret
+200001aa:	4505                	li	a0,1
+200001ac:	bfed                	j	200001a6 <Verify+0x34>
+	...
