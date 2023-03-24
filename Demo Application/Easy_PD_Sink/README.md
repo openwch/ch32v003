@@ -1,6 +1,7 @@
 # Easy_PD_Sink
 
-![easy_pd_sink](image\easy_pd_sink.png)
+![easy_pd_sink](image/easy_pd_sink.png)
+
 
 Power management systems are crucial for powering up our devices and especially for testing electronics, however, they can be bulky as noticed here by this power supply. There will come a situation whereby we want a more portable power solution and that is when the Easy_PD system comes into play.
 
