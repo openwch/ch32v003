@@ -1,0 +1,43 @@
+{
+    "version": 1,
+    "beforeBuildTasks": [],
+    "afterBuildTasks": [
+        {
+            "name": "elf_to_lst",
+            "disable": false,
+            "abortAfterFailed": false,
+            "command": "riscv-none-embed-objdump --source --all-headers --demangle --disassemble \"${OutDir}\\${targetName}.elf\" > \"${OutDir}\\${targetName}.lst\""
+        },
+        {
+            "name": "printfsize",
+            "disable": false,
+            "abortAfterFailed": false,
+            "command": "riscv-none-embed-size --format=berkeley \"${OutDir}\\${ProjectName}.elf\""
+        }
+    ],
+    "global": {
+        "output-debug-info": "enable",
+        "arch": "rv32ec",
+        "abi": "ilp32e",
+        "code-model": "medlow",
+        "misc-control": "-fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wunused -Wuninitialized"
+    },
+    "c/cpp-compiler": {
+        "language-c": "c99",
+        "language-cpp": "c++11",
+        "optimization": "level-size",
+        "warnings": "all-warnings",
+        "one-elf-section-per-function": true,
+        "one-elf-section-per-data": true,
+        "C_FLAGS": "-Wl,-Bstatic"
+    },
+    "asm-compiler": {
+        "ASM_FLAGS": "-Wl,-Bstatic"
+    },
+    "linker": {
+        "output-format": "elf",
+        "remove-unused-input-sections": true,
+        "LD_FLAGS": "-Xlinker --gc-sections -nostartfiles --specs=nano.specs --specs=nosys.specs -T \"sdk/Ld/Link.ld\"",
+        "LIB_FLAGS": "-lprintf"
+    }
+}

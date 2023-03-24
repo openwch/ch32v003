@@ -1,0 +1,69 @@
+{
+  "name": "easy_pd_sink",
+  "type": "RISC-V",
+  "dependenceList": [],
+  "srcDirs": [
+    "sdk",
+    "src"
+  ],
+  "virtualFolder": {
+    "name": "<virtual_root>",
+    "files": [],
+    "folders": []
+  },
+  "outDir": "build",
+  "deviceName": null,
+  "packDir": null,
+  "miscInfo": {
+    "uid": "5a3fe852ef69fdb600466318c1be6f04"
+  },
+  "targets": {
+    "obj": {
+      "excludeList": [
+        "Startup",
+        "Peripheral",
+        "Ld",
+        "Debug",
+        "Core"
+      ],
+      "toolchain": "RISCV_GCC",
+      "compileConfig": {
+        "linkerScriptPath": "",
+        "options": "null"
+      },
+      "uploader": "Custom",
+      "uploadConfig": {
+        "bin": "",
+        "commandLine": "download.cmd ${programFile}",
+        "eraseChipCommand": ""
+      },
+      "uploadConfigMap": {
+        "JLink": {
+          "bin": "",
+          "baseAddr": "",
+          "cpuInfo": {
+            "vendor": "null",
+            "cpuName": "null"
+          },
+          "proType": 1,
+          "speed": 8000,
+          "otherCmds": ""
+        }
+      },
+      "custom_dep": {
+        "name": "default",
+        "incList": [
+          "sdk/Core",
+          "sdk/Debug",
+          "sdk/Peripheral/inc",
+          "src",
+          "src/app"
+        ],
+        "libList": [],
+        "sourceDirList": [],
+        "defineList": []
+      }
+    }
+  },
+  "version": "3.3"
+}
