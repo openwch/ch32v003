@@ -4,20 +4,20 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- External lines trigger ADC conversion routine:
- ADC channel 2 (PC4) - rule group channel, external trigger pin (PD3) high level
- triggers EXTI line 3 event,In this mode, an ADC conversion is triggered by an
- event on the EXTI line 3, and an EOC interrupt is generated after the conversion
-  is completed.
-
+ *External lines trigger ADC conversion routine:
+ *ADC channel 2 (PC4) - rule group channel, external trigger pin (PD3) high level
+ *triggers EXTI line 3 event,In this mode, an ADC conversion is triggered by an
+ *event on the EXTI line 3, and an EOC interrupt is generated after the conversion
+ *is completed.
+ *
 */
 
 #include "debug.h"
@@ -111,8 +111,10 @@ void EXTI_Event_Init(void)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     EXTI_Event_Init();
     ADC_Function_Init();

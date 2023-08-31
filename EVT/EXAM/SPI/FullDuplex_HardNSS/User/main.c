@@ -4,28 +4,30 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Two-wire full duplex mode, master/slave mode, data transceiver:
- Master:SPI1_NSS(PC1)、SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6).
- Slave:SPI1_NSS(PC1)、SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6).
-
-This example demonstrates simultaneous full-duplex transmission and reception
- between Master and Slave.
- Note: The two boards download the Master and Slave programs respectively, and
- power on at the same time.
-     Hardware connection:PC5 -- PC5
-                         PC6 -- PC6
-                         PC7 -- PC7
-
-
-*/
+ *Two-wire full duplex mode, master/slave mode, data transceiver:
+ *Master:SPI1_NSS(PC1)、SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6).
+ *Slave:SPI1_NSS(PC1)、SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6).
+ *
+ *This example demonstrates simultaneous full-duplex transmission and reception
+ *between Master and Slave.
+ *Note: The two boards download the Master and Slave programs respectively, and
+ *power on at the same time.
+ *     Hardware connection:
+ *                         PC1 -- PC1
+ *                         PC5 -- PC5
+ *                         PC6 -- PC6
+ *                         PC7 -- PC7
+ *
+ *
+ */
 
 
 #include "debug.h"
@@ -65,7 +67,8 @@ void SPI_FullDuplex_Init(void)
 
 #if(SPI_MODE == HOST_MODE)
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
@@ -102,6 +105,11 @@ void SPI_FullDuplex_Init(void)
 
 #endif
 
+#if(SPI_MODE == HOST_MODE)
+    SPI_SSOutputCmd(SPI1, ENABLE);
+
+#endif
+
     SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
 
 #if(SPI_MODE == HOST_MODE)
@@ -121,8 +129,6 @@ void SPI_FullDuplex_Init(void)
     SPI_InitStructure.SPI_CRCPolynomial = 7;
     SPI_Init(SPI1, &SPI_InitStructure);
 
-    SPI_SSOutputCmd(SPI1, DISABLE);
-
     SPI_Cmd(SPI1, ENABLE);
 }
 
@@ -139,9 +145,11 @@ int main(void)
     u8 j = 0;
     u8 value;
 
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(460800);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
 #if(SPI_MODE == SLAVE_MODE)
     printf("Slave Mode\r\n");

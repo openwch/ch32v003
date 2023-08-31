@@ -22,7 +22,7 @@
 //#define SYSCLK_FREQ_48MHZ_HSI   48000000
 //#define SYSCLK_FREQ_8MHz_HSE    8000000
 //#define SYSCLK_FREQ_24MHz_HSE   HSE_VALUE
-//#define SYSCLK_FREQ_48MHz_HSE   48000000
+#define SYSCLK_FREQ_48MHz_HSE   48000000
 
 /* Clock Definitions */
 #ifdef SYSCLK_FREQ_8MHz_HSI
@@ -142,6 +142,10 @@ void SystemCoreClockUpdate (void)
  */
 static void SetSysClock(void)
 {
+RCC->APB2PCENR |= RCC_APB2Periph_GPIOD;
+GPIOD->CFGLR&=(~0xF0);
+GPIOD->CFGLR|=0x80;
+GPIOD->BSHR =0x2;
 #ifdef SYSCLK_FREQ_8MHz_HSI
     SetSysClockTo_8MHz_HSI();
 #elif defined SYSCLK_FREQ_24MHZ_HSI

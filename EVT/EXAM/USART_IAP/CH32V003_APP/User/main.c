@@ -4,18 +4,18 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- GPIO routine:
- PD0 push-pull output.
-
-*/
+ *GPIO routine:
+ *PD0 push-pull output.
+ *
+ */
 
 #include "debug.h"
 
@@ -53,10 +53,11 @@ int main(void)
     u8 i = 0;
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
-
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     GPIO_Toggle_INIT();
 

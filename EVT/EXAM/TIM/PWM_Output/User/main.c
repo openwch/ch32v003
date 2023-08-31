@@ -86,8 +86,10 @@ void TIM1_PWMOut_Init(u16 arr, u16 psc, u16 ccp)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n",SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     TIM1_PWMOut_Init( 100, 48000-1, 50 );
 

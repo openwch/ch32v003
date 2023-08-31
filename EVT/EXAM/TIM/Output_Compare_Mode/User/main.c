@@ -4,21 +4,21 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Output comparison mode routine:
- TIM1_CH1(PD2)
- This example demonstrates the output waveform of the TIM_CH1(PD2) pin in 4 output comparison modes.
-  Output compare modes include
- OutCompare_Timing\OutCompare_Active\OutCompare_Inactive\OutCompare_Toggle.
-
-*/
+ *Output comparison mode routine:
+ *TIM1_CH1(PD2)
+ *This example demonstrates the output waveform of the TIM_CH1(PD2) pin in 4 output comparison modes.
+ *Output compare modes include
+ *OutCompare_Timing\OutCompare_Active\OutCompare_Inactive\OutCompare_Toggle.
+ *
+ */
 
 #include "debug.h"
 
@@ -98,8 +98,10 @@ void TIM1_OutCompare_Init(u16 arr, u16 psc, u16 ccp)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n",SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     TIM1_OutCompare_Init( 100, 48000-1, 50 );
 

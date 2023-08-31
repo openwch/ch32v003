@@ -4,22 +4,22 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- 10-bit addressing mode, master/slave mode transceiver routine:
- I2C1_SCL(PC2)\I2C1_SDA(PC1).
-  This routine demonstrates that Master sends and Slave receives.
-  Note: The two boards download the Master and Slave programs respectively,
-   and power on at the same time.
-       Hardware connection:
-            PC2 -- PC2
-            PC1 -- PC1
+ *10-bit addressing mode, master/slave mode transceiver routine:
+ *I2C1_SCL(PC2)\I2C1_SDA(PC1).
+ *This routine demonstrates that Master sends and Slave receives.
+ *Note: The two boards download the Master and Slave programs respectively,
+*   and power on at the same time.
+*       Hardware connection:
+*            PC2 -- PC2
+*            PC1 -- PC1
 */
 
 #include "debug.h"
@@ -95,9 +95,11 @@ int main(void)
     u8 j = 0;
 	u8 p = 0;
 
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(460800);
     printf("SystemClk:%d\r\n",SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
 #if (I2C_MODE == HOST_MODE)
     printf("IIC Host mode\r\n");

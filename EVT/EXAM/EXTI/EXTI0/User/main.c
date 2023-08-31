@@ -4,19 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- External interrupt line routine:
- EXTI_Line0(PD0)
- PD0 sets the pull-up input, and the falling edge triggers the interrupt.
-
-*/
+ *External interrupt line routine:
+ *EXTI_Line0(PD0)
+ *PD0 sets the pull-up input, and the falling edge triggers the interrupt.
+ *
+ */
 
 #include "debug.h"
 
@@ -68,10 +68,11 @@ void EXTI0_INT_INIT(void)
 int main(void)
 {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
-
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf("EXTI0 Test\r\n");
     EXTI0_INT_INIT();
 
@@ -94,11 +95,11 @@ void EXTI7_0_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
  */
 void EXTI7_0_IRQHandler(void)
 {
-  if(EXTI_GetITStatus(EXTI_Line0)!=RESET)
-  {
-    printf("Run at EXTI\r\n");
-    EXTI_ClearITPendingBit(EXTI_Line0);     /* Clear Flag */
-  }
+    if(EXTI_GetITStatus(EXTI_Line0)!=RESET)
+    {
+        printf("Run at EXTI\r\n");
+        EXTI_ClearITPendingBit(EXTI_Line0);     /* Clear Flag */
+    }
 }
 
 

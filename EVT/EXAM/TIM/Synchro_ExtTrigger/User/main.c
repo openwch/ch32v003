@@ -4,23 +4,23 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Slave mode routine:
- TIM1_CH1(PD2)
- This example demonstrates that when the TIM_CH1(PD2) pin detects a rising edge,
- TIM1 works differently in different slave modes.
- RESET_MODE: TIM1->CNT reset and recount
- GATED_MODE: PA8 pin input low level, TIM1->CNT counts normally, otherwise stop counting.
- TRIGGER__MODE: TIM1->CNT continues counting.
-
-*/
+ *Slave mode routine:
+ *TIM1_CH1(PD2)
+ *This example demonstrates that when the TIM_CH1(PD2) pin detects a rising edge,
+ *TIM1 works differently in different slave modes.
+ *RESET_MODE: TIM1->CNT reset and recount
+ *GATED_MODE: PA8 pin input low level, TIM1->CNT counts normally, otherwise stop counting.
+ *TRIGGER__MODE: TIM1->CNT continues counting.
+ *
+ */
 
 #include "debug.h"
 
@@ -100,8 +100,10 @@ void TIM1_Synchro_ExtTrigger_Init(u16 arr, u16 psc)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n",SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     TIM1_Synchro_ExtTrigger_Init( 0xFFFF, 48000-1);
 

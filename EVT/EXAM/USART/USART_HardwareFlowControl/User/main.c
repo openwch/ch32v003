@@ -4,11 +4,11 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
@@ -114,11 +114,12 @@ void USART1_ReCFG(void)
 int main(void)
 {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
     USART1_ReCFG();
 
     printf("USART1 Hardware Flow Control TEST\r\n");
-
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     while(TxCnt < TxSize)
     {
         USART_SendData(USART1, TxBuffer[TxCnt++]);

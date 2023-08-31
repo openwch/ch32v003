@@ -4,18 +4,18 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Window watchdog routine:
- This routine demonstrates that the watchdog is fed between the window 0x40 - 0x5f
-  to prevent the watchdog from being reset.
-
+ *Window watchdog routine:
+ *This routine demonstrates that the watchdog is fed between the window 0x40 - 0x5f
+ *to prevent the watchdog from being reset.
+ *
 */
 
 #include "debug.h"
@@ -93,11 +93,13 @@ int main(void)
     u8 wwdg_tr, wwdg_wr;
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
-
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf("WWDG Test\r\n");
+
     WWDG_Config(0x7f, 0x5f, WWDG_Prescaler_8); /* 48M/8/4096 */
     wwdg_wr = WWDG->CFGR & 0x7F;
     while(1)

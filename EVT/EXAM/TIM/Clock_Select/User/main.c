@@ -4,20 +4,20 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Clock source selection routine:
- This example demonstrates two external clock source modes of TIM1.
- External clock source mode 1: PD2 is used as clock input pin,
- External clock source mode 2: PC5 is used as clock input pin.
-
-*/
+ *Clock source selection routine:
+ *This example demonstrates two external clock source modes of TIM1.
+ *External clock source mode 1: PD2 is used as clock input pin,
+ *External clock source mode 2: PC5 is used as clock input pin.
+ *
+ */
 
 #include "debug.h"
 
@@ -75,8 +75,10 @@ void TIM1_ETRClockMode2_Init(void)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
 #if(ETR_CLK == ETR_CLK_MODE1)
     TIM1_ETRClockMode1_Init();

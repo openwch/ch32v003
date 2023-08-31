@@ -285,8 +285,8 @@ void GPIO_ResetBits(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  * @param   GPIO_Pin - specifies the port bit to be written.
  *            This parameter can be one of GPIO_Pin_x where x can be (0..15).
  *          BitVal - specifies the value to be written to the selected bit.
- *            Bit_SetL - to clear the port pin.
- *            Bit_SetH - to set the port pin.
+ *            Bit_RESET - to clear the port pin.
+ *            Bit_SET - to set the port pin.
  *
  * @return  none
  */
@@ -358,7 +358,7 @@ void GPIO_PinLockConfig(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  *            GPIO_PartialRemap1_TIM2 - TIM2 Partial1 Alternate Function mapping
  *            GPIO_PartialRemap2_TIM2 - TIM2 Partial2 Alternate Function mapping
  *            GPIO_FullRemap_TIM2 - TIM2 Full Alternate Function mapping
- *            GPIO_Remap_PA12 - PA12 Alternate Function mapping
+ *            GPIO_Remap_PA1_2 - PA1_2 Alternate Function mapping
  *            GPIO_Remap_ADC1_ETRGINJ - ADC1 External Trigger Injected Conversion remapping
  *            GPIO_Remap_ADC1_ETRGREG - ADC1 External Trigger Regular Conversion remapping
  *            GPIO_Remap_LSI_CAL - LSI calibration Alternate Function mapping
@@ -453,6 +453,55 @@ void GPIO_EXTILineConfig(uint8_t GPIO_PortSource, uint8_t GPIO_PinSource)
     AFIO->EXTICR |= ((uint32_t)(GPIO_PortSource<<(GPIO_PinSource<<1)));
 }
 
+/*********************************************************************
+ * @fn      GPIO_IPD_Unused
+ *
+ * @brief   Configure unused GPIO as input pull-up.
+ *
+ * @param   none
+ *
+ * @return  none
+ */
+void GPIO_IPD_Unused(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
+    uint32_t chip = 0;
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOC, ENABLE);
+    chip =  *( uint32_t * )0x1FFFF7C4 & (~0x000000F0);
+    switch(chip)
+    {
+        case 0x00320500:     //CH32V003A4M6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_2\
+                                         |GPIO_Pin_3;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+            GPIO_Init(GPIOD, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+            GPIO_Init(GPIOC, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00330500:     //CH32V003J4M6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_3\
+                                          |GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+            GPIO_Init(GPIOD, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3\
+                                          |GPIO_Pin_5|GPIO_Pin_6\
+                                          |GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+            GPIO_Init(GPIOC, &GPIO_InitStructure);
+            break;
+        }
+        default:
+        {
+            break;
+        }
+
+    }
+
+}
 
 
 

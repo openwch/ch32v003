@@ -4,17 +4,17 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- FLASH erase/read/write, and fast programming:
-   Includes Standard Erase and Program, Fast Erase and Program.
-
+ *FLASH erase/read/write, and fast programming:
+ *Includes Standard Erase and Program, Fast Erase and Program.
+ *
 */
 
 #include "debug.h"
@@ -52,7 +52,7 @@ void Option_Byte_CFG(void)
 {
     FLASH_Unlock();
     FLASH_EraseOptionBytes();
-    FLASH_UserOptionByteConfig(OB_IWDG_SW, OB_STOP_NoRST, OB_STDBY_NoRST, OB_RST_EN_DT12ms);
+    FLASH_UserOptionByteConfig(OB_IWDG_SW, OB_STOP_NoRST, OB_STDBY_NoRST, OB_RST_EN_DT12ms, OB_PowerON_Start_Mode_BOOT);
     FLASH_Lock();
 }
 
@@ -81,6 +81,7 @@ void Flash_Test(void)
             if(FLASHStatus != FLASH_COMPLETE)
             {
                 printf("FLASH Erase ERR at Page%d\r\n", EraseCounter + 60);
+                return;
             }
             printf("FLASH Erase Page%d...\r\n", EraseCounter + 60);
         }
@@ -203,12 +204,12 @@ void Flash_Test_Fast(void)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     Delay_Init();
     Delay_Ms(1000);
     USART_Printf_Init(115200);
-    SystemCoreClockUpdate();
     printf("SystemClk-1:%d\r\n", SystemCoreClock);
-
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     Flash_Test();
     Flash_Test_Fast();
 

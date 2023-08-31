@@ -4,19 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
-Timer DMA routines:
- TIM1_CH1(PD2)
-This example demonstrates using DMA to output PWM through TIM1_CH1(PD2) pin.
-
-*/
+ *Timer DMA routines:
+ *TIM1_CH1(PD2)
+ *This example demonstrates using DMA to output PWM through TIM1_CH1(PD2) pin.
+ *
+ */
 
 #include "debug.h"
 
@@ -112,8 +112,10 @@ void TIM1_DMA_Init(DMA_Channel_TypeDef *DMA_CHx, u32 ppadr, u32 memadr, u16 bufs
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     TIM1_PWMOut_Init(100, 48000 - 1, pbuf[0]);
     TIM1_DMA_Init(DMA1_Channel5, (u32)TIM1_CH1CVR_ADDRESS, (u32)pbuf, 3);

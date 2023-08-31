@@ -4,18 +4,18 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Memory to memory mode routine:
- Transfer SRC_BUF[Buf_Size] to DST_BUF[Buf_Size] via DMA.
-
-*/
+ *Memory to memory mode routine:
+ *Transfer SRC_BUF[Buf_Size] to DST_BUF[Buf_Size] via DMA.
+ *
+ */
 
 #include "debug.h"
 
@@ -102,9 +102,11 @@ int main(void)
     u8 i = 0;
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     printf("DMA MEM2MEM TEST\r\n");
     DMA1_CH3_Init();

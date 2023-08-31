@@ -79,7 +79,7 @@ uint32_t __get_MISA(void)
  *
  * @brief   Set the Machine ISA Register
  *
- * @param   value  - set misa value
+ * @param   value - set misa value
  *
  * @return  none
  */
