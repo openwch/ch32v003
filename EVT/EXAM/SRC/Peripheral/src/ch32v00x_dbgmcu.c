@@ -97,5 +97,20 @@ void DBGMCU_Config(uint32_t DBGMCU_Periph, FunctionalState NewState)
         val &= ~(uint32_t)DBGMCU_Periph;
         __set_DEBUG_CR(val);
     }
-
+}
+/*********************************************************************
+ * @fn      DBGMCU_GetCHIPID
+ *
+ * @brief   Returns the CHIP identifier.
+ *
+ * @return Device identifier.
+ *          ChipID List-
+ *    CH32V003F4P6-0x003005x0
+ *    CH32V003F4U6-0x003105x0
+ *    CH32V003A4M6-0x003205x0
+ *    CH32V003J4M6-0x003305x0
+ */
+uint32_t DBGMCU_GetCHIPID( void )
+{
+    return( *( uint32_t * )0x1FFFF7C4 );
 }

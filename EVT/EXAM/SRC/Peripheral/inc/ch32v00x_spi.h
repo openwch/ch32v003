@@ -88,8 +88,9 @@ typedef struct
 #define SPI_BaudRatePrescaler_128          ((uint16_t)0x0030)
 #define SPI_BaudRatePrescaler_256          ((uint16_t)0x0038)
 
-/* SPI_MSB transmission */
+/* SPI_MSB_LSB transmission */
 #define SPI_FirstBit_MSB                   ((uint16_t)0x0000)
+#define SPI_FirstBit_LSB                   ((uint16_t)0x0080)//not support SPI slave mode
 
 /* SPI_I2S_DMA_transfer_requests */
 #define SPI_I2S_DMAReq_Tx                  ((uint16_t)0x0002)

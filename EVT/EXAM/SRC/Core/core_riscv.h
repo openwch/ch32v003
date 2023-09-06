@@ -18,45 +18,45 @@
 
 /* IO definitions */
 #ifdef __cplusplus
-  #define     __I     volatile                /*!< defines 'read only' permissions      */
+  #define     __I     volatile                /*  defines 'read only' permissions     */
 #else
-  #define     __I     volatile const          /*!< defines 'read only' permissions     */
+  #define     __I     volatile const          /*  defines 'read only' permissions     */
 #endif
-#define     __O     volatile                  /*!< defines 'write only' permissions     */
-#define     __IO    volatile                  /*!< defines 'read / write' permissions   */
+#define       __O     volatile                /*  defines 'write only' permissions    */
+#define       __IO    volatile                /*  defines 'read / write' permissions  */
 
 /* Standard Peripheral Library old types (maintained for legacy purpose) */
-typedef __I uint32_t vuc32;  /* Read Only */
-typedef __I uint16_t vuc16;  /* Read Only */
-typedef __I uint8_t vuc8;   /* Read Only */
+typedef __I uint32_t vuc32;   /* Read Only */
+typedef __I uint16_t vuc16;   /* Read Only */
+typedef __I uint8_t  vuc8;    /* Read Only */
 
 typedef const uint32_t uc32;  /* Read Only */
 typedef const uint16_t uc16;  /* Read Only */
-typedef const uint8_t uc8;   /* Read Only */
+typedef const uint8_t  uc8;   /* Read Only */
 
-typedef __I int32_t vsc32;  /* Read Only */
-typedef __I int16_t vsc16;  /* Read Only */
-typedef __I int8_t vsc8;   /* Read Only */
+typedef __I int32_t vsc32;    /* Read Only */
+typedef __I int16_t vsc16;    /* Read Only */
+typedef __I int8_t  vsc8;     /* Read Only */
 
-typedef const int32_t sc32;  /* Read Only */
-typedef const int16_t sc16;  /* Read Only */
-typedef const int8_t sc8;   /* Read Only */
+typedef const int32_t sc32;   /* Read Only */
+typedef const int16_t sc16;   /* Read Only */
+typedef const int8_t  sc8;    /* Read Only */
 
 typedef __IO uint32_t  vu32;
-typedef __IO uint16_t vu16;
-typedef __IO uint8_t  vu8;
+typedef __IO uint16_t  vu16;
+typedef __IO uint8_t   vu8;
 
 typedef uint32_t  u32;
-typedef uint16_t u16;
-typedef uint8_t  u8;
+typedef uint16_t  u16;
+typedef uint8_t   u8;
 
 typedef __IO int32_t  vs32;
 typedef __IO int16_t  vs16;
 typedef __IO int8_t   vs8;
 
 typedef int32_t  s32;
-typedef int16_t s16;
-typedef int8_t  s8;
+typedef int16_t  s16;
+typedef int8_t   s8;
 
 typedef enum {NoREADY = 0, READY = !NoREADY} ErrorStatus;
 
@@ -121,7 +121,7 @@ typedef struct
  *
  * @return  none
  */
-RV_STATIC_INLINE void __enable_irq()
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq()
 {
   uint32_t result;
 
@@ -137,7 +137,7 @@ RV_STATIC_INLINE void __enable_irq()
  *
  * @return  none
  */
-RV_STATIC_INLINE void __disable_irq()
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __disable_irq()
 {
   uint32_t result;
 
@@ -153,13 +153,13 @@ RV_STATIC_INLINE void __disable_irq()
  *
  * @return  none
  */
-RV_STATIC_INLINE void __NOP()
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __NOP()
 {
   __asm volatile ("nop");
 }
 
 /*********************************************************************
- * @fn       NVIC_EnableIRQ
+ * @fn      NVIC_EnableIRQ
  *
  * @brief   Disable Interrupt
  *
@@ -167,13 +167,13 @@ RV_STATIC_INLINE void __NOP()
  *
  * @return  none
  */
-RV_STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
 {
   NVIC->IENR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));
 }
 
 /*********************************************************************
- * @fn       NVIC_DisableIRQ
+ * @fn      NVIC_DisableIRQ
  *
  * @brief   Disable Interrupt
  *
@@ -181,22 +181,22 @@ RV_STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
  *
  * @return  none
  */
-RV_STATIC_INLINE void NVIC_DisableIRQ(IRQn_Type IRQn)
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_DisableIRQ(IRQn_Type IRQn)
 {
   NVIC->IRER[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));
 }
 
 /*********************************************************************
- * @fn       NVIC_GetStatusIRQ
+ * @fn      NVIC_GetStatusIRQ
  *
  * @brief   Get Interrupt Enable State
  *
  * @param   IRQn - Interrupt Numbers
  *
- * @return  1 - 1: Interrupt Pending Enable
- *                0 - Interrupt Pending Disable
+ * @return  1 - Interrupt Pending Enable
+ *          0 - Interrupt Pending Disable
  */
-RV_STATIC_INLINE uint32_t NVIC_GetStatusIRQ(IRQn_Type IRQn)
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE uint32_t NVIC_GetStatusIRQ(IRQn_Type IRQn)
 {
   return((uint32_t) ((NVIC->ISR[(uint32_t)(IRQn) >> 5] & (1 << ((uint32_t)(IRQn) & 0x1F)))?1:0));
 }
@@ -208,10 +208,10 @@ RV_STATIC_INLINE uint32_t NVIC_GetStatusIRQ(IRQn_Type IRQn)
  *
  * @param   IRQn - Interrupt Numbers
  *
- * @return  1 - 1: Interrupt Pending Enable
- *                0 - Interrupt Pending Disable
+ * @return  1 - Interrupt Pending Enable
+ *          0 - Interrupt Pending Disable
  */
-RV_STATIC_INLINE uint32_t NVIC_GetPendingIRQ(IRQn_Type IRQn)
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE uint32_t NVIC_GetPendingIRQ(IRQn_Type IRQn)
 {
   return((uint32_t) ((NVIC->IPR[(uint32_t)(IRQn) >> 5] & (1 << ((uint32_t)(IRQn) & 0x1F)))?1:0));
 }
@@ -225,7 +225,7 @@ RV_STATIC_INLINE uint32_t NVIC_GetPendingIRQ(IRQn_Type IRQn)
  *
  * @return  none
  */
-RV_STATIC_INLINE void NVIC_SetPendingIRQ(IRQn_Type IRQn)
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_SetPendingIRQ(IRQn_Type IRQn)
 {
   NVIC->IPSR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));
 }
@@ -239,7 +239,7 @@ RV_STATIC_INLINE void NVIC_SetPendingIRQ(IRQn_Type IRQn)
  *
  * @return  none
  */
-RV_STATIC_INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
 {
   NVIC->IPRR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));
 }
@@ -252,9 +252,9 @@ RV_STATIC_INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
  * @param   IRQn - Interrupt Numbers
  *
  * @return  1 - Interrupt Active
- *                0 - Interrupt No Active
+ *          0 - Interrupt No Active
  */
-RV_STATIC_INLINE uint32_t NVIC_GetActive(IRQn_Type IRQn)
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE uint32_t NVIC_GetActive(IRQn_Type IRQn)
 {
   return((uint32_t)((NVIC->IACTR[(uint32_t)(IRQn) >> 5] & (1 << ((uint32_t)(IRQn) & 0x1F)))?1:0));
 }
@@ -265,13 +265,13 @@ RV_STATIC_INLINE uint32_t NVIC_GetActive(IRQn_Type IRQn)
  * @brief   Set Interrupt Priority
  *
  * @param   IRQn - Interrupt Numbers
- *          priority: bit7 - pre-emption priority
- *                    bit6 - subpriority
- *                    bit[5-0] - reserved
+ *          priority: bit[7] - pre-emption priority
+ *                    bit[6] - subpriority
+ *                    bit[5:0] - reserved
  *
  * @return  none
  */
-RV_STATIC_INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint8_t priority)
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint8_t priority)
 {
   NVIC->IPRIOR[(uint32_t)(IRQn)] = priority;
 }
@@ -289,8 +289,38 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFI(void)
   asm volatile ("wfi");
 }
 
+
 /*********************************************************************
- * @fn       __WFE
+ * @fn       _SEV
+ *
+ * @brief   Set Event
+ *
+ * @return  none
+ */
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void _SEV(void)
+{
+  uint32_t t;
+
+  t = NVIC->SCTLR;
+  NVIC->SCTLR |= (1<<3)|(1<<5);
+  NVIC->SCTLR = (NVIC->SCTLR & ~(1<<5)) | ( t & (1<<5));
+}
+
+/*********************************************************************
+ * @fn      _WFE
+ *
+ * @brief   Wait for Events
+ *
+ * @return  none
+ */
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void _WFE(void)
+{
+  NVIC->SCTLR |= (1<<3);
+  asm volatile ("wfi");
+}
+
+/*********************************************************************
+ * @fn      __WFE
  *
  * @brief   Wait for Events
  *
@@ -298,13 +328,9 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFI(void)
  */
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFE(void)
 {
-  uint32_t t;
-
-  t = NVIC->SCTLR;
-  NVIC->SCTLR |= (1<<3)|(1<<5);     // (wfi->wfe)+(__sev)
-  NVIC->SCTLR = (NVIC->SCTLR & ~(1<<5)) | ( t & (1<<5));
-  asm volatile ("wfi");
-  asm volatile ("wfi");
+  _SEV();
+  _WFE();
+  _WFE();
 }
 
 /*********************************************************************
@@ -313,13 +339,13 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFE(void)
  * @brief   Set VTF Interrupt
  *
  * @param   addr - VTF interrupt service function base address.
- *                  IRQn - Interrupt Numbers
- *                  num - VTF Interrupt Numbers
- *                  NewState -  DISABLE or ENABLE
+ *                 IRQn - Interrupt Numbers
+ *                 num - VTF Interrupt Numbers
+ *                 NewState -  DISABLE or ENABLE
  *
  * @return  none
  */
-RV_STATIC_INLINE void SetVTFIRQ(uint32_t addr, IRQn_Type IRQn, uint8_t num, FunctionalState NewState){
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void SetVTFIRQ(uint32_t addr, IRQn_Type IRQn, uint8_t num, FunctionalState NewState){
   if(num > 1)  return ;
 
   if (NewState != DISABLE)
@@ -334,13 +360,13 @@ RV_STATIC_INLINE void SetVTFIRQ(uint32_t addr, IRQn_Type IRQn, uint8_t num, Func
 }
 
 /*********************************************************************
- * @fn       NVIC_SystemReset
+ * @fn      NVIC_SystemReset
  *
  * @brief   Initiate a system reset request
  *
  * @return  none
  */
-RV_STATIC_INLINE void NVIC_SystemReset(void)
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_SystemReset(void)
 {
   NVIC->CFGR = NVIC_KEY3|(1<<7);
 }

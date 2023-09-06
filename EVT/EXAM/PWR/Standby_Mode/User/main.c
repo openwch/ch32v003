@@ -4,21 +4,21 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Low power, standby mode routine:
- AWU automatically wakes up
- This example demonstrates that WFI enters standby mode and wakes up automatically.
- Note: In order to reduce power consumption as much as possible, it is recommended
-  to set the unused GPIO to pull-down mode.
-
-*/
+ *Low power, standby mode routine:
+ *AWU automatically wakes up
+ *This example demonstrates that WFI enters standby mode and wakes up automatically.
+ *Note: In order to reduce power consumption as much as possible, it is recommended
+ *to set the unused GPIO to pull-down mode.
+ *
+ */
 
 #include "debug.h"
 
@@ -59,6 +59,7 @@ int main(void)
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
     Delay_Ms(1000);
     Delay_Ms(1000);
@@ -75,6 +76,7 @@ int main(void)
 
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf("Standby Mode Test\r\n");
     printf("0x1FFFF800-%08x\r\n", *(u32*)0x1FFFF800);
 

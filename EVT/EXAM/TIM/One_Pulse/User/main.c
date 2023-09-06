@@ -4,16 +4,16 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
  Single pulse output routine:
- TIM2_CH1(PD4)��TIM2_CH2(PD3)
+ TIM2_CH1(PD4),TIM2_CH2(PD3)
  This routine demonstrates that in single-pulse mode, the TIM2_CH2(PD3) pin detects a rising edge, then
  TIM2_CH1(PD4) outputs positive pulse.
 
@@ -83,8 +83,10 @@ void One_Pulse_Init(u16 arr, u16 psc, u16 ccp)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n",SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     One_Pulse_Init( 200, 48000-1, 100 );
 

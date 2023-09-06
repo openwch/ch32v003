@@ -138,6 +138,7 @@ int _write(int fd, char *buf, int size)
  *
  * @return  size: Data length
  */
+__attribute__((used)) 
 void *_sbrk(ptrdiff_t incr)
 {
     extern char _end[];

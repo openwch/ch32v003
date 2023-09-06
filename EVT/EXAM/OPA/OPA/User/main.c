@@ -4,24 +4,24 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- OPA1 is used as a voltage follower output, the external voltage
- is output to OPA1, and the ADC samples OPA1
- OPA1_CHP1--PD7
- OPA1_CHN1--PD0
- OPA1_OUT--PD4
-
- In this example, PD0 and PD4 are short-circuited, and the external voltage is input from PD7.
- If the negative feedback is connected to a resistor, it can also form an operational amplifier.
- Note: When using PD7, the reset function of this pin needs to be turned off.
-*/
+ *OPA1 is used as a voltage follower output, the external voltage
+ *is output to OPA1, and the ADC samples OPA1
+ *OPA1_CHP1--PD7
+ *OPA1_CHN1--PD0
+ *OPA1_OUT--PD4
+ *
+ *In this example, PD0 and PD4 are short-circuited, and the external voltage is input from PD7.
+ *If the negative feedback is connected to a resistor, it can also form an operational amplifier.
+ *Note: When using PD7, the reset function of this pin needs to be turned off.
+ */
 
 #include "debug.h"
 
@@ -30,6 +30,20 @@
 
 /* Global Variable */
 
+/*********************************************************************
+ * @fn      Option_Byte_CFG
+ *
+ * @brief   disable NRST Pin to normal I/O Pin.
+ *
+ * @return  none
+ */
+void Option_Byte_CFG(void)
+{
+    FLASH_Unlock();
+    FLASH_EraseOptionBytes();
+    FLASH_UserOptionByteConfig(OB_IWDG_SW, OB_STOP_NoRST, OB_STDBY_NoRST, OB_RST_NoEN ,OB_PowerON_Start_Mode_BOOT);
+    FLASH_Lock();
+}
 
 
 /*********************************************************************
@@ -172,10 +186,12 @@ u16 Get_ADC_Average( u8 ch, u8 times )
 int main( void )
 {
     u16 ADC_val, i;
-
+    Option_Byte_CFG();
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init( 115200 );
     printf( "SystemClk:%d\r\n", SystemCoreClock );
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf( "OPA Test\r\n" );
     OPA1_Init();
     ADC_Channel7_Init();

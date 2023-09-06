@@ -4,28 +4,28 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- SPI DMA, master/slave mode transceiver routine:
- Master:PI1_SCK(PC5)\PI1_MISO(PC7)\PI1_MOSI(PC6).
- Slave:PI1_SCK(PC5)\PI1_MISO(PC7)\PI1_MOSI(PC6).
-
- This example demonstrates simultaneous full-duplex transmission and reception
-  between Master and Slave.
- Note: The two boards download the Master and Slave programs respectively,
- and power on at the same time.
-     Hardware connection:
-           PC5  -- PC5
-           PC6 -- PC6
-           PC7 -- PC7
-
-*/
+ *SPI DMA, master/slave mode transceiver routine:
+ *Master:PI1_SCK(PC5)\PI1_MISO(PC7)\PI1_MOSI(PC6).
+ *Slave:PI1_SCK(PC5)\PI1_MISO(PC7)\PI1_MOSI(PC6).
+ *
+ *This example demonstrates simultaneous full-duplex transmission and reception
+ *between Master and Slave.
+ *Note: The two boards download the Master and Slave programs respectively,
+ *and power on at the same time.
+ *     Hardware connection:
+ *           PC5  -- PC5
+ *           PC6 -- PC6
+ *           PC7 -- PC7
+ *
+ */
 
 
 #include "debug.h"
@@ -197,9 +197,11 @@ int main(void)
 {
     u8 i;
 
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(460800);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     SPI_FullDuplex_Init();
 

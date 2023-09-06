@@ -428,12 +428,15 @@ FLASH_Status FLASH_ReadOutProtection(FunctionalState NewState)
  *            OB_RST_NoEN - Reset IO disable (PD7)
  *            OB_RST_EN_DT12ms - Reset IO enable (PD7) and  Ignore delay time 12ms
  *            OB_RST_EN_DT1ms - Reset IO enable (PD7) and  Ignore delay time 1ms
- *            OB_RST_EN_DT128ms - Reset IO enable (PD7) and  Ignore delay time 128ms
+ *            OB_RST_EN_DT128us - Reset IO enable (PD7) and  Ignore delay time 128us
+ *          OB_PowerON_Start_Mode - Selects start mode after power on.
+ *            OB_PowerON_Start_Mode_BOOT - from Boot after power on.
+ *            OB_PowerON_Start_Mode_USER - from User after power on.
  *
  * @return  FLASH Status - The returned value can be: FLASH_BUSY, FLASH_ERROR_PG,
  *        FLASH_ERROR_WRP, FLASH_COMPLETE or FLASH_TIMEOUT.
  */
-FLASH_Status FLASH_UserOptionByteConfig(uint16_t OB_IWDG, uint16_t OB_STOP, uint16_t OB_STDBY, uint16_t OB_RST)
+FLASH_Status FLASH_UserOptionByteConfig(uint16_t OB_IWDG, uint16_t OB_STOP, uint16_t OB_STDBY, uint16_t OB_RST, uint16_t OB_PowerON_Start_Mode)
 {
     FLASH_Status status = FLASH_COMPLETE;
 
@@ -445,7 +448,7 @@ FLASH_Status FLASH_UserOptionByteConfig(uint16_t OB_IWDG, uint16_t OB_STOP, uint
     {
         FLASH->CTLR |= CR_OPTPG_Set;
 
-        OB->USER = OB_IWDG | (uint16_t)(OB_STOP | (uint16_t)(OB_STDBY | (uint16_t)(OB_RST | (uint16_t)0xE0)));
+        OB->USER = OB_IWDG | (uint16_t)(OB_STOP | (uint16_t)(OB_STDBY | (uint16_t)(OB_RST | (uint16_t)(OB_PowerON_Start_Mode| (uint16_t)0xC0))));
 
         status = FLASH_WaitForLastOperation(ProgramTimeout);
         if(status != FLASH_TIMEOUT)
@@ -717,9 +720,9 @@ void FLASH_Unlock_Fast(void)
 }
 
 /*********************************************************************
- * @fn      FLASH_Unlock_Fast
+ * @fn      FLASH_Lock_Fast
  *
- * @brief   Unlocks the Fast Program Erase Mode.
+ * @brief   Locks the Fast Program Erase Mode.
  *
  * @return  none
  */

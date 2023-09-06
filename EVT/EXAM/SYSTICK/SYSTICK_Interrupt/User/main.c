@@ -30,8 +30,10 @@
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     NVIC_EnableIRQ(SysTicK_IRQn);
     SysTick->SR &= ~(1 << 0);

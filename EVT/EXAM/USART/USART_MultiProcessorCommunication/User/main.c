@@ -4,25 +4,25 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Multiprocessor communication mode routine:
- Master:USART1_Tx(PD5)\USART1_Rx(PD6).
- Slave:USART1_Tx(PD5)\USART1_Rx(PD6).
-
- This routine demonstrates that one board acts as the master, and the other acts as the slave.
- The master sends address 0x02 to make the slave exit Silent mode, complete follow-up communication.
-
-Hardware connection:PD5 -- PD6
-                    PD6 -- PD5
-                    PDO -- LED
-
+ *Multiprocessor communication mode routine:
+ *Master:USART1_Tx(PD5)\USART1_Rx(PD6).
+ *Slave:USART1_Tx(PD5)\USART1_Rx(PD6).
+ *
+ *This routine demonstrates that one board acts as the master, and the other acts as the slave.
+ *The master sends address 0x02 to make the slave exit Silent mode, complete follow-up communication.
+ *
+ *Hardware connection:PD5 -- PD6
+ *                    PD6 -- PD5
+ *                    PDO -- LED
+ *
 */
 
 #include "debug.h"
@@ -116,6 +116,7 @@ int main(void)
     u8 i=0;
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
 
     GPIO_Toggle_INIT();

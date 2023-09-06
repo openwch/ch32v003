@@ -4,18 +4,18 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Analog watchdog routine:
- ADC channel 2 (PC4), detect that the ADC conversion data on the rule group channel is
- outside 500 - 900 and trigger the simulation Watchdog interrupt.
-
+ *Analog watchdog routine:
+ *ADC channel 2 (PC4), detect that the ADC conversion data on the rule group channel is
+ *outside 500 - 900 and trigger the simulation Watchdog interrupt.
+ *
 */
 
 #include "debug.h"
@@ -117,9 +117,11 @@ int main(void)
     u16 ADC_val;
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     ADC_Function_Init();
 

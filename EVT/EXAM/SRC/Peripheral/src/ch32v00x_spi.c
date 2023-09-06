@@ -95,6 +95,7 @@ void SPI_StructInit(SPI_InitTypeDef *SPI_InitStruct)
     SPI_InitStruct->SPI_CPOL = SPI_CPOL_Low;
     SPI_InitStruct->SPI_CPHA = SPI_CPHA_1Edge;
     SPI_InitStruct->SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2;
+        /*"SPI_FirstBit_LSB" not support SPI slave mode*/
     SPI_InitStruct->SPI_FirstBit = SPI_FirstBit_MSB;
     SPI_InitStruct->SPI_CRCPolynomial = 7;
 }

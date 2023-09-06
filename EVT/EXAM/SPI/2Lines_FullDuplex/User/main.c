@@ -4,27 +4,26 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- two-wire full duplex mode, master/slave mode, data transceiver:
- Master:SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6).
- Slave:SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6).
-
- This example demonstrates simultaneous full-duplex transmission and reception
- between Master and Slave.
- Note: The two boards download the Master and Slave programs respectively,
- and power on at the same time.
-  Hardware connection:PC5 -- PC5
-                      PC6 -- PC6
-                      PC7 -- PC7
-
-*/
+ *two-wire full duplex mode, master/slave mode, data transceiver:
+ *Master:SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6).
+ *Slave:SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6).
+ *
+ *This example demonstrates simultaneous full-duplex transmission and reception
+ *between Master and Slave.
+ *Note: The two boards download the Master and Slave programs respectively,
+ *and power on at the same time.
+ *Hardware connection:PC5 -- PC5
+ *                      PC6 -- PC6
+ *                      PC7 -- PC7
+ */
 
 
 #include "debug.h"
@@ -128,9 +127,11 @@ int main(void)
     u8 j=0;
     u8 value;
 
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(460800);
     printf("SystemClk:%d\r\n",SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
 #if (SPI_MODE == SLAVE_MODE)
   printf("Slave Mode\r\n");

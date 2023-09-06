@@ -24,13 +24,15 @@ http://wch.cn
   |      |      |      |      |-- Auto_Injection：自动注入模式例程
   |      |      |      |      |-- Discontinuous_mode：间断模式例程
   |      |      |      |      |-- ExtLines_Trigger：外部触发ADC转换例程
+  |      |      |      |      |-- TIM_trigger：定时器触发ADC转换例程
   |      |      |      |-- DMA
   |      |      |      |      |-- DMA_MEM2MEM：储存器到储存器模式例程
   |      |      |      |      |-- DMA_MEM2PERIP：储存器到外设模式、外设到储存器模式例程见各外设子例程
   |      |      |      |-- EXTI
   |      |      |      |      |-- EXTI0：外部中断线例程 
   |      |      |      |-- FLASH
-  |      |      |      |      |-- FLASH_Program：FLASH的擦/读/写，以及快速编程 
+  |      |      |      |      |-- FLASH_Program：FLASH的擦/读/写，以及快速编程
+  |      |      |      |      |-- BootAsUser：Boot Flash 用作用户区 
   |      |      |      |-- GPIO
   |      |      |      |      |-- GPIO_Toggle：GPIO例程  
   |      |      |      |-- I2C
@@ -57,6 +59,8 @@ http://wch.cn
   |      |      |      |      |-- FullDuplex_HardNSS：硬件NSS模式，Master/Slave 模式数据收发
   |      |      |      |      |-- SPI_CRC：使用CRC错误校验，Master/Slave 模式收发例程
   |      |      |      |      |-- SPI_DMA：SPI使用DMA，Master/Slave 模式收发例程
+  |      |      |      |-- SDI_Printf
+  |      |      |      |      |-- SDI_Printf：调试接口SDI虚拟串口   
   |      |      |      |-- SYSTICK
   |      |      |      |      |-- SYSTICK_Interrupt：systick中断例程   
   |      |      |      |-- TIM

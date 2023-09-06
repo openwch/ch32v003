@@ -4,25 +4,25 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Single wire half duplex mode, master/slave mode transceiver routine:
- Master:USART1_Tx(PD5)
-
- This routine demonstrates the data transmission and reception of two boards in
- single-wire half-duplex mode. After successful transmission and reception, PD0 is
-  connected to the LED, and the LED light flashes.
-
-    Hardware connection:PD5 -- PD5
-                        PDO -- LED
-
-*/
+ *Single wire half duplex mode, master/slave mode transceiver routine:
+ *Master:USART1_Tx(PD5)
+ *
+ *This routine demonstrates the data transmission and reception of two boards in
+ *single-wire half-duplex mode. After successful transmission and reception, PD0 is
+ *connected to the LED, and the LED light flashes.
+ *
+ *    Hardware connection:PD5 -- PD5
+ *                        PD0 -- LED
+ *
+ */
 
 #include "debug.h"
 
@@ -143,6 +143,7 @@ int main(void)
     u8 i=0;
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
     GPIO_Toggle_INIT();
 

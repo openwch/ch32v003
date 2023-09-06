@@ -4,26 +4,26 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- USART interrupt routine:
- USART1_Tx(PD5)\USART1_Rx(PD6).
+ *USART interrupt routine:
+ *USART1_Tx(PD5)\USART1_Rx(PD6).
 
- This routine demonstrates that two boards use query to send and interrupt to
- receive. After successful sending and receiving, PD0 is connected to LED,
- and the LED light flashes.
-
-Hardware connection:PD5 -- PD6
-                    PD6 -- PD5
-                    PD0 -- LED
-
-*/
+ *This routine demonstrates that two boards use query to send and interrupt to
+ *receive. After successful sending and receiving, PD0 is connected to LED,
+ *and the LED light flashes.
+ *
+ *Hardware connection:PD5 -- PD6
+ *                    PD6 -- PD5
+ *                    PD0 -- LED
+ *
+ */
 
 #include "debug.h"
 
@@ -148,6 +148,7 @@ int main(void)
     u8 i=0;
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
 
     GPIO_Toggle_INIT();

@@ -4,19 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- APP go to IAP routine:
- Demonstrates how to jump from userland to IAP.
- Note: The IAP program is solidified in the chip,
-  you can refer to this routine to jump to the IAP to upgrade.
-*/
+ *APP go to IAP routine:
+ *Demonstrates how to jump from userland to IAP.
+ *Note: The IAP program is solidified in the chip,
+ *you can refer to this routine to jump to the IAP to upgrade.
+ */
 
 #include "debug.h"
 
@@ -43,9 +43,11 @@ void GoToIAP(void)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     printf("Go to IAP...\r\n");
     Delay_Ms(10);

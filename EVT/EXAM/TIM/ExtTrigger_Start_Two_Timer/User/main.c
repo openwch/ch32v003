@@ -4,20 +4,20 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- External trigger routines to start two timers synchronously:
- TIM1_CH1(PD2)
- This example demonstrates the TIM_CH1(PD2) pin pull-up input, the pin detects a rising edge,
- then starts TIM1 and TIM2.
-
-*/
+ *External trigger routines to start two timers synchronously:
+ *TIM1_CH1(PD2)
+ *This example demonstrates the TIM_CH1(PD2) pin pull-up input, the pin detects a rising edge,
+ *then starts TIM1 and TIM2.
+ *
+ */
 
 #include "debug.h"
 
@@ -77,9 +77,11 @@ void ExtTrigger_Start_Two_TIM(u16 arr, u16 psc)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n",SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     ExtTrigger_Start_Two_TIM( 0xFFFF, 48000-1);
 

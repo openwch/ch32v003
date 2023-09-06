@@ -4,19 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Discontinuous mode routine:
- ADC channel 2 (PC4) - injection group channel, channel 3 (PD2) - injection group channel,
- channel 4 (PD3) - injection group channel, this mode Next, an ADC conversion is triggered
- by the TIM1_CC3 event, and each channel of the above-mentioned injection group is converted in turn.
-
+ *Discontinuous mode routine:
+ *ADC channel 2 (PC4) - injection group channel, channel 3 (PD2) - injection group channel,
+ *channel 4 (PD3) - injection group channel, this mode Next, an ADC conversion is triggered
+ *by the TIM1_CC3 event, and each channel of the above-mentioned injection group is converted in turn.
+ *
 */
 
 #include "debug.h"
@@ -127,8 +127,10 @@ void TIM1_PWM_In(u16 arr, u16 psc, u16 ccp)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     ADC_Function_Init();
 

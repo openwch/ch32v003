@@ -4,21 +4,21 @@
  * Version            : V1.0.0
  * Date               : 2022/08/08
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- complementary output and deadband insertion mode routines:
- TIM1_CH1(PD2),TIM1_CH1N(PD0)
- This example demonstrates three complementary output modes with dead zone of TIM1: complementary
- output with dead zone insertion, dead zone waveform delay Greater than the negative pulse, the dead
-  zone waveform delay is greater than the positive pulse.
-
-*/
+ *complementary output and deadband insertion mode routines:
+ *TIM1_CH1(PD2),TIM1_CH1N(PD0)
+ *This example demonstrates three complementary output modes with dead zone of TIM1: complementary
+ *output with dead zone insertion, dead zone waveform delay Greater than the negative pulse, the dead
+ *zone waveform delay is greater than the positive pulse.
+ *
+ */
 
 #include "debug.h"
 
@@ -94,8 +94,10 @@ void TIM1_Dead_Time_Init(u16 arr, u16 psc, u16 ccp)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     /* Complementary output with dead-time insertion */
     TIM1_Dead_Time_Init(100, 48 - 1, 50);
