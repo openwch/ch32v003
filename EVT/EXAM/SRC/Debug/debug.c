@@ -15,6 +15,9 @@
 static uint8_t  p_us = 0;
 static uint16_t p_ms = 0;
 
+#define DEBUG_DATA0_ADDRESS  ((volatile uint32_t*)0xE00000F4)
+#define DEBUG_DATA1_ADDRESS  ((volatile uint32_t*)0xE00000F8)
+
 /*********************************************************************
  * @fn      Delay_Init
  *
@@ -90,12 +93,42 @@ void USART_Printf_Init(uint32_t baudrate)
     GPIO_InitTypeDef  GPIO_InitStructure;
     USART_InitTypeDef USART_InitStructure;
 
+#if (DEBUG == DEBUG_UART1_NoRemap)
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+#elif (DEBUG == DEBUG_UART1_Remap1)
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1 | RCC_APB2Periph_AFIO, ENABLE);
+    GPIO_PinRemapConfig(GPIO_PartialRemap1_USART1, ENABLE);
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+#elif (DEBUG == DEBUG_UART1_Remap2)
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1 | RCC_APB2Periph_AFIO, ENABLE);
+    GPIO_PinRemapConfig(GPIO_PartialRemap2_USART1, ENABLE);
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+#elif (DEBUG == DEBUG_UART1_Remap3)
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_USART1 | RCC_APB2Periph_AFIO, ENABLE);
+    GPIO_PinRemapConfig(GPIO_FullRemap_USART1, ENABLE);
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+
+#endif
 
     USART_InitStructure.USART_BaudRate = baudrate;
     USART_InitStructure.USART_WordLength = USART_WordLength_8b;
@@ -106,6 +139,22 @@ void USART_Printf_Init(uint32_t baudrate)
 
     USART_Init(USART1, &USART_InitStructure);
     USART_Cmd(USART1, ENABLE);
+}
+
+/*********************************************************************
+ * @fn      SDI_Printf_Enable
+ *
+ * @brief   Initializes the SDI printf Function.
+ *
+ * @param   None
+ *
+ * @return  None
+ */
+void SDI_Printf_Enable(void)
+{
+    *(DEBUG_DATA0_ADDRESS) = 0;
+    Delay_Init();
+    Delay_Ms(1);
 }
 
 /*********************************************************************
@@ -121,14 +170,51 @@ void USART_Printf_Init(uint32_t baudrate)
 __attribute__((used)) 
 int _write(int fd, char *buf, int size)
 {
-    int i;
+    int i = 0;
+    int writeSize = size;
+#if (SDI_PRINT == SDI_PR_OPEN)
+    do
+    {
+
+        /**
+         * data0  data1 8 bytes
+         * data0 The lowest byte storage length, the maximum is 7
+         *
+         */
+
+        while( (*(DEBUG_DATA0_ADDRESS) != 0u))
+        {
+
+        }
+
+        if(writeSize>7)
+        {
+            *(DEBUG_DATA1_ADDRESS) = (*(buf+i+3)) | (*(buf+i+4)<<8) | (*(buf+i+5)<<16) | (*(buf+i+6)<<24);
+            *(DEBUG_DATA0_ADDRESS) = (7u) | (*(buf+i)<<8) | (*(buf+i+1)<<16) | (*(buf+i+2)<<24);
+
+            i += 7;
+            writeSize -= 7;
+        }
+        else
+        {
+            *(DEBUG_DATA1_ADDRESS) = (*(buf+i+3)) | (*(buf+i+4)<<8) | (*(buf+i+5)<<16) | (*(buf+i+6)<<24);
+            *(DEBUG_DATA0_ADDRESS) = (writeSize) | (*(buf+i)<<8) | (*(buf+i+1)<<16) | (*(buf+i+2)<<24);
+
+            writeSize = 0;
+        }
+
+    } while (writeSize);
+
+#else
 
     for(i = 0; i < size; i++){
         while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
         USART_SendData(USART1, *buf++);
     }
 
-    return size;
+
+#endif
+    return writeSize;
 }
 
 /*********************************************************************

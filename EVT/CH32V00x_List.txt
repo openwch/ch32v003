@@ -25,6 +25,8 @@ http://wch.cn
   |      |      |      |      |-- Discontinuous_mode：间断模式例程
   |      |      |      |      |-- ExtLines_Trigger：外部触发ADC转换例程
   |      |      |      |      |-- TIM_trigger：定时器触发ADC转换例程
+  |      |      |      |-- APPLICATION
+  |      |      |      |      |-- SoftUART：I/O口模拟串口例程 
   |      |      |      |-- DMA
   |      |      |      |      |-- DMA_MEM2MEM：储存器到储存器模式例程
   |      |      |      |      |-- DMA_MEM2PERIP：储存器到外设模式、外设到储存器模式例程见各外设子例程

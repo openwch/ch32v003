@@ -35,7 +35,12 @@ int main(void)
     RCC_ClocksTypeDef RCC_ClocksStatus={0};
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+    Delay_Init();
+#if (SDI_PRINT == SDI_PR_OPEN)
+    SDI_Printf_Enable();
+#else
     USART_Printf_Init(115200);
+#endif
     SystemCoreClockUpdate();
     printf("SystemClk:%d\r\n",SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );

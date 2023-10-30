@@ -25,6 +25,8 @@ Directory
   |      |      |      |      |-- Discontinuous_mode: discontinuous mode routine
   |      |      |      |      |-- ExtLines_Trigger: external lines trigger ADC conversion routine
   |      |      |      |      |-- TIM Trigger:TIM trigger ADC conversion routine 
+  |      |      |      |-- APPLICATION
+  |      |      |      |      |-- SoftUART：I/O port simulation serial port routine 
   |      |      |      |-- DMA
   |      |      |      |      |-- DMA_MEM2MEM: Memory to memory mode routine
   |      |      |      |      |-- DMA_MEM2PERIP: Memory to peripheral mode, and peripheral to memory mode routine, see peripheral sub-routines

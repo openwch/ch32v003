@@ -219,7 +219,7 @@ void USART_ClockStructInit(USART_ClockInitTypeDef *USART_ClockInitStruct)
  * @fn      USART_Cmd
  *
  * @brief   Enables or disables the specified USART peripheral.
- *        reset values (Affects also the I2Ss).
+ *        reset values .
  *
  * @param   USARTx - where x can be 1 to select the USART peripheral.
  *          NewState: ENABLE or DISABLE.
@@ -242,7 +242,7 @@ void USART_Cmd(USART_TypeDef *USARTx, FunctionalState NewState)
  * @fn      USART_ITConfig
  *
  * @brief   Enables or disables the specified USART interrupts.
- *        reset values (Affects also the I2Ss).
+ *        reset values .
  *
  * @param   USARTx - where x can be to select the USART peripheral.
  *          USART_IT - specifies the USART interrupt sources to be enabled or disabled.
