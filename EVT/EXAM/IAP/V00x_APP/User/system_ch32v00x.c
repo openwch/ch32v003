@@ -142,6 +142,7 @@ void SystemCoreClockUpdate (void)
  */
 static void SetSysClock(void)
 {
+//GPIO_IPD_Unused();
 #ifdef SYSCLK_FREQ_8MHz_HSI
     SetSysClockTo_8MHz_HSI();
 #elif defined SYSCLK_FREQ_24MHZ_HSI

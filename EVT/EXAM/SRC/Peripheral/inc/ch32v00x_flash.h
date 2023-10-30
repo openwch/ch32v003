@@ -26,7 +26,10 @@ typedef enum
     FLASH_ERROR_PG,
     FLASH_ERROR_WRP,
     FLASH_COMPLETE,
-    FLASH_TIMEOUT
+    FLASH_TIMEOUT,
+    FLASH_OP_RANGE_ERROR = 0xFD,
+    FLASH_ALIGN_ERROR = 0xFE,
+    FLASH_ADR_RANGE_ERROR = 0xFF,
 } FLASH_Status;
 
 /* Flash_Latency */
@@ -125,6 +128,8 @@ void         FLASH_BufLoad(uint32_t Address, uint32_t Data0);
 void         FLASH_ErasePage_Fast(uint32_t Page_Address);
 void         FLASH_ProgramPage_Fast(uint32_t Page_Address);
 void         SystemReset_StartMode(uint32_t Mode);
+FLASH_Status FLASH_ROM_ERASE(uint32_t StartAddr, uint32_t Length);
+FLASH_Status FLASH_ROM_WRITE(uint32_t StartAddr, uint32_t *pbuf, uint32_t Length);
 
 #ifdef __cplusplus
 }

@@ -791,7 +791,7 @@ void ADC_InjectedSequencerLengthConfig(ADC_TypeDef *ADCx, uint8_t Length)
  *            ADC_InjectedChannel_3 - Injected Channel3 selected.
  *            ADC_InjectedChannel_4 - Injected Channel4 selected.
  *          Offset - the offset value for the selected ADC injected channel.
- *            This parameter must be a 12bit value.
+ *            This parameter must be a 10bit value.
  *
  * @return  None
  */
@@ -1053,7 +1053,7 @@ void ADC_Calibration_Vol(ADC_TypeDef *ADCx, uint32_t ADC_CALVOL)
  */
 void ADC_ExternalTrig_DLY(ADC_TypeDef *ADCx, uint32_t channel, uint16_t DelayTim)
 {
-    ADCx->DLYR &= ~(uint32_t)(0x2FF);
+    ADCx->DLYR &= ~(uint32_t)(0x3FF);
     ADCx->DLYR |= channel;
     ADCx->DLYR |= DelayTim;
 }

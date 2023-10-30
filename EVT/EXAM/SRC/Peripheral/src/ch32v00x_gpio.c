@@ -348,7 +348,7 @@ void GPIO_PinLockConfig(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  * @param   GPIO_Remap - selects the pin to remap.
  *            GPIO_Remap_SPI1 - SPI1 Alternate Function mapping
  *            GPIO_PartialRemap_I2C1 - I2C1 Partial Alternate Function mapping
- *            GPIO_PartialRemap_I2C1 - I2C1 Full Alternate Function mapping
+ *            GPIO_FullRemap_I2C1 - I2C1 Full Alternate Function mapping
  *            GPIO_PartialRemap1_USART1 - USART1 Partial1 Alternate Function mapping
  *            GPIO_PartialRemap2_USART1 - USART1 Partial2 Alternate Function mapping
  *            GPIO_FullRemap_USART1 - USART1 Full Alternate Function mapping

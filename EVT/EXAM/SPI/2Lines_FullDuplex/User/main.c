@@ -134,7 +134,7 @@ int main(void)
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
 #if (SPI_MODE == SLAVE_MODE)
-  printf("Slave Mode\r\n");
+    printf("Slave Mode\r\n");
     Delay_Ms(1000);
 
 #endif
@@ -142,7 +142,7 @@ int main(void)
     SPI_FullDuplex_Init();
 
 #if (SPI_MODE == HOST_MODE)
-  printf("Host Mode\r\n");
+    printf("Host Mode\r\n");
     Delay_Ms(2000);
 
 #endif

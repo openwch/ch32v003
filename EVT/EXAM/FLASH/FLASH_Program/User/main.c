@@ -39,7 +39,10 @@ volatile uint32_t              NbrOfPage;
 volatile FLASH_Status FLASHStatus = FLASH_COMPLETE;
 volatile TestStatus MemoryProgramStatus = PASSED;
 volatile TestStatus MemoryEraseStatus = PASSED;
-u32 buf[16];
+
+#define Fadr    0x08003000
+#define Fsize   (256>>2)
+u32 buf[Fsize];
 
 /*********************************************************************
  * @fn      Option_Byte_CFG
@@ -55,7 +58,6 @@ void Option_Byte_CFG(void)
     FLASH_UserOptionByteConfig(OB_IWDG_SW, OB_STOP_NoRST, OB_STDBY_NoRST, OB_RST_EN_DT12ms, OB_PowerON_Start_Mode_BOOT);
     FLASH_Lock();
 }
-
 
 /*********************************************************************
  * @fn      Flash_Test
@@ -154,45 +156,59 @@ void Flash_Test(void)
  */
 void Flash_Test_Fast(void)
 {
-    u8  i, Verity_Flag = 0;
+    u32 i;
+    u8 Verify_Flag = 0;
+    FLASH_Status s;
 
-    for(i = 0; i < 16; i++){
+    for(i = 0; i < Fsize; i++){
         buf[i] = i;
     }
 
-    FLASH_Unlock_Fast();
-
-    FLASH_ErasePage_Fast(0x08003000);
-
-    printf("64Byte Page Erase Suc\r\n");
-
-    FLASH_BufReset();
-    for(i=0; i<16; i++){
-        FLASH_BufLoad(0x08003000+4*i, buf[i]);
+    printf("Read flash\r\n");
+    for(i=0; i<Fsize; i++){
+        printf("adr-%08x v-%08x\r\n", Fadr +4*i, *(u32*)(Fadr +4*i));
     }
 
-    FLASH_ProgramPage_Fast(0x08003000);
+    s = FLASH_ROM_ERASE(Fadr, Fsize*4);
+    if(s != FLASH_COMPLETE)
+    {
+        printf("check FLASH_ADR_RANGE_ERROR FLASH_ALIGN_ERROR or FLASH_OP_RANGE_ERROR\r\n");
+        return;
+    }
 
-    printf("64Byte Page Program Su\r\n");
+    printf("Erase flash\r\n");
+    for(i=0; i<Fsize; i++){
+        printf("adr-%08x v-%08x\r\n", Fadr +4*i, *(u32*)(Fadr +4*i));
+    }
 
-    FLASH_Lock_Fast();
+    s = FLASH_ROM_WRITE(Fadr,  buf, Fsize*4);
+    if(s != FLASH_COMPLETE)
+    {
+        printf("check FLASH_ADR_RANGE_ERROR FLASH_ALIGN_ERROR or FLASH_OP_RANGE_ERROR\r\n");
+        return;
+    }
 
-    for(i = 0; i < 16; i++){
-        if(buf[i] == *(u32 *)(0x08003000 + 4 * i))
+    printf("Write flash\r\n");
+    for(i=0; i<Fsize; i++){
+        printf("adr-%08x v-%08x\r\n", Fadr +4*i, *(u32*)(Fadr +4*i));
+    }
+
+    for(i = 0; i < Fsize; i++){
+        if(buf[i] == *(u32 *)(Fadr + 4 * i))
         {
-            Verity_Flag = 0;
+            Verify_Flag = 0;
         }
         else
         {
-            Verity_Flag = 1;
+            Verify_Flag = 1;
             break;
         }
     }
 
-    if(Verity_Flag)
-        printf("64Byte Page Verity Fail\r\n");
+    if(Verify_Flag)
+        printf("%d Byte Verify Fail\r\n", (Fsize*4));
     else
-        printf("64Byte Page Verity Suc\r\n");
+        printf("%d Byte Verify Suc\r\n", (Fsize*4));
 }
 
 /*********************************************************************
@@ -208,6 +224,7 @@ int main(void)
     Delay_Init();
     Delay_Ms(1000);
     USART_Printf_Init(115200);
+
     printf("SystemClk-1:%d\r\n", SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     Flash_Test();

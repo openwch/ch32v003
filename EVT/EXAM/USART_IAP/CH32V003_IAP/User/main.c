@@ -49,7 +49,7 @@ void IAP_2_APP(void)
 int main(void)
 {
     RCC->APB2PCENR |= RCC_APB2Periph_GPIOD| RCC_APB2Periph_USART1|RCC_APB2Periph_GPIOC;/* Enable GPIOD,USART1, GPIOC  clock */
-      USART1_CFG(460800);
+    USART1_CFG(460800);
 
     if(PC0_Check() == 0)
     {

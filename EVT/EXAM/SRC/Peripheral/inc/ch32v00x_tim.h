@@ -42,7 +42,7 @@ typedef struct
                                          - the number of PWM periods in edge-aligned mode
                                          - the number of half PWM period in center-aligned mode
                                       This parameter must be a number between 0x00 and 0xFF.
-                                      @note This parameter is valid only for TIM1 and TIM8. */
+                                      @note This parameter is valid only for TIM1. */
 } TIM_TimeBaseInitTypeDef;
 
 /* TIM Output Compare Init structure definition */
@@ -56,7 +56,7 @@ typedef struct
 
     uint16_t TIM_OutputNState; /* Specifies the TIM complementary Output Compare state.
                                   This parameter can be a value of @ref TIM_Output_Compare_N_state
-                                  @note This parameter is valid only for TIM1 and TIM8. */
+                                  @note This parameter is valid only for TIM1. */
 
     uint16_t TIM_Pulse; /* Specifies the pulse value to be loaded into the Capture Compare Register.
                            This parameter can be a number between 0x0000 and 0xFFFF */
@@ -66,15 +66,15 @@ typedef struct
 
     uint16_t TIM_OCNPolarity; /* Specifies the complementary output polarity.
                                  This parameter can be a value of @ref TIM_Output_Compare_N_Polarity
-                                 @note This parameter is valid only for TIM1 and TIM8. */
+                                 @note This parameter is valid only for TIM1. */
 
     uint16_t TIM_OCIdleState; /* Specifies the TIM Output Compare pin state during Idle state.
                                  This parameter can be a value of @ref TIM_Output_Compare_Idle_State
-                                 @note This parameter is valid only for TIM1 and TIM8. */
+                                 @note This parameter is valid only for TIM1. */
 
     uint16_t TIM_OCNIdleState; /* Specifies the TIM Output Compare pin state during Idle state.
                                   This parameter can be a value of @ref TIM_Output_Compare_N_Idle_State
-                                  @note This parameter is valid only for TIM1 and TIM8. */
+                                  @note This parameter is valid only for TIM1. */
 } TIM_OCInitTypeDef;
 
 /* TIM Input Capture Init structure definition */
@@ -500,6 +500,7 @@ FlagStatus TIM_GetFlagStatus(TIM_TypeDef *TIMx, uint16_t TIM_FLAG);
 void       TIM_ClearFlag(TIM_TypeDef *TIMx, uint16_t TIM_FLAG);
 ITStatus   TIM_GetITStatus(TIM_TypeDef *TIMx, uint16_t TIM_IT);
 void       TIM_ClearITPendingBit(TIM_TypeDef *TIMx, uint16_t TIM_IT);
+void       TIM_IndicateCaptureLevelCmd(TIM_TypeDef *TIMx, FunctionalState NewState);
 
 #ifdef __cplusplus
 }

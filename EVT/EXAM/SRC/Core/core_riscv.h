@@ -161,7 +161,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __NOP()
 /*********************************************************************
  * @fn      NVIC_EnableIRQ
  *
- * @brief   Disable Interrupt
+ * @brief   Enable Interrupt
  *
  * @param   IRQn - Interrupt Numbers
  *

@@ -74,7 +74,11 @@ int main(void)
     GPIO_Init(GPIOC, &GPIO_InitStructure);
     GPIO_Init(GPIOD, &GPIO_InitStructure);
 
+#if (SDI_PRINT == SDI_PR_OPEN)
+    SDI_Printf_Enable();
+#else
     USART_Printf_Init(115200);
+#endif
     printf("SystemClk:%d\r\n", SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf("Standby Mode Test\r\n");
@@ -87,7 +91,11 @@ int main(void)
     PWR_AutoWakeUpCmd(ENABLE);
     PWR_EnterSTANDBYMode(PWR_STANDBYEntry_WFE);
 
+    #if (SDI_PRINT == SDI_PR_OPEN)
+    SDI_Printf_Enable();
+#else
     USART_Printf_Init(115200);
+#endif
     printf("\r\n Auto wake up \r\n");
     while(1)
     {

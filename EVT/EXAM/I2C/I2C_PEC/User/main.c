@@ -111,7 +111,9 @@ int main(void)
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
     SystemCoreClockUpdate();
     Delay_Init();
+
     USART_Printf_Init(460800);
+
     printf("SystemClk:%d\r\n", SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
