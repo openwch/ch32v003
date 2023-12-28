@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2023/12/25
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -20,6 +20,33 @@
 
 #include "debug.h"
 
+#define TimSynchroMode1    1
+#define TimSynchroMode2    2
+#define TimSynchroMode3    3
+#define TimSynchroMode4    4
+
+#define TimSynchroMode     TimSynchroMode1
+
+void TIM1_UP_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void TIM1_UP_IRQHandler(void)
+{
+        if( TIM_GetITStatus( TIM1, TIM_IT_Update ) != RESET )
+        {
+            printf( "TIM1\r\n" );
+        }
+        TIM_ClearITPendingBit( TIM1, TIM_IT_Update );
+}
+
+void TIM2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void TIM2_IRQHandler(void)
+{
+        if( TIM_GetITStatus( TIM2, TIM_IT_Update ) != RESET )
+        {
+            printf( "TIM2\r\n" );
+        }
+        TIM_ClearITPendingBit( TIM2, TIM_IT_Update );
+}
+
 /*********************************************************************
  * @fn      TIM_TimSynchroMode1_Init
  *
@@ -29,16 +56,36 @@
  */
 void TIM_TimSynchroMode1_Init(void)
 {
+    NVIC_InitTypeDef NVIC_InitStructure={0};
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
     TIM_CounterModeConfig(TIM1, TIM_CounterMode_Up);
     TIM_CounterModeConfig(TIM2, TIM_CounterMode_Up);
-    TIM_SetAutoreload(TIM1, 0x3E8);
+    TIM_SetAutoreload(TIM1, 0xA6);
+    TIM_SetAutoreload(TIM2, 0x2);
     TIM_PrescalerConfig(TIM1, 48000 - 1, TIM_PSCReloadMode_Immediate);
     TIM_SelectOutputTrigger(TIM1, TIM_TRGOSource_Update);
     TIM_ITRxExternalClockConfig(TIM2, TIM_TS_ITR0);
     TIM_SelectSlaveMode(TIM2, TIM_SlaveMode_External1);
+
+    TIM_ClearITPendingBit( TIM1, TIM_IT_Update );
+    TIM_ClearITPendingBit( TIM2, TIM_IT_Update);
+
+    NVIC_InitStructure.NVIC_IRQChannel = TIM1_UP_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+
+    NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+
+    TIM_ITConfig( TIM1, TIM_IT_Update , ENABLE );
+    TIM_ITConfig( TIM2, TIM_IT_Update , ENABLE );
 
     TIM_Cmd(TIM1, ENABLE);
     TIM_Cmd(TIM2, ENABLE);
@@ -148,6 +195,7 @@ void TIM_TimSynchroMode4_Init(void)
  */
 int main(void)
 {
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     SystemCoreClockUpdate();
     Delay_Init();
 #if (SDI_PRINT == SDI_PR_OPEN)
@@ -159,14 +207,21 @@ int main(void)
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     /* Timer synchronization Mode Selection */
-    TIM_TimSynchroMode1_Init();
-    //  TIM_TimSynchroMode2_Init();
-    //  TIM_TimSynchroMode3_Init();
-    //  TIM_TimSynchroMode4_Init();
 
+#if(TimSynchroMode==TimSynchroMode1)
+    TIM_TimSynchroMode1_Init();
+#elif(TimSynchroMode==TimSynchroMode2)
+    TIM_TimSynchroMode2_Init();
+#elif(TimSynchroMode==TimSynchroMode3)
+    TIM_TimSynchroMode3_Init();
+#elif(TimSynchroMode==TimSynchroMode4)
+    TIM_TimSynchroMode4_Init();
+#endif
     while(1)
     {
+        #if((TimSynchroMode==TimSynchroMode2)|(TimSynchroMode==TimSynchroMode3)|(TimSynchroMode==TimSynchroMode4))
         printf("TIM1 cnt:%d\r\n", TIM1->CNT);
         printf("TIM2 cnt:%d\r\n", TIM2->CNT);
+        #endif
     }
 }

@@ -2,7 +2,7 @@
  * File Name          : ch32v00x_flash.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2023/12/25
  * Description        : This file contains all the functions prototypes for the FLASH
  *                      firmware library.
  *********************************************************************************
@@ -112,7 +112,7 @@ FLASH_Status FLASH_ProgramHalfWord(uint32_t Address, uint16_t Data);
 FLASH_Status FLASH_ProgramOptionByteData(uint32_t Address, uint8_t Data);
 FLASH_Status FLASH_EnableWriteProtection(uint32_t FLASH_Pages);
 FLASH_Status FLASH_ReadOutProtection(FunctionalState NewState);
-FLASH_Status FLASH_UserOptionByteConfig(uint16_t OB_IWDG, uint16_t OB_STOP, uint16_t OB_STDBY, uint16_t OB_RST, uint16_t OB_PowerON_Start_Mode);
+FLASH_Status FLASH_UserOptionByteConfig(uint16_t OB_IWDG, uint16_t OB_STDBY, uint16_t OB_RST, uint16_t OB_PowerON_Start_Mode);
 uint32_t     FLASH_GetUserOptionByte(void);
 uint32_t     FLASH_GetWriteProtectionOptionByte(void);
 FlagStatus   FLASH_GetReadOutProtectionStatus(void);

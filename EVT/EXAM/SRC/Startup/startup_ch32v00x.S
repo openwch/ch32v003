@@ -1,8 +1,8 @@
 ;/********************************** (C) COPYRIGHT *******************************
 ;* File Name          : startup_ch32v00x.s
 ;* Author             : WCH
-;* Version            : V1.0.0
-;* Date               : 2022/08/08
+;* Version            : V1.0.1
+;* Date               : 2023/12/11
 ;* Description        : vector table for eclipse toolchain.
 ;*********************************************************************************
 ;* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -86,34 +86,35 @@ _start:
 	.weak   TIM1_CC_IRQHandler
 	.weak   TIM2_IRQHandler
 
-NMI_Handler:              1: j 1b
-HardFault_Handler:        1: j 1b
-SysTick_Handler:          1: j 1b
-SW_Handler:               1: j 1b
-WWDG_IRQHandler:          1: j 1b
-PVD_IRQHandler:           1: j 1b
-FLASH_IRQHandler:         1: j 1b
-RCC_IRQHandler:           1: j 1b
-EXTI7_0_IRQHandler:       1: j 1b
-AWU_IRQHandler:           1: j 1b
-DMA1_Channel1_IRQHandler: 1: j 1b
-DMA1_Channel2_IRQHandler: 1: j 1b
-DMA1_Channel3_IRQHandler: 1: j 1b
-DMA1_Channel4_IRQHandler: 1: j 1b
-DMA1_Channel5_IRQHandler: 1: j 1b
-DMA1_Channel6_IRQHandler: 1: j 1b
-DMA1_Channel7_IRQHandler: 1: j 1b
-ADC1_IRQHandler:          1: j 1b
-I2C1_EV_IRQHandler:       1: j 1b
-I2C1_ER_IRQHandler:       1: j 1b
-USART1_IRQHandler:        1: j 1b
-SPI1_IRQHandler:          1: j 1b
-TIM1_BRK_IRQHandler:      1: j 1b
-TIM1_UP_IRQHandler:       1: j 1b
-TIM1_TRG_COM_IRQHandler:  1: j 1b
-TIM1_CC_IRQHandler:       1: j 1b
-TIM2_IRQHandler:          1: j 1b
-
+NMI_Handler:
+HardFault_Handler:
+SysTick_Handler:
+SW_Handler:
+WWDG_IRQHandler:
+PVD_IRQHandler:
+FLASH_IRQHandler:
+RCC_IRQHandler:
+EXTI7_0_IRQHandler:
+AWU_IRQHandler:
+DMA1_Channel1_IRQHandler:
+DMA1_Channel2_IRQHandler:
+DMA1_Channel3_IRQHandler:
+DMA1_Channel4_IRQHandler:
+DMA1_Channel5_IRQHandler:
+DMA1_Channel6_IRQHandler:
+DMA1_Channel7_IRQHandler:
+ADC1_IRQHandler:
+I2C1_EV_IRQHandler:
+I2C1_ER_IRQHandler:
+USART1_IRQHandler:
+SPI1_IRQHandler:
+TIM1_BRK_IRQHandler:
+TIM1_UP_IRQHandler:
+TIM1_TRG_COM_IRQHandler:
+TIM1_CC_IRQHandler:
+TIM2_IRQHandler:
+1:
+	j 1b
 
 	.section  .text.handle_reset, "ax", @progbits
 	.weak     handle_reset
@@ -126,7 +127,7 @@ handle_reset:
 1:
 	la sp, _eusrstack
 2:
-	/* Load data section from flash to RAM */
+/* Load data section from flash to RAM */
 	la a0, _data_lma
 	la a1, _data_vma
 	la a2, _edata
@@ -138,7 +139,7 @@ handle_reset:
 	addi a1, a1, 4
 	bltu a1, a2, 1b
 2:
-    /* clear bss section */
+/* Clear bss section */
     la a0, _sbss
     la a1, _ebss
     bgeu a0, a1, 2f
@@ -147,12 +148,13 @@ handle_reset:
     addi a0, a0, 4
     bltu a0, a1, 1b
 2:
-    li t0, 0x80
+/* Enable global interrupt and configure privileged mode */
+    li t0, 0x1880
     csrw mstatus, t0
-  
+/* Enable interrupt nesting and hardware stack */
     li t0, 0x3
     csrw 0x804, t0
-  
+/* Configure the interrupt vector table recognition mode and entry address mode */
     la t0, _start
     ori t0, t0, 3
     csrw mtvec, t0

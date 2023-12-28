@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2023/12/25
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -80,10 +80,6 @@ void IIC_Init(u32 bound, u16 address)
 
     I2C_Cmd( I2C1, ENABLE );
 
-#if (I2C_MODE == HOST_MODE)
-    I2C_AcknowledgeConfig( I2C1, ENABLE );
-
-#endif
 }
 
 /*********************************************************************
@@ -121,8 +117,8 @@ void DMA_Tx_Init(DMA_Channel_TypeDef *DMA_CHx, u32 ppadr, u32 memadr, u16 bufsiz
     DMA_Init( DMA_CHx, &DMA_InitStructure );
 
     NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel6_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 
@@ -174,7 +170,7 @@ int main(void)
 {
     uint8_t i ,t;
 	uint8_t j ;
-    NVIC_PriorityGroupConfig( NVIC_PriorityGroup_4 );
+    NVIC_PriorityGroupConfig( NVIC_PriorityGroup_1 );
     SystemCoreClockUpdate();
     Delay_Init();
 

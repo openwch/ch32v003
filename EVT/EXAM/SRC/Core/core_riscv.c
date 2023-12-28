@@ -1,9 +1,9 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : core_riscv.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2022/08/08
- * Description        : RISC-V Core Peripheral Access Layer Source File
+ * Version            : V1.0.1
+ * Date               : 2023/11/11
+ * Description        : RISC-V V2 Core Peripheral Access Layer Source File for CH32V003
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 

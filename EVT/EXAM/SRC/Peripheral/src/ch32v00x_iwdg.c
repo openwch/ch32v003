@@ -2,7 +2,7 @@
  * File Name          : ch32v00x_iwdg.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2023/12/25
  * Description        : This file provides all the IWDG firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -92,6 +92,7 @@ void IWDG_ReloadCounter(void)
 void IWDG_Enable(void)
 {
     IWDG->CTLR = CTLR_KEY_Enable;
+    while ((RCC->RSTSCKR)|(0x2)!= SET);
 }
 
 /*********************************************************************

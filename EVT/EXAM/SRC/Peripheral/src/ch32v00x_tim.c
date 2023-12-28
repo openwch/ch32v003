@@ -2,7 +2,7 @@
  * File Name          : ch32v00x_tim.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2023/12/25
  * Description        : This file provides all the TIM firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -2336,7 +2336,7 @@ static void TI4_Config(TIM_TypeDef *TIMx, uint16_t TIM_ICPolarity, uint16_t TIM_
     }
     else
     {
-        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P | TIM_CC4NP));
+        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P));
         tmpccer |= (uint16_t)(TIM_ICPolarity | (uint16_t)TIM_CC4E);
     }
 

@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2023/12/25
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -78,8 +78,8 @@ void IIC_Init(u32 bound, u16 address)
 
 #if(I2C_MODE == SLAVE_MODE)
     NVIC_InitStructure.NVIC_IRQChannel = I2C1_ER_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 
@@ -90,10 +90,6 @@ void IIC_Init(u32 bound, u16 address)
     I2C_Cmd(I2C1, ENABLE);
     I2C_CalculatePEC(I2C1, ENABLE);
 
-#if(I2C_MODE == HOST_MODE)
-    I2C_AcknowledgeConfig(I2C1, ENABLE);
-
-#endif
 }
 
 /*********************************************************************
@@ -108,7 +104,8 @@ int main(void)
     u8 i = 0;
     u8 pecValue;
 
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+
     SystemCoreClockUpdate();
     Delay_Init();
 
