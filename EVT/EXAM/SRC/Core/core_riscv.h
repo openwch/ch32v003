@@ -1,9 +1,9 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : core_riscv.h
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2022/08/08
- * Description        : RISC-V Core Peripheral Access Layer Header File
+ * Version            : V1.0.1
+ * Date               : 2023/12/21
+ * Description        : RISC-V V2 Core Peripheral Access Layer Header File for CH32V003
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
@@ -116,6 +116,7 @@ typedef struct
 
 /*********************************************************************
  * @fn      __enable_irq
+ *          This function is only used for Machine mode.
  *
  * @brief   Enable Global Interrupt
  *
@@ -123,15 +124,12 @@ typedef struct
  */
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq()
 {
-  uint32_t result;
-
-  __asm volatile("csrr %0," "mstatus": "=r"(result));
-  result |= 0x88;
-  __asm volatile ("csrw mstatus, %0" : : "r" (result) );
+  __asm volatile ("csrs mstatus, %0" : : "r" (0x88) );
 }
 
 /*********************************************************************
  * @fn      __disable_irq
+ *          This function is only used for Machine mode.
  *
  * @brief   Disable Global Interrupt
  *
@@ -139,11 +137,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq()
  */
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __disable_irq()
 {
-  uint32_t result;
-
-  __asm volatile("csrr %0," "mstatus": "=r"(result));
-  result &= ~0x88;
-  __asm volatile ("csrw mstatus, %0" : : "r" (result) );
+  __asm volatile ("csrc mstatus, %0" : : "r" (0x88) );
 }
 
 /*********************************************************************
@@ -265,10 +259,13 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE uint32_t NVIC_GetActive(IRQn
  * @brief   Set Interrupt Priority
  *
  * @param   IRQn - Interrupt Numbers
- *          priority: bit[7] - pre-emption priority
- *                    bit[6] - subpriority
- *                    bit[5:0] - reserved
- *
+ *          interrupt nesting enable(CSR-0x804 bit1 = 1)
+ *            priority - bit[7] - Preemption Priority
+ *                       bit[6] - Sub priority
+ *                       bit[5:0] - Reserve
+ *          interrupt nesting disable(CSR-0x804 bit1 = 0)
+ *            priority - bit[7:6] - Sub priority
+ *                       bit[5:0] - Reserve
  * @return  none
  */
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint8_t priority)
@@ -277,7 +274,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_SetPriority(IRQn_T
 }
 
 /*********************************************************************
- * @fn       __WFI
+ * @fn      __WFI
  *
  * @brief   Wait for Interrupt
  *
@@ -289,9 +286,8 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFI(void)
   asm volatile ("wfi");
 }
 
-
 /*********************************************************************
- * @fn       _SEV
+ * @fn      _SEV
  *
  * @brief   Set Event
  *
@@ -345,7 +341,8 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFE(void)
  *
  * @return  none
  */
-__attribute__( ( always_inline ) ) RV_STATIC_INLINE void SetVTFIRQ(uint32_t addr, IRQn_Type IRQn, uint8_t num, FunctionalState NewState){
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void SetVTFIRQ(uint32_t addr, IRQn_Type IRQn, uint8_t num, FunctionalState NewState)
+{
   if(num > 1)  return ;
 
   if (NewState != DISABLE)
@@ -353,7 +350,8 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void SetVTFIRQ(uint32_t addr
       NVIC->VTFIDR[num] = IRQn;
       NVIC->VTFADDR[num] = ((addr&0xFFFFFFFE)|0x1);
   }
-  else{
+  else
+  {
       NVIC->VTFIDR[num] = IRQn;
       NVIC->VTFADDR[num] = ((addr&0xFFFFFFFE)&(~0x1));
   }

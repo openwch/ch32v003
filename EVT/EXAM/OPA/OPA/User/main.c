@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2023/12/25
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -41,7 +41,7 @@ void Option_Byte_CFG(void)
 {
     FLASH_Unlock();
     FLASH_EraseOptionBytes();
-    FLASH_UserOptionByteConfig(OB_IWDG_SW, OB_STOP_NoRST, OB_STDBY_NoRST, OB_RST_NoEN ,OB_PowerON_Start_Mode_BOOT);
+    FLASH_UserOptionByteConfig(OB_IWDG_SW, OB_STDBY_NoRST, OB_RST_NoEN ,OB_PowerON_Start_Mode_BOOT);
     FLASH_Lock();
 }
 

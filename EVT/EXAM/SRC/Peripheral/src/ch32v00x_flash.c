@@ -2,7 +2,7 @@
  * File Name          : ch32v00x_flash.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2023/12/25
  * Description        : This file provides all the FLASH firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -57,7 +57,7 @@
 #define EraseTimeout               ((uint32_t)0x000B0000)
 #define ProgramTimeout             ((uint32_t)0x00002000)
 
-/* Flash Program Vaild Address */
+/* Flash Program Valid Address */
 #define ValidAddrStart             (FLASH_BASE)
 #define ValidAddrEnd               (FLASH_BASE + 0x4000)
 
@@ -423,9 +423,6 @@ FLASH_Status FLASH_ReadOutProtection(FunctionalState NewState)
  * @param   OB_IWDG - Selects the IWDG mode
  *            OB_IWDG_SW - Software IWDG selected
  *            OB_IWDG_HW - Hardware IWDG selected
- *          OB_STOP - Reset event when entering STOP mode.
- *            OB_STOP_NoRST - No reset generated when entering in STOP
- *            OB_STOP_RST - Reset generated when entering in STOP
  *          OB_STDBY - Reset event when entering Standby mode.
  *            OB_STDBY_NoRST - No reset generated when entering in STANDBY
  *            OB_STDBY_RST - Reset generated when entering in STANDBY
@@ -441,7 +438,7 @@ FLASH_Status FLASH_ReadOutProtection(FunctionalState NewState)
  * @return  FLASH Status - The returned value can be: FLASH_BUSY, FLASH_ERROR_PG,
  *        FLASH_ERROR_WRP, FLASH_COMPLETE or FLASH_TIMEOUT.
  */
-FLASH_Status FLASH_UserOptionByteConfig(uint16_t OB_IWDG, uint16_t OB_STOP, uint16_t OB_STDBY, uint16_t OB_RST, uint16_t OB_PowerON_Start_Mode)
+FLASH_Status FLASH_UserOptionByteConfig(uint16_t OB_IWDG, uint16_t OB_STDBY, uint16_t OB_RST, uint16_t OB_PowerON_Start_Mode)
 {
     FLASH_Status status = FLASH_COMPLETE;
 
@@ -453,7 +450,7 @@ FLASH_Status FLASH_UserOptionByteConfig(uint16_t OB_IWDG, uint16_t OB_STOP, uint
     {
         FLASH->CTLR |= CR_OPTPG_Set;
 
-        OB->USER = OB_IWDG | (uint16_t)(OB_STOP | (uint16_t)(OB_STDBY | (uint16_t)(OB_RST | (uint16_t)(OB_PowerON_Start_Mode| (uint16_t)0xC0))));
+        OB->USER = OB_IWDG | (uint16_t)(OB_STDBY | (uint16_t)(OB_RST | (uint16_t)(OB_PowerON_Start_Mode| (uint16_t)0xC2)));
 
         status = FLASH_WaitForLastOperation(ProgramTimeout);
         if(status != FLASH_TIMEOUT)
