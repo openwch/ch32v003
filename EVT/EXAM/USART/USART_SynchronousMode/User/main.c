@@ -68,7 +68,7 @@ void GPIO_Toggle_INIT(void)
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
     GPIO_SetBits(GPIOD, GPIO_Pin_0);
 }
@@ -115,7 +115,7 @@ void USART1_ReCFG(void)
 
     /* USART1  Ck-->D.4   TX-->D.5   RX-->D.6 */
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
-     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
      GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
      GPIO_Init(GPIOD, &GPIO_InitStructure);
 
@@ -160,7 +160,7 @@ void SPI1_INIT(void)
     SPI_I2S_DeInit(SPI1);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7; /* SPI1 MISO-->PC.7 */
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6; /* SPI1 SCK-->PC.5 MOSI-->PC.6 */

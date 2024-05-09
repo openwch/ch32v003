@@ -21,7 +21,8 @@
  *
  *    Hardware connection:PD5 -- PD5
  *                        PD0 -- LED
- *
+ * Note: The pin should be GPIO_Mode_AF_OD in single-wire half-duplex mode.
+ *      The pin needs to connected a pull_up resistor 
  */
 
 #include "debug.h"
@@ -70,7 +71,7 @@ void GPIO_Toggle_INIT(void)
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
     GPIO_SetBits(GPIOD, GPIO_Pin_0);
 }
@@ -115,8 +116,8 @@ void USARTx_CFG(void)
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
 
     USART_InitStructure.USART_BaudRate = 115200;

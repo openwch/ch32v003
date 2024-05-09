@@ -175,7 +175,7 @@ static void RxInit(void)
     GPIO_InitTypeDef GPIO_InitStructure={0};
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
     GPIO_InitStructure.GPIO_Pin = SoftUARTHardware.rxPin;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_Init(SoftUARTHardware.rxPort, &GPIO_InitStructure);
 
     GPIO_EXTILineConfig(GPIO_PortSourceGPIOD, GPIO_PinSource2);
@@ -226,7 +226,7 @@ static void TxInit()
     GPIO_InitTypeDef GPIO_InitStructure={0};
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_InitStructure.GPIO_Pin = SoftUARTHardware.txPin;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_Init(SoftUARTHardware.txPort, &GPIO_InitStructure);
 
     TIM_TimeBaseInitTypeDef TIM_TimeInitStructure={0};

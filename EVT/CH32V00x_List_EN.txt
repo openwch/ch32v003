@@ -1,5 +1,5 @@
 
-Nanjing Qinheng Microelectronics Co., Ltd. 2023.12
+Nanjing Qinheng Microelectronics Co., Ltd. 2024.02
 
 https://wch-ic.com
 
@@ -24,7 +24,7 @@ Directory
   |      |      |      |      |-- Auto_Injection: automatic injection mode routine
   |      |      |      |      |-- Discontinuous_mode: discontinuous mode routine
   |      |      |      |      |-- ExtLines_Trigger: external lines trigger ADC conversion routine
-  |      |      |      |      |-- TIM Trigger:TIM trigger ADC conversion routine 
+  |      |      |      |      |-- TIM_Trigger:TIM trigger ADC conversion routine 
   |      |      |      |-- APPLICATION
   |      |      |      |      |-- SoftUART：I/O port simulation serial port routine 
   |      |      |      |-- DMA
@@ -52,6 +52,8 @@ Directory
   |      |      |      |-- PWR
   |      |      |      |      |-- Sleep_Mode: low power, sleep mode routine
   |      |      |      |      |-- Standby_Mode: low power, standby mode routine
+  |      |      |      |      |-- PVD_Wakeup：STOP mode PVD wakeup MCU Routine
+  |      |      |      |      |-- PVD_VoltageJudger：PVD voltage Judger Routine
   |      |      |      |-- RCC
   |      |      |      |      |-- Get_CLK:Get system-HCLK-AHB1-AHB2 clock routine   
   |      |      |      |      |-- MCO: MCO pin clock output routine      
@@ -76,6 +78,7 @@ Directory
   |      |      |      |      |-- Synchro_ExtTrigger:slave mode routine, including reset mode, gating mode and trigger mode
   |      |      |      |      |-- Synchro_Timer:timer synchronization mode
   |      |      |      |      |-- TIM_DMA: timer DMA routines
+  |      |      |      |      |-- Encode:Timer encoder mode routines
   |      |      |      |-- USART
   |      |      |      |      |-- USART_DMA: USART DMA, master/slave mode transceiver routine
   |      |      |      |      |-- USART_HalfDuplex: single wire half duplex mode, master/slave mode transceiver routine

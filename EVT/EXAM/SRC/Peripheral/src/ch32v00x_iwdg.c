@@ -92,7 +92,7 @@ void IWDG_ReloadCounter(void)
 void IWDG_Enable(void)
 {
     IWDG->CTLR = CTLR_KEY_Enable;
-    while ((RCC->RSTSCKR)|(0x2)!= SET);
+    while ((RCC->RSTSCKR & 0x2) == RESET);
 }
 
 /*********************************************************************

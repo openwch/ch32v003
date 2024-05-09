@@ -2,7 +2,7 @@
 * File Name          : main.c
 * Author             : WCH
 * Version            : V1.0.0
-* Date               : 2023/12/22
+* Date               : 2024/02/20
 * Description        : Main program body.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -13,8 +13,8 @@
 /*
  *@Note
  *TIM trigger ADC conversion routine:
- *ADC channel 2 (PC4) - injection group channel, TIM2 CH1 pin (PA0)  TIM trigger,
- *In this mode, an ADC conversion is triggered by an event on TIM2 CH1 TIM trigger, and a JEOC interrupt is generated after
+ *ADC channel 2 (PC4) - injection group channel, TIM1 CH3 pin (PC3)  TIM trigger,
+ *In this mode, an ADC conversion is triggered by an event on TIM1 CH3 TIM trigger, and a JEOC interrupt is generated after
  *the conversion is completed.
  *
  */
@@ -91,7 +91,7 @@ void TIM1_PWM_In(u16 arr, u16 psc, u16 ccp)
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;//
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
 
     TIM_TimeBaseInitStructure.TIM_Period = arr;
