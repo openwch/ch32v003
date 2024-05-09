@@ -14,7 +14,7 @@
  *IAP upgrade routine:
  *Support serial port for FLASH burning
  *
- *1. Use the IAP download tool to realize the download PA0 floating (default pull-up input)
+ *1. Use the IAP download tool to realize the download PC0 floating (default pull-up input)
  *2. After downloading the APP, connect PC0 to ground (low level input), and press the
  *reset button to run the APP program.
  *3. use WCH-LinkUtility.exe download to BOOT(adr-0x1FFFF000)

@@ -73,7 +73,7 @@ static void SetSysClock(void);
 void SystemInit (void)
 {
   RCC->CTLR |= (uint32_t)0x00000001;
-  RCC->CFGR0 &= (uint32_t)0xFCFF0000;
+  RCC->CFGR0 &= (uint32_t)0xF8FF0000;
   RCC->CTLR &= (uint32_t)0xFEF6FFFF;
   RCC->CTLR &= (uint32_t)0xFFFBFFFF;
   RCC->CFGR0 &= (uint32_t)0xFFFEFFFF;
@@ -174,7 +174,7 @@ GPIOD->BSHR =0x2;
 /*********************************************************************
  * @fn      SetSysClockTo_8MHz_HSI
  *
- * @brief   Sets HSE as System clock source and configure HCLK, PCLK2 and PCLK1 prescalers.
+ * @brief   Sets HSI as System clock source and configure HCLK, PCLK2 and PCLK1 prescalers.
  *
  * @return  none
  */
@@ -259,7 +259,7 @@ static void SetSysClockTo_48MHZ_HSI(void)
 /*********************************************************************
  * @fn      SetSysClockTo_8MHz_HSE
  *
- * @brief   Sets System clock frequency to 56MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
+ * @brief   Sets System clock frequency to 8MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
  *
  * @return  none
  */
@@ -279,9 +279,6 @@ static void SetSysClockTo_8MHz_HSE(void)
         HSEStatus = RCC->CTLR & RCC_HSERDY;
         StartUpCounter++;
     } while((HSEStatus == 0) && (StartUpCounter != HSE_STARTUP_TIMEOUT));
-
-    RCC->APB2PCENR |= RCC_AFIOEN;
-    AFIO->PCFR1 |= (1<<15);
 
     if ((RCC->CTLR & RCC_HSERDY) != RESET)
     {
@@ -323,7 +320,7 @@ static void SetSysClockTo_8MHz_HSE(void)
 /*********************************************************************
  * @fn      SetSysClockTo_24MHz_HSE
  *
- * @brief   Sets System clock frequency to 72MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
+ * @brief   Sets System clock frequency to 24MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
  *
  * @return  none
  */
@@ -343,9 +340,6 @@ static void SetSysClockTo_24MHz_HSE(void)
         HSEStatus = RCC->CTLR & RCC_HSERDY;
         StartUpCounter++;
     } while((HSEStatus == 0) && (StartUpCounter != HSE_STARTUP_TIMEOUT));
-
-    RCC->APB2PCENR |= RCC_AFIOEN;
-    AFIO->PCFR1 |= (1<<15);
 
     if ((RCC->CTLR & RCC_HSERDY) != RESET)
     {
@@ -387,7 +381,7 @@ static void SetSysClockTo_24MHz_HSE(void)
 /*********************************************************************
  * @fn      SetSysClockTo_48MHz_HSE
  *
- * @brief   Sets System clock frequency to 72MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
+ * @brief   Sets System clock frequency to 48MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
  *
  * @return  none
  */

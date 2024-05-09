@@ -2,7 +2,7 @@
  * File Name          : ch32v00x_gpio.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/09
  * Description        : This file provides all the GPIO firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -25,7 +25,7 @@
  * @brief   Deinitializes the GPIOx peripheral registers to their default
  *        reset values.
  *
- * @param   GPIOx - where x can be (A..G) to select the GPIO peripheral.
+ * @param   GPIOx - where x can be (A..D) to select the GPIO peripheral.
  *
  * @return  none
  */
@@ -65,7 +65,7 @@ void GPIO_AFIODeInit(void)
 /*********************************************************************
  * @fn      GPIO_Init
  *
- * @brief   GPIOx - where x can be (A..G) to select the GPIO peripheral.
+ * @brief   GPIOx - where x can be (A..D) to select the GPIO peripheral.
  *
  * @param   GPIO_InitStruct - pointer to a GPIO_InitTypeDef structure that
  *        contains the configuration information for the specified GPIO peripheral.
@@ -115,36 +115,6 @@ void GPIO_Init(GPIO_TypeDef *GPIOx, GPIO_InitTypeDef *GPIO_InitStruct)
         }
         GPIOx->CFGLR = tmpreg;
     }
-
-    if(GPIO_InitStruct->GPIO_Pin > 0x00FF)
-    {
-        tmpreg = GPIOx->CFGHR;
-
-        for(pinpos = 0x00; pinpos < 0x08; pinpos++)
-        {
-            pos = (((uint32_t)0x01) << (pinpos + 0x08));
-            currentpin = ((GPIO_InitStruct->GPIO_Pin) & pos);
-
-            if(currentpin == pos)
-            {
-                pos = pinpos << 2;
-                pinmask = ((uint32_t)0x0F) << pos;
-                tmpreg &= ~pinmask;
-                tmpreg |= (currentmode << pos);
-
-                if(GPIO_InitStruct->GPIO_Mode == GPIO_Mode_IPD)
-                {
-                    GPIOx->BCR = (((uint32_t)0x01) << (pinpos + 0x08));
-                }
-
-                if(GPIO_InitStruct->GPIO_Mode == GPIO_Mode_IPU)
-                {
-                    GPIOx->BSHR = (((uint32_t)0x01) << (pinpos + 0x08));
-                }
-            }
-        }
-        GPIOx->CFGHR = tmpreg;
-    }
 }
 
 /*********************************************************************
@@ -167,10 +137,10 @@ void GPIO_StructInit(GPIO_InitTypeDef *GPIO_InitStruct)
 /*********************************************************************
  * @fn      GPIO_ReadInputDataBit
  *
- * @brief   GPIOx - where x can be (A..G) to select the GPIO peripheral.
+ * @brief   GPIOx - where x can be (A..D) to select the GPIO peripheral.
  *
  * @param    GPIO_Pin - specifies the port bit to read.
- *             This parameter can be GPIO_Pin_x where x can be (0..15).
+ *             This parameter can be GPIO_Pin_x where x can be (0..7).
  *
  * @return  The input port pin value.
  */
@@ -195,7 +165,7 @@ uint8_t GPIO_ReadInputDataBit(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  *
  * @brief   Reads the specified GPIO input data port.
  *
- * @param   GPIOx: where x can be (A..G) to select the GPIO peripheral.
+ * @param   GPIOx: where x can be (A..D) to select the GPIO peripheral.
  *
  * @return  The input port pin value.
  */
@@ -209,9 +179,9 @@ uint16_t GPIO_ReadInputData(GPIO_TypeDef *GPIOx)
  *
  * @brief   Reads the specified output data port bit.
  *
- * @param   GPIOx - where x can be (A..G) to select the GPIO peripheral.
+ * @param   GPIOx - where x can be (A..D) to select the GPIO peripheral.
  *          GPIO_Pin - specifies the port bit to read.
- *            This parameter can be GPIO_Pin_x where x can be (0..15).
+ *            This parameter can be GPIO_Pin_x where x can be (0..7).
  *
  * @return  none
  */
@@ -236,7 +206,7 @@ uint8_t GPIO_ReadOutputDataBit(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  *
  * @brief   Reads the specified GPIO output data port.
  *
- * @param   GPIOx - where x can be (A..G) to select the GPIO peripheral.
+ * @param   GPIOx - where x can be (A..D) to select the GPIO peripheral.
  *
  * @return  GPIO output port pin value.
  */
@@ -250,9 +220,9 @@ uint16_t GPIO_ReadOutputData(GPIO_TypeDef *GPIOx)
  *
  * @brief   Sets the selected data port bits.
  *
- * @param   GPIOx - where x can be (A..G) to select the GPIO peripheral.
+ * @param   GPIOx - where x can be (A..D) to select the GPIO peripheral.
  *          GPIO_Pin - specifies the port bits to be written.
- *            This parameter can be any combination of GPIO_Pin_x where x can be (0..15).
+ *            This parameter can be any combination of GPIO_Pin_x where x can be (0..7).
  *
  * @return  none
  */
@@ -266,9 +236,9 @@ void GPIO_SetBits(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  *
  * @brief   Clears the selected data port bits.
  *
- * @param   GPIOx - where x can be (A..G) to select the GPIO peripheral.
+ * @param   GPIOx - where x can be (A..D) to select the GPIO peripheral.
  *          GPIO_Pin - specifies the port bits to be written.
- *            This parameter can be any combination of GPIO_Pin_x where x can be (0..15).
+ *            This parameter can be any combination of GPIO_Pin_x where x can be (0..7).
  *
  * @return  none
  */
@@ -283,7 +253,7 @@ void GPIO_ResetBits(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  * @brief   Sets or clears the selected data port bit.
  *
  * @param   GPIO_Pin - specifies the port bit to be written.
- *            This parameter can be one of GPIO_Pin_x where x can be (0..15).
+ *            This parameter can be one of GPIO_Pin_x where x can be (0..7).
  *          BitVal - specifies the value to be written to the selected bit.
  *            Bit_RESET - to clear the port pin.
  *            Bit_SET - to set the port pin.
@@ -307,7 +277,7 @@ void GPIO_WriteBit(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, BitAction BitVal)
  *
  * @brief   Writes data to the specified GPIO data port.
  *
- * @param   GPIOx - where x can be (A..G) to select the GPIO peripheral.
+ * @param   GPIOx - where x can be (A..D) to select the GPIO peripheral.
  *          PortVal - specifies the value to be written to the port output data register.
  *
  * @return  none
@@ -322,9 +292,9 @@ void GPIO_Write(GPIO_TypeDef *GPIOx, uint16_t PortVal)
  *
  * @brief   Locks GPIO Pins configuration registers.
  *
- * @param   GPIOx - where x can be (A..G) to select the GPIO peripheral.
+ * @param   GPIOx - where x can be (A..D) to select the GPIO peripheral.
  *          GPIO_Pin - specifies the port bit to be written.
- *            This parameter can be any combination of GPIO_Pin_x where x can be (0..15).
+ *            This parameter can be any combination of GPIO_Pin_x where x can be (0..7).
  *
  * @return  none
  */
@@ -438,7 +408,7 @@ void GPIO_PinRemapConfig(uint32_t GPIO_Remap, FunctionalState NewState)
  * @brief   Selects the GPIO pin used as EXTI Line.
  *
  * @param   GPIO_PortSource - selects the GPIO port to be used as source for EXTI lines.
- *            This parameter can be GPIO_PortSourceGPIOx where x can be (A..G).
+ *            This parameter can be GPIO_PortSourceGPIOx where x can be (A..D).
  *          GPIO_PinSource - specifies the EXTI line to be configured.
  *            This parameter can be GPIO_PinSourcex where x can be (0..7).
  *

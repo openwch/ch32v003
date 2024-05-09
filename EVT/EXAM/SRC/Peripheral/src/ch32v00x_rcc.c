@@ -2,7 +2,7 @@
  * File Name          : ch32v00x_rcc.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Date               : 2024/03/18
  * Description        : This file provides all the RCC firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -26,7 +26,7 @@
 #define CTLR_HSEON_Set             ((uint32_t)0x00010000)
 #define CTLR_HSITRIM_Mask          ((uint32_t)0xFFFFFF07)
 
-#define CFGR0_PLL_Mask             ((uint32_t)0xFFC0FFFF)
+#define CFGR0_PLL_Mask             ((uint32_t)0xFFFEFFFF)
 #define CFGR0_PLLMull_Mask         ((uint32_t)0x003C0000)
 #define CFGR0_PLLSRC_Mask          ((uint32_t)0x00010000)
 #define CFGR0_PLLXTPRE_Mask        ((uint32_t)0x00020000)
@@ -72,7 +72,7 @@ static __I uint8_t ADCPrescTable[20] = {2, 4, 6, 8, 4, 8, 12, 16, 8, 16, 24, 32,
 void RCC_DeInit(void)
 {
     RCC->CTLR |= (uint32_t)0x00000001;
-    RCC->CFGR0 &= (uint32_t)0xFCFF0000;
+    RCC->CFGR0 &= (uint32_t)0xF8FF0000;
     RCC->CTLR &= (uint32_t)0xFEF6FFFF;
     RCC->CTLR &= (uint32_t)0xFFFBFFFF;
     RCC->CFGR0 &= (uint32_t)0xFFFEFFFF;
@@ -466,6 +466,10 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef *RCC_Clocks)
     if((tmp & 0x13) >= 4)
     {
         tmp -= 12;
+    }
+    else
+    {
+        tmp &= 0x3;
     }
 
     presc = ADCPrescTable[tmp];

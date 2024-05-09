@@ -35,7 +35,7 @@ typedef struct
 
 /* PLL_entry_clock_source */
 #define RCC_PLLSource_HSI_MUL2           ((uint32_t)0x00000000)
-#define RCC_PLLSource_HSE_MUL2           ((uint32_t)0x00030000)
+#define RCC_PLLSource_HSE_MUL2           ((uint32_t)0x00010000)
 
 /* System_clock_source */
 #define RCC_SYSCLKSource_HSI             ((uint32_t)0x00000000)

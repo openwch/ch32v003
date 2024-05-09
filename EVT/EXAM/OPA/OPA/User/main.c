@@ -90,7 +90,7 @@ void ADC_Channel7_Init( void )
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_Init( GPIOD, &GPIO_InitStructure );
 
     ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
