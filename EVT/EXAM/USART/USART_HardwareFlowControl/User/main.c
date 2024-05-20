@@ -81,7 +81,7 @@ void USART1_ReCFG(void)
 
     /* USART1 TX-->D.5   RX-->D.6 */
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2; /* RTS-->C.2 */

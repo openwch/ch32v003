@@ -1,5 +1,5 @@
 
-南京沁恒微电子股份有限公司 2023.12
+南京沁恒微电子股份有限公司 2024.02
 最新资料请到我们的网站上查询
 https://wch.cn
 
@@ -52,6 +52,8 @@ https://wch.cn
   |      |      |      |-- PWR
   |      |      |      |      |-- Sleep_Mode：低功耗，睡眠模式例程
   |      |      |      |      |-- Standby_Mode：低功耗，待机模式例程
+  |      |      |      |      |-- PVD_Wakeup：STOP模式PVD中断唤醒例程
+  |      |      |      |      |-- PVD_VoltageJudger：PVD电压判定例程
   |      |      |      |-- RCC
   |      |      |      |      |-- Get_CLK：获取system-HCLK-AHB1-AHB2时钟例程  
   |      |      |      |      |-- MCO：MCO引脚时钟输出例程
@@ -76,6 +78,7 @@ https://wch.cn
   |      |      |      |      |-- Synchro_ExtTrigger：从模式例程，包括复位模式、门控模式、触发模式
   |      |      |      |      |-- Synchro_Timer：定时器同步模式
   |      |      |      |      |-- TIM_DMA：定时器使用DMA例程
+  |      |      |      |      |-- Encoder：定时器编码器例程
   |      |      |      |-- USART
   |      |      |      |      |-- USART_DMA：USART使用DMA，Master/Slave 模式收发例程
   |      |      |      |      |-- USART_HalfDuplex：单线半双工模式，Master/Slave 模式收发例程

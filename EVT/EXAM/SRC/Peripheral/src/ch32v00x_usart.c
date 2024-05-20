@@ -21,15 +21,15 @@
 #define CTLR1_RWU_Set             ((uint16_t)0x0002) /* USART mute mode Enable Mask */
 #define CTLR1_RWU_Reset           ((uint16_t)0xFFFD) /* USART mute mode Enable Mask */
 #define CTLR1_SBK_Set             ((uint16_t)0x0001) /* USART Break Character send Mask */
-#define CTLR1_CLEAR_Mask          ((uint16_t)0xE9F3) /* USART CR1 Mask */
+#define CTLR1_CLEAR_Mask          ((uint16_t)0xE9F3) /* USART CTLR1 Mask */
 #define CTLR2_Address_Mask        ((uint16_t)0xFFF0) /* USART address Mask */
 
 #define CTLR2_LINEN_Set           ((uint16_t)0x4000) /* USART LIN Enable Mask */
 #define CTLR2_LINEN_Reset         ((uint16_t)0xBFFF) /* USART LIN Disable Mask */
 
 #define CTLR2_LBDL_Mask           ((uint16_t)0xFFDF) /* USART LIN Break detection Mask */
-#define CTLR2_STOP_CLEAR_Mask     ((uint16_t)0xCFFF) /* USART CR2 STOP Bits Mask */
-#define CTLR2_CLOCK_CLEAR_Mask    ((uint16_t)0xF0FF) /* USART CR2 Clock Mask */
+#define CTLR2_STOP_CLEAR_Mask     ((uint16_t)0xCFFF) /* USART CTLR2 STOP Bits Mask */
+#define CTLR2_CLOCK_CLEAR_Mask    ((uint16_t)0xF0FF) /* USART CTLR2 Clock Mask */
 
 #define CTLR3_SCEN_Set            ((uint16_t)0x0020) /* USART SC Enable Mask */
 #define CTLR3_SCEN_Reset          ((uint16_t)0xFFDF) /* USART SC Disable Mask */
@@ -41,7 +41,7 @@
 #define CTLR3_HDSEL_Reset         ((uint16_t)0xFFF7) /* USART Half-Duplex Disable Mask */
 
 #define CTLR3_IRLP_Mask           ((uint16_t)0xFFFB) /* USART IrDA LowPower mode Mask */
-#define CTLR3_CLEAR_Mask          ((uint16_t)0xFCFF) /* USART CR3 Mask */
+#define CTLR3_CLEAR_Mask          ((uint16_t)0xFCFF) /* USART CTLR3 Mask */
 
 #define CTLR3_IREN_Set            ((uint16_t)0x0002) /* USART IrDA Enable Mask */
 #define CTLR3_IREN_Reset          ((uint16_t)0xFFFD) /* USART IrDA Disable Mask */

@@ -2,7 +2,7 @@
  * File Name          : ch32v00x_gpio.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/02/27
  * Description        : This file contains all the functions prototypes for the
  *                      GPIO firmware library.
  *********************************************************************************
@@ -24,8 +24,10 @@ typedef enum
 {
     GPIO_Speed_10MHz = 1,
     GPIO_Speed_2MHz,
-    GPIO_Speed_50MHz
+    GPIO_Speed_30MHz
 } GPIOSpeed_TypeDef;
+
+#define GPIO_Speed_50MHz GPIO_Speed_30MHz
 
 /* Configuration Mode enumeration */
 typedef enum

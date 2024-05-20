@@ -2,7 +2,7 @@
  * File Name          : ch32v00x.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Date               : 2023/12/28
  * Description        : CH32V00x Device Peripheral Access Layer Header File.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -16,9 +16,6 @@
 extern "C" {
 #endif
 
-#define __MPU_PRESENT             0  /* Other CH32 devices does not provide an MPU */
-#define __Vendor_SysTickConfig    0  /* Set to 1 if different SysTick Config is used */
-
 #define HSE_VALUE                 ((uint32_t)24000000) /* Value of the External oscillator in Hz */
 
 /* In the following line adjust the External High Speed oscillator (HSE) Startup Timeout value */
@@ -28,7 +25,7 @@ extern "C" {
 
 /* CH32V00x Standard Peripheral Library version number */
 #define __CH32V00x_STDPERIPH_VERSION_MAIN   (0x01) /* [15:8] main version */
-#define __CH32V00x_STDPERIPH_VERSION_SUB    (0x07) /* [7:0] sub version */
+#define __CH32V00x_STDPERIPH_VERSION_SUB    (0x08) /* [7:0] sub version */
 #define __CH32V00x_STDPERIPH_VERSION        ( (__CH32V00x_STDPERIPH_VERSION_MAIN << 8)\
                                              |(__CH32V00x_STDPERIPH_VERSION_SUB << 0))
 
@@ -169,7 +166,7 @@ typedef struct
 typedef struct
 {
     __IO uint32_t CFGLR;
-    __IO uint32_t CFGHR;
+    uint32_t RESERVED0;
     __IO uint32_t INDR;
     __IO uint32_t OUTDR;
     __IO uint32_t BSHR;
