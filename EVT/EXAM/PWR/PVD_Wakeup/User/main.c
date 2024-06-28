@@ -61,7 +61,7 @@ void PVD_Init(void)
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 
-    PWR_PVDLevelConfig(PWR_PVDLevel_2V9);
+    PWR_PVDLevelConfig(PWR_PVDLevel_MODE0);
 
     PWR_PVDCmd(ENABLE);
 }

@@ -58,17 +58,17 @@ void PWR_PVDCmd(FunctionalState NewState)
  * @fn      PWR_PVDLevelConfig
  *
  * @brief   Configures the voltage threshold detected by the Power Voltage
- *        Detector(PVD).
+ *          Detector(PVD).
  *
  * @param   PWR_PVDLevel - specifies the PVD detection level
- *            PWR_PVDLevel_2V9 - PVD detection level set to 2.9V
- *            PWR_PVDLevel_3V1 - PVD detection level set to 3.1V
- *            PWR_PVDLevel_3V3 - PVD detection level set to 3.3V
- *            PWR_PVDLevel_3V5 - PVD detection level set to 3.5V
- *            PWR_PVDLevel_3V7 - PVD detection level set to 3.7V
- *            PWR_PVDLevel_3V9 - PVD detection level set to 3.9V
- *            PWR_PVDLevel_4V1 - PVD detection level set to 4.1V
- *            PWR_PVDLevel_4V4 - PVD detection level set to 4.4V
+ *            PWR_PVDLevel_MODE0 - PVD detection level set to mode 0.
+ *            PWR_PVDLevel_MODE1 - PVD detection level set to mode 1.
+ *            PWR_PVDLevel_MODE2 - PVD detection level set to mode 2.
+ *            PWR_PVDLevel_MODE3 - PVD detection level set to mode 3.
+ *            PWR_PVDLevel_MODE4 - PVD detection level set to mode 4.
+ *            PWR_PVDLevel_MODE5 - PVD detection level set to mode 5.
+ *            PWR_PVDLevel_MODE6 - PVD detection level set to mode 6.
+ *            PWR_PVDLevel_MODE7 - PVD detection level set to mode 7.
  *
  * @return  none
  */

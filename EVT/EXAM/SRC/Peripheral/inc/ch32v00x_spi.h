@@ -2,7 +2,7 @@
  * File Name          : ch32v00x_spi.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/06/01
  * Description        : This file contains all the functions prototypes for the
  *                      SPI firmware library.
  *********************************************************************************
@@ -32,7 +32,8 @@ typedef struct
                               This parameter can be a value of @ref SPI_data_size */
 
     uint16_t SPI_CPOL; /* Specifies the serial clock steady state.
-                          This parameter can be a value of @ref SPI_Clock_Polarity */
+                          This parameter can be a value of @ref SPI_Clock_Polarity 
+                          When using SPI slave mode to send data, the CPOL bit should be set to 1 */
 
     uint16_t SPI_CPHA; /* Specifies the clock active edge for the bit capture.
                           This parameter can be a value of @ref SPI_Clock_Phase */
@@ -68,7 +69,7 @@ typedef struct
 
 /* SPI_Clock_Polarity */
 #define SPI_CPOL_Low                       ((uint16_t)0x0000)
-#define SPI_CPOL_High                      ((uint16_t)0x0002)
+#define SPI_CPOL_High                      ((uint16_t)0x0002)//When using SPI slave mode to send data, the CPOL bit should be set to 1. 
 
 /* SPI_Clock_Phase */
 #define SPI_CPHA_1Edge                     ((uint16_t)0x0000)
