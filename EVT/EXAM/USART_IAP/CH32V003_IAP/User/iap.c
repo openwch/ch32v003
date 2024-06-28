@@ -104,7 +104,6 @@ u8 RecData_Deal(void)
                     Fast_Program_Buf[CodeLen + i] = 0xFF;
                 }
 
-
                 CH32_IAP_Program(Program_addr, (u32*) Fast_Program_Buf);
                 CodeLen = 0;
             }

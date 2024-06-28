@@ -2,7 +2,7 @@
  * File Name          : ch32v00x.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/28
+ * Date               : 2024/05/28
  * Description        : CH32V00x Device Peripheral Access Layer Header File.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -25,7 +25,7 @@ extern "C" {
 
 /* CH32V00x Standard Peripheral Library version number */
 #define __CH32V00x_STDPERIPH_VERSION_MAIN   (0x01) /* [15:8] main version */
-#define __CH32V00x_STDPERIPH_VERSION_SUB    (0x08) /* [7:0] sub version */
+#define __CH32V00x_STDPERIPH_VERSION_SUB    (0x09) /* [7:0] sub version */
 #define __CH32V00x_STDPERIPH_VERSION        ( (__CH32V00x_STDPERIPH_VERSION_MAIN << 8)\
                                              |(__CH32V00x_STDPERIPH_VERSION_SUB << 0))
 

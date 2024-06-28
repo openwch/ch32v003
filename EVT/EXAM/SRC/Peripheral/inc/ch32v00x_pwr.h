@@ -20,14 +20,23 @@ extern "C" {
 #include <ch32v00x.h>
 
 /* PVD_detection_level  */
-#define PWR_PVDLevel_2V9          ((uint32_t)0x00000000)
-#define PWR_PVDLevel_3V1          ((uint32_t)0x00000020)
-#define PWR_PVDLevel_3V3          ((uint32_t)0x00000040)
-#define PWR_PVDLevel_3V5          ((uint32_t)0x00000060)
-#define PWR_PVDLevel_3V7          ((uint32_t)0x00000080)
-#define PWR_PVDLevel_3V9          ((uint32_t)0x000000A0)
-#define PWR_PVDLevel_4V1          ((uint32_t)0x000000C0)
-#define PWR_PVDLevel_4V4          ((uint32_t)0x000000E0)
+#define PWR_PVDLevel_MODE0          ((uint32_t)0x00000000)
+#define PWR_PVDLevel_MODE1          ((uint32_t)0x00000020)
+#define PWR_PVDLevel_MODE2          ((uint32_t)0x00000040)
+#define PWR_PVDLevel_MODE3          ((uint32_t)0x00000060)
+#define PWR_PVDLevel_MODE4          ((uint32_t)0x00000080)
+#define PWR_PVDLevel_MODE5          ((uint32_t)0x000000A0)
+#define PWR_PVDLevel_MODE6          ((uint32_t)0x000000C0)
+#define PWR_PVDLevel_MODE7          ((uint32_t)0x000000E0)
+
+#define PWR_PVDLevel_2V9            PWR_PVDLevel_MODE0
+#define PWR_PVDLevel_3V1            PWR_PVDLevel_MODE1
+#define PWR_PVDLevel_3V3            PWR_PVDLevel_MODE2
+#define PWR_PVDLevel_3V5            PWR_PVDLevel_MODE3
+#define PWR_PVDLevel_3V7            PWR_PVDLevel_MODE4
+#define PWR_PVDLevel_3V9            PWR_PVDLevel_MODE5
+#define PWR_PVDLevel_4V1            PWR_PVDLevel_MODE6
+#define PWR_PVDLevel_4V4            PWR_PVDLevel_MODE7
 
 /* PWR_AWU_Prescaler */
 #define PWR_AWU_Prescaler_1       ((uint32_t)0x00000000)

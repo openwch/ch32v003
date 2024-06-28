@@ -2,7 +2,7 @@
  * File Name          : ch32v00x_adc.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/05/20
  * Description        : This file contains all the functions prototypes for the
  *                      ADC firmware library.
  *********************************************************************************
@@ -129,8 +129,7 @@ typedef struct
 
 /* ADC_external_trigger_sources_delay_channels_definition */
 #define ADC_ExternalTrigRegul_DLY                      ((uint32_t)0x00000000)
-#define ADC_ExternalTrigInjec_DLY                      ((uint32_t)0x00020000)
-
+#define ADC_ExternalTrigInjec_DLY                      ((uint32_t)0x00000200)
 
 void       ADC_DeInit(ADC_TypeDef *ADCx);
 void       ADC_Init(ADC_TypeDef *ADCx, ADC_InitTypeDef *ADC_InitStruct);
