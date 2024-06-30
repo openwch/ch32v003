@@ -7,8 +7,6 @@
  *                      firmware library.
  *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
 #ifndef __CH32F10x_FLASH_H
 #define __CH32F10x_FLASH_H

@@ -6,8 +6,6 @@
  * Description        : This file provides all the SPI firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * Attention: This software (modified or not) and binary are used for 
- * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 #include <ch32v00x_rcc.h>
 #include <ch32v00x_spi.h>

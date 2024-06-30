@@ -6,8 +6,6 @@
  * Description        : RISC-V V2 Core Peripheral Access Layer Source File for CH32V003
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * Attention: This software (modified or not) and binary are used for 
- * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 #include <stdint.h>
 
