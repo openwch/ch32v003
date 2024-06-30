@@ -6,8 +6,6 @@
  * Description        : CH32V00x Device Peripheral Access Layer System Header File.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * Attention: This software (modified or not) and binary are used for 
- * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 #ifndef __SYSTEM_CH32V00x_H
 #define __SYSTEM_CH32V00x_H
