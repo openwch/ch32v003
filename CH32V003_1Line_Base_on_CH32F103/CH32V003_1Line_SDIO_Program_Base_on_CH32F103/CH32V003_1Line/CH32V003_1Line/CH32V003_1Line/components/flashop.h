@@ -6,8 +6,6 @@
  * Description        : single line debug interface for
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * Attention: This software (modified or not) and binary are used for 
- * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 #ifndef __FLASHOP_H
 #define __FLASHOP_H
