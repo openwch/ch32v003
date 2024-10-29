@@ -1,5 +1,5 @@
 
-南京沁恒微电子股份有限公司 2024.06
+南京沁恒微电子股份有限公司 2024.08
 最新资料请到我们的网站上查询
 https://wch.cn
 
@@ -43,6 +43,7 @@ https://wch.cn
   |      |      |      |      |-- I2C_DMA：I2C使用DMA，Master/Slave 模式收发例程
   |      |      |      |      |-- I2C_EEPROM：I2C接口操作EEPROM外设例程
   |      |      |      |      |-- I2C_PEC：使用PEC错误校验，Master/Slave 模式收发例程  
+  |      |      |      |      |-- I2C_7bit_Interrupt_Mode：使用中断进行收发例程 
   |      |      |      |-- IAP
   |      |      |      |      |-- V00x_APP：APP跳转IAP例程     
   |      |      |      |-- IWDG
@@ -79,6 +80,8 @@ https://wch.cn
   |      |      |      |      |-- Synchro_Timer：定时器同步模式
   |      |      |      |      |-- TIM_DMA：定时器使用DMA例程
   |      |      |      |      |-- Encoder：定时器编码器例程
+  |      |      |      |      |-- TIM_INT：定时器中断例程
+  |      |      |      |      |-- TIM_Continuous：定时器连续模式例程
   |      |      |      |-- USART
   |      |      |      |      |-- USART_DMA：USART使用DMA，Master/Slave 模式收发例程
   |      |      |      |      |-- USART_HalfDuplex：单线半双工模式，Master/Slave 模式收发例程

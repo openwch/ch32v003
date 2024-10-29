@@ -59,7 +59,7 @@ int main(void)
 
     while(1)
     {
-        if(USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET)
+        if((USART1->STATR & USART_FLAG_RXNE) == (uint16_t)RESET)
         {
             UART_Rx_Deal();
 

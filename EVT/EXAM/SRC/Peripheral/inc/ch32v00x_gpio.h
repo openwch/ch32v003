@@ -86,11 +86,12 @@ typedef enum
 #define GPIO_PartialRemap1_TIM2        ((uint32_t)0x00180100) /* TIM2 Partial1 Alternate Function mapping */
 #define GPIO_PartialRemap2_TIM2        ((uint32_t)0x00180200) /* TIM2 Partial2 Alternate Function mapping */
 #define GPIO_FullRemap_TIM2            ((uint32_t)0x00180300) /* TIM2 Full Alternate Function mapping */
-#define GPIO_Remap_PA1_2               ((uint32_t)0x00008000) /* PA1 and PA2 Alternate Function mapping */
+#define GPIO_Remap_PA1PA2              ((uint32_t)0x00008000) /* PA1 and PA2 Alternate Function mapping */
 #define GPIO_Remap_ADC1_ETRGINJ        ((uint32_t)0x00200002) /* ADC1 External Trigger Injected Conversion remapping */
 #define GPIO_Remap_ADC1_ETRGREG        ((uint32_t)0x00200004) /* ADC1 External Trigger Regular Conversion remapping */
 #define GPIO_Remap_LSI_CAL             ((uint32_t)0x00200080) /* LSI calibration Alternate Function mapping */
 #define GPIO_Remap_SDI_Disable         ((uint32_t)0x00300400) /* SDI Disabled */
+#define GPIO_Remap_PA1_2               GPIO_Remap_PA1PA2
 
 /* GPIO_Port_Sources */
 #define GPIO_PortSourceGPIOA           ((uint8_t)0x00)

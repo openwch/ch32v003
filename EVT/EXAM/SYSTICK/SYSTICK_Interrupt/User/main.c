@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/03/25
+ * Date               : 2024/07/04
  * Description        : Main program body.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -40,7 +40,7 @@ int main(void)
     printf("SystemClk:%d\r\n", SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
-    NVIC_EnableIRQ(SysTicK_IRQn);
+    NVIC_EnableIRQ(SysTick_IRQn);
     SysTick->SR &= ~(1 << 0);
     SysTick->CMP = SystemCoreClock-1;
     SysTick->CNT = 0;
