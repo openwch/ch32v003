@@ -2,8 +2,8 @@
  * File Name          : system_ch32v00x.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/26
- * Description        : CH32V00x Device Peripheral Access Layer System Source File.
+ * Date               : 2024/08/14
+ * Description        : CH32V003 Device Peripheral Access Layer System Source File.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
 * Attention: This software (modified or not) and binary are used for 

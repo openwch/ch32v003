@@ -1,5 +1,5 @@
 
-Nanjing Qinheng Microelectronics Co., Ltd. 2024.06
+Nanjing Qinheng Microelectronics Co., Ltd. 2024.08
 
 https://wch-ic.com
 
@@ -43,6 +43,7 @@ Directory
   |      |      |      |      |-- I2C_DMA: I2C DMA, master/slave mode transceiver routine
   |      |      |      |      |-- I2C_EEPROM: I2C interface routine to operate EEPROM peripheral 
   |      |      |      |      |-- I2C_PEC: PEC error check, master/slave mode transceiver routine 
+  |      |      |      |      |-- I2C_7bit_Interrupt_Mode：Use interrupt to receive and send routine 
   |      |      |      |-- IAP
   |      |      |      |      |-- V00x_APP:APP go to IAP routine  
   |      |      |      |-- IWDG
@@ -79,6 +80,8 @@ Directory
   |      |      |      |      |-- Synchro_Timer:timer synchronization mode
   |      |      |      |      |-- TIM_DMA: timer DMA routines
   |      |      |      |      |-- Encode:Timer encoder mode routines
+  |      |      |      |      |-- TIM_INT:Timer interput routines
+  |      |      |      |      |-- TIM_Continuous：Timer Continuous mode routines
   |      |      |      |-- USART
   |      |      |      |      |-- USART_DMA: USART DMA, master/slave mode transceiver routine
   |      |      |      |      |-- USART_HalfDuplex: single wire half duplex mode, master/slave mode transceiver routine

@@ -328,7 +328,7 @@ void GPIO_PinLockConfig(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  *            GPIO_PartialRemap1_TIM2 - TIM2 Partial1 Alternate Function mapping
  *            GPIO_PartialRemap2_TIM2 - TIM2 Partial2 Alternate Function mapping
  *            GPIO_FullRemap_TIM2 - TIM2 Full Alternate Function mapping
- *            GPIO_Remap_PA1_2 - PA1_2 Alternate Function mapping
+ *            GPIO_Remap_PA1PA2 - PA1_PA2 Alternate Function mapping
  *            GPIO_Remap_ADC1_ETRGINJ - ADC1 External Trigger Injected Conversion remapping
  *            GPIO_Remap_ADC1_ETRGREG - ADC1 External Trigger Regular Conversion remapping
  *            GPIO_Remap_LSI_CAL - LSI calibration Alternate Function mapping

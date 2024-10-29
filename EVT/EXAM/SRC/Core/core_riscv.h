@@ -1,14 +1,14 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : core_riscv.h
- * Author             : WCH
- * Version            : V1.0.1
- * Date               : 2023/12/21
- * Description        : RISC-V V2 Core Peripheral Access Layer Header File for CH32V003
- *********************************************************************************
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * Attention: This software (modified or not) and binary are used for 
- * microcontroller manufactured by Nanjing Qinheng Microelectronics.
- *******************************************************************************/
+* File Name          : core_riscv.h
+* Author             : WCH
+* Version            : V1.0.1
+* Date               : 2024/10/28
+* Description        : RISC-V V2 Core Peripheral Access Layer Header File for CH32V003
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 #ifndef __CORE_RISCV_H__
 #define __CORE_RISCV_H__
 
@@ -274,19 +274,6 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_SetPriority(IRQn_T
 }
 
 /*********************************************************************
- * @fn      __WFI
- *
- * @brief   Wait for Interrupt
- *
- * @return  none
- */
-__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFI(void)
-{
-  NVIC->SCTLR &= ~(1<<3);   // wfi
-  asm volatile ("wfi");
-}
-
-/*********************************************************************
  * @fn      _SEV
  *
  * @brief   Set Event
@@ -303,17 +290,23 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void _SEV(void)
 }
 
 /*********************************************************************
- * @fn      _WFE
+ * @fn      WFItoWFE
  *
- * @brief   Wait for Events
+ * @brief   WFI to WFE
  *
  * @return  none
  */
-__attribute__( ( always_inline ) ) RV_STATIC_INLINE void _WFE(void)
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void WFItoWFE(void)
 {
   NVIC->SCTLR |= (1<<3);
-  asm volatile ("wfi");
 }
+
+__attribute__( (section(".highcode")) ) void WFE(u32 t);
+
+#define _WFE()   WFE(19) //48M
+//#define _WFE()   WFE(11) //24M
+//#define _WFE()   WFE(8) //16M
+//#define _WFE()   WFE(5) //8M
 
 /*********************************************************************
  * @fn      __WFE
@@ -324,9 +317,26 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void _WFE(void)
  */
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFE(void)
 {
-  _SEV();
-  _WFE();
-  _WFE();
+    NVIC->SCTLR |= (1<<4);
+    __disable_irq();
+    _SEV();
+    WFItoWFE();
+    _WFE();
+    WFItoWFE();
+    _WFE();
+    __enable_irq();
+}
+
+/*********************************************************************
+ * @fn      __WFI
+ *
+ * @brief   Wait for Interrupt
+ *
+ * @return  none
+ */
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFI(void)
+{
+  __WFE();
 }
 
 /*********************************************************************

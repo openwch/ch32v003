@@ -2,8 +2,8 @@
  * File Name          : ch32v00x.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/05/28
- * Description        : CH32V00x Device Peripheral Access Layer Header File.
+ * Date               : 2024/07/04
+ * Description        : CH32V003 Device Peripheral Access Layer Header File.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
@@ -16,7 +16,9 @@
 extern "C" {
 #endif
 
+#ifndef HSE_VALUE
 #define HSE_VALUE                 ((uint32_t)24000000) /* Value of the External oscillator in Hz */
+#endif 
 
 /* In the following line adjust the External High Speed oscillator (HSE) Startup Timeout value */
 #define HSE_STARTUP_TIMEOUT       ((uint16_t)0x2000) /* Time out for HSE start up */
@@ -24,8 +26,8 @@ extern "C" {
 #define HSI_VALUE                 ((uint32_t)24000000) /* Value of the Internal oscillator in Hz */
 
 /* CH32V00x Standard Peripheral Library version number */
-#define __CH32V00x_STDPERIPH_VERSION_MAIN   (0x01) /* [15:8] main version */
-#define __CH32V00x_STDPERIPH_VERSION_SUB    (0x09) /* [7:0] sub version */
+#define __CH32V00x_STDPERIPH_VERSION_MAIN   (0x02) /* [15:8] main version */
+#define __CH32V00x_STDPERIPH_VERSION_SUB    (0x00) /* [7:0] sub version */
 #define __CH32V00x_STDPERIPH_VERSION        ( (__CH32V00x_STDPERIPH_VERSION_MAIN << 8)\
                                              |(__CH32V00x_STDPERIPH_VERSION_SUB << 0))
 
@@ -35,7 +37,7 @@ typedef enum IRQn
     /******  RISC-V Processor Exceptions Numbers *******************************************************/
     NonMaskableInt_IRQn = 2, /* 2 Non Maskable Interrupt                             */
     EXC_IRQn = 3,            /* 3 Exception Interrupt                                */
-    SysTicK_IRQn = 12,       /* 12 System timer Interrupt                            */
+    SysTick_IRQn = 12,       /* 12 System timer Interrupt                            */
     Software_IRQn = 14,      /* 14 software Interrupt                                */
 
     /******  RISC-V specific Interrupt Numbers *********************************************************/
@@ -66,6 +68,8 @@ typedef enum IRQn
 } IRQn_Type;
 
 #define HardFault_IRQn    EXC_IRQn
+#define SysTicK_IRQn      SysTick_IRQn
+
 
 #include <stdint.h>
 #include <core_riscv.h>
