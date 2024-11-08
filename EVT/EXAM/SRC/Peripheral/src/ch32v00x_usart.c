@@ -428,6 +428,23 @@ void USART_SendData(USART_TypeDef *USARTx, uint16_t Data)
 }
 
 /*********************************************************************
+ * @fn      USART_SendString
+ *
+ * @brief   Transmits String through the USARTx peripheral.
+ *
+ * @param   USARTx - where x can be 1 to select the USART peripheral.
+ *          *String - the string you want to send.
+ *
+ * @return  none
+ */
+void USART_SendString(USART_TypeDef *USARTx, const uint8_t *String) {
+    while (*String) {
+        USART_SendData(USARTx, *String++);
+        while (USART_GetFlagStatus(USARTx, USART_FLAG_TXE) == RESET);
+    }
+}
+
+/*********************************************************************
  * @fn      USART_ReceiveData
  *
  * @brief   Returns the most recent received data by the USARTx peripheral.
