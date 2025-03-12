@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/22
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -42,8 +42,8 @@ void PVD_IRQHandler(void)
 
 void PVD_Init(void)
 {
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_PWR, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_AFIO, ENABLE);
 
     EXTI_InitTypeDef EXIT_InitStructure = {0};
     NVIC_InitTypeDef NVIC_InitStructure = {0};
@@ -51,7 +51,7 @@ void PVD_Init(void)
     EXIT_InitStructure.EXTI_Line = EXTI_Line8;
     EXIT_InitStructure.EXTI_LineCmd = ENABLE;
     EXIT_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    EXIT_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
+    EXIT_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
     EXTI_Init(&EXIT_InitStructure);
 
     NVIC_InitStructure.NVIC_IRQChannel = PVD_IRQn;
@@ -60,7 +60,7 @@ void PVD_Init(void)
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 
-    PWR_PVDLevelConfig(PWR_PVDLevel_MODE7);
+    PWR_PVDLevelConfig(PWR_PVDLevel_3);
 
     PWR_PVDCmd(ENABLE);
 }
@@ -77,7 +77,11 @@ int main(void)
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     SystemCoreClockUpdate();
     Delay_Init();
-    USART_Printf_Init(115200);
+#if (SDI_PRINT == SDI_PR_OPEN)
+    SDI_Printf_Enable();
+#else
+    USART_Printf_Init( 115200 );
+#endif
     printf("SystemClk:%d\r\n", SystemCoreClock);
     printf("ChipID:%08x\r\n", DBGMCU_GetCHIPID());
 
@@ -89,8 +93,6 @@ int main(void)
     while (1)
     {
         Delay_Ms(250);
-        printf("Voltage is %d\r\n",Voltage_ThresFlag?5:3);
+        Voltage_ThresFlag?printf("Voltage is higher than 2.66V\r\n"):printf("Voltage is lower than 2.60V\r\n");
     }
 }
-
-

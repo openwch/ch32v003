@@ -1,16 +1,16 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : ch32v00x_pwr.c
+ * File Name          : ch32v00X_pwr.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : This file provides all the PWR firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#include <ch32v00x_pwr.h>
-#include <ch32v00x_rcc.h>
+#include <ch32v00X_pwr.h>
+#include <ch32v00X_rcc.h>
 
 /* PWR registers bit mask */
 /* CTLR register bit mask */
@@ -29,8 +29,8 @@
  */
 void PWR_DeInit(void)
 {
-    RCC_APB1PeriphResetCmd(RCC_APB1Periph_PWR, ENABLE);
-    RCC_APB1PeriphResetCmd(RCC_APB1Periph_PWR, DISABLE);
+    RCC_PB1PeriphResetCmd(RCC_PB1Periph_PWR, ENABLE);
+    RCC_PB1PeriphResetCmd(RCC_PB1Periph_PWR, DISABLE);
 }
 
 /*********************************************************************
@@ -58,17 +58,13 @@ void PWR_PVDCmd(FunctionalState NewState)
  * @fn      PWR_PVDLevelConfig
  *
  * @brief   Configures the voltage threshold detected by the Power Voltage
- *          Detector(PVD).
+ *        Detector(PVD).
  *
  * @param   PWR_PVDLevel - specifies the PVD detection level
- *            PWR_PVDLevel_MODE0 - PVD detection level set to mode 0.
- *            PWR_PVDLevel_MODE1 - PVD detection level set to mode 1.
- *            PWR_PVDLevel_MODE2 - PVD detection level set to mode 2.
- *            PWR_PVDLevel_MODE3 - PVD detection level set to mode 3.
- *            PWR_PVDLevel_MODE4 - PVD detection level set to mode 4.
- *            PWR_PVDLevel_MODE5 - PVD detection level set to mode 5.
- *            PWR_PVDLevel_MODE6 - PVD detection level set to mode 6.
- *            PWR_PVDLevel_MODE7 - PVD detection level set to mode 7.
+ *            PWR_PVDLevel_0 - PVD detection level set to mode 0.
+ *            PWR_PVDLevel_1 - PVD detection level set to mode 1.
+ *            PWR_PVDLevel_2 - PVD detection level set to mode 2.
+ *            PWR_PVDLevel_3 - PVD detection level set to mode 3.
  *
  * @return  none
  */
@@ -148,11 +144,8 @@ void PWR_AWU_SetPrescaler(uint32_t AWU_Prescaler)
 void PWR_AWU_SetWindowValue(uint8_t WindowValue)
 {
     __IO uint32_t tmpreg = 0;
-
     tmpreg = PWR->AWUWR & AWUWR_MASK;
-
     tmpreg |= WindowValue;
-
     PWR->AWUWR  = tmpreg;
 }
 
@@ -211,3 +204,24 @@ FlagStatus PWR_GetFlagStatus(uint32_t PWR_FLAG)
     return bitstatus;
 }
 
+/*********************************************************************
+ * @fn      PWR_FLASH_LP_Cmd
+ *
+ * @brief   Enables or disables the FLASH enter low power mode 0.
+ *
+ * @param   NewState - new state of the FLASH enter low power mode 0.
+ *        (ENABLE or DISABLE).
+ *
+ * @return  none
+ */
+void PWR_FLASH_LP_Cmd(FunctionalState NewState)
+{
+    if(NewState)
+    {
+        PWR->CTLR |= (7 << 9);
+    }
+    else
+    {
+        PWR->CTLR &= ~(1 << 9);
+    }
+}

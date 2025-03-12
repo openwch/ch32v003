@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_tim.h
+ * File Name          : ch32v00X_tim.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : This file contains all the functions prototypes for the
  *                      TIM firmware library.
  *********************************************************************************
@@ -10,30 +10,34 @@
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#ifndef __CH32V00x_TIM_H
-#define __CH32V00x_TIM_H
+#ifndef __CH32V00X_TIM_H
+#define __CH32V00X_TIM_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <ch32v00x.h>
+#include <ch32v00X.h>
 
 /* TIM Time Base Init structure definition */
 typedef struct
 {
     uint16_t TIM_Prescaler; /* Specifies the prescaler value used to divide the TIM clock.
-                               This parameter can be a number between 0x0000 and 0xFFFF */
+                               This parameter can be a number between 0x0000 and 0xFFFF.
+                               @note This parameter is valid for TIM1 and TIM2. */
 
     uint16_t TIM_CounterMode; /* Specifies the counter mode.
-                                 This parameter can be a value of @ref TIM_Counter_Mode */
+                                 This parameter can be a value of @ref TIM_Counter_Mode.
+                                 @note This parameter is valid for TIM1 ,TIM2 and TIM3. */
 
     uint16_t TIM_Period; /* Specifies the period value to be loaded into the active
                             Auto-Reload Register at the next update event.
-                            This parameter must be a number between 0x0000 and 0xFFFF.  */
+                            This parameter must be a number between 0x0000 and 0xFFFF.
+                            @note This parameter is valid for TIM1 ,TIM2 and TIM3. */
 
     uint16_t TIM_ClockDivision; /* Specifies the clock division.
-                                  This parameter can be a value of @ref TIM_Clock_Division_CKD */
+                                  This parameter can be a value of @ref TIM_Clock_Division_CKD
+                                  @note This parameter is valid for TIM1 and TIM2. */
 
     uint8_t TIM_RepetitionCounter; /* Specifies the repetition counter value. Each time the RCR downcounter
                                       reaches zero, an update event is generated and counting restarts
@@ -49,24 +53,27 @@ typedef struct
 typedef struct
 {
     uint16_t TIM_OCMode; /* Specifies the TIM mode.
-                            This parameter can be a value of @ref TIM_Output_Compare_and_PWM_modes */
+                            This parameter can be a value of @ref TIM_Output_Compare_and_PWM_modes
+                            @note This parameter is valid for TIM1 and TIM2. */
 
     uint16_t TIM_OutputState; /* Specifies the TIM Output Compare state.
-                                 This parameter can be a value of @ref TIM_Output_Compare_state */
+                                 This parameter can be a value of @ref TIM_Output_Compare_state
+                                 @note This parameter is valid for TIM1 and TIM2. */
 
     uint16_t TIM_OutputNState; /* Specifies the TIM complementary Output Compare state.
                                   This parameter can be a value of @ref TIM_Output_Compare_N_state
-                                  @note This parameter is valid only for TIM1. */
+                                  @note This parameter is valid only for TIM1 and TIM2. */
 
     uint16_t TIM_Pulse; /* Specifies the pulse value to be loaded into the Capture Compare Register.
-                           This parameter can be a number between 0x0000 and 0xFFFF */
+                           This parameter can be a number between 0x0000 and 0xFFFF
+                           @note This parameter is valid for TIM1 and TIM2. */
 
     uint16_t TIM_OCPolarity; /* Specifies the output polarity.
                                 This parameter can be a value of @ref TIM_Output_Compare_Polarity */
 
     uint16_t TIM_OCNPolarity; /* Specifies the complementary output polarity.
                                  This parameter can be a value of @ref TIM_Output_Compare_N_Polarity
-                                 @note This parameter is valid only for TIM1. */
+                                 @note This parameter is valid for TIM1 and TIM2. */
 
     uint16_t TIM_OCIdleState; /* Specifies the TIM Output Compare pin state during Idle state.
                                  This parameter can be a value of @ref TIM_Output_Compare_Idle_State
@@ -81,45 +88,57 @@ typedef struct
 typedef struct
 {
     uint16_t TIM_Channel; /* Specifies the TIM channel.
-                             This parameter can be a value of @ref TIM_Channel */
+                             This parameter can be a value of @ref TIM_Channel
+                             @note This parameter is valid for TIM1 and TIM2. */
 
     uint16_t TIM_ICPolarity; /* Specifies the active edge of the input signal.
-                                This parameter can be a value of @ref TIM_Input_Capture_Polarity */
+                                This parameter can be a value of @ref TIM_Input_Capture_Polarity
+                                @note This parameter is valid for TIM1 and TIM2. */
 
     uint16_t TIM_ICSelection; /* Specifies the input.
-                                 This parameter can be a value of @ref TIM_Input_Capture_Selection */
+                                 This parameter can be a value of @ref TIM_Input_Capture_Selection
+                                 @note This parameter is valid for TIM1 and TIM2. */
 
     uint16_t TIM_ICPrescaler; /* Specifies the Input Capture Prescaler.
-                                 This parameter can be a value of @ref TIM_Input_Capture_Prescaler */
+                                 This parameter can be a value of @ref TIM_Input_Capture_Prescaler
+                                 @note This parameter is valid for TIM1 and TIM2. */
 
     uint16_t TIM_ICFilter; /* Specifies the input capture filter.
-                              This parameter can be a number between 0x0 and 0xF */
+                              This parameter can be a number between 0x0 and 0xF
+                              @note This parameter is valid for TIM1 and TIM2. */
 } TIM_ICInitTypeDef;
 
 /* BDTR structure definition */
 typedef struct
 {
     uint16_t TIM_OSSRState; /* Specifies the Off-State selection used in Run mode.
-                               This parameter can be a value of @ref OSSR_Off_State_Selection_for_Run_mode_state */
+                               This parameter can be a value of @ref OSSR_Off_State_Selection_for_Run_mode_state
+                               @note This parameter is valid only for TIM1. */
 
     uint16_t TIM_OSSIState; /* Specifies the Off-State used in Idle state.
-                               This parameter can be a value of @ref OSSI_Off_State_Selection_for_Idle_mode_state */
+                               This parameter can be a value of @ref OSSI_Off_State_Selection_for_Idle_mode_state
+                               @note This parameter is valid only for TIM1. */
 
     uint16_t TIM_LOCKLevel; /* Specifies the LOCK level parameters.
-                               This parameter can be a value of @ref Lock_level */
+                               This parameter can be a value of @ref Lock_level
+                               @note This parameter is valid only for TIM1. */
 
     uint16_t TIM_DeadTime; /* Specifies the delay time between the switching-off and the
                               switching-on of the outputs.
-                              This parameter can be a number between 0x00 and 0xFF  */
+                              This parameter can be a number between 0x00 and 0xFF
+                              @note This parameter is valid for TIM1. */
 
     uint16_t TIM_Break; /* Specifies whether the TIM Break input is enabled or not.
-                           This parameter can be a value of @ref Break_Input_enable_disable */
+                           This parameter can be a value of @ref Break_Input_enable_disable
+                           @note This parameter is valid only for TIM1. */
 
     uint16_t TIM_BreakPolarity; /* Specifies the TIM Break Input pin polarity.
-                                   This parameter can be a value of @ref Break_Polarity */
+                                   This parameter can be a value of @ref Break_Polarity
+                                   @note This parameter is valid only for TIM1. */
 
     uint16_t TIM_AutomaticOutput; /* Specifies whether the TIM Automatic Output feature is enabled or not.
-                                     This parameter can be a value of @ref TIM_AOE_Bit_Set_Reset */
+                                     This parameter can be a value of @ref TIM_AOE_Bit_Set_Reset
+                                     @note This parameter is valid only for TIM1. */
 } TIM_BDTRInitTypeDef;
 
 /* TIM_Output_Compare_and_PWM_modes */
@@ -501,9 +520,10 @@ void       TIM_ClearFlag(TIM_TypeDef *TIMx, uint16_t TIM_FLAG);
 ITStatus   TIM_GetITStatus(TIM_TypeDef *TIMx, uint16_t TIM_IT);
 void       TIM_ClearITPendingBit(TIM_TypeDef *TIMx, uint16_t TIM_IT);
 void       TIM_IndicateCaptureLevelCmd(TIM_TypeDef *TIMx, FunctionalState NewState);
+void       TIM_DeadTimeConfig(TIM_TypeDef *TIMx, uint16_t TIM_Channel, uint8_t DeadTime);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /*__CH32V00x_TIM_H */
+#endif /*__CH32V00X_TIM_H */

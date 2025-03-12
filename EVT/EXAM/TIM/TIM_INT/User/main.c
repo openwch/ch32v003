@@ -2,8 +2,8 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/08/23
- * Description        : CH32V003 Device Peripheral Access Layer System Header File.
+ * Date               : 2024/08/22
+ * Description        : Main program body.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
 * Attention: This software (modified or not) and binary are used for 
@@ -62,7 +62,7 @@ void TIM1_INT_Init( u16 arr, u16 psc)
     NVIC_InitTypeDef NVIC_InitStructure={0};
     TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure={0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE );
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM1, ENABLE );
 
     TIM_TimeBaseInitStructure.TIM_Period = arr;
     TIM_TimeBaseInitStructure.TIM_Prescaler = psc;
@@ -105,7 +105,7 @@ int main(void)
     TIM1_INT_Init( 100-1, 48000-1);
 #if(MODE==MODE1)
 
-    TIM_Cmd( TIM1, ENABLE );//5S
+    TIM_Cmd( TIM1, ENABLE );
 
 #elif(MODE==MODE2)
 

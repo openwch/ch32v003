@@ -1,14 +1,14 @@
 ENTRY( _start )
 
-__stack_size = 256;
+__stack_size = 512;
 
 PROVIDE( _stack_size = __stack_size );
 
 MEMORY
 {
-	BFLASH (rx) : ORIGIN = 0x1ffff000, LENGTH = 1920
+	BFLASH (rx) : ORIGIN = 0x1fff0000, LENGTH = 3328
 	FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 16K
-	RAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 2K
+	RAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 4K
 }
 
 SECTIONS
@@ -21,22 +21,6 @@ SECTIONS
       . = ALIGN(4);
       _einit = .;
     } >FLASH AT>FLASH
-    
-        .highcodelalign : 
-    {       
-        . = ALIGN(4);
-        PROVIDE(_highcode_lma = .); 
-    } >FLASH AT>FLASH 
-    
-    .highcode : 
-    {
-        . = ALIGN(4);
-        PROVIDE(_highcode_vma_start = .);
-        *(.highcode);
-        *(.highcode.*);
-		. = ALIGN(4); 
-        PROVIDE(_highcode_vma_end = .);
-    } >RAM AT>FLASH
     
 	.bbinit :
     { 

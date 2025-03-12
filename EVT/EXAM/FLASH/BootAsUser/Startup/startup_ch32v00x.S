@@ -1,9 +1,9 @@
 ;/********************************** (C) COPYRIGHT *******************************
-;* File Name          : startup_ch32v00x.s
+;* File Name          : startup_ch32v00X.s
 ;* Author             : WCH
-;* Version            : V1.0.1
-;* Date               : 2023/12/26
-;* Description        : vector table for eclipse toolchain.
+;* Version            : V1.0.0
+;* Date               : 2024/11/08
+;* Description        : ch32v002-ch32v004-ch32v005-ch32v006-ch32v007-ch32m007 vector table for eclipse toolchain.
 ;*                       (BOOT flash as user flash)
 ;*********************************************************************************
 ;* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -62,6 +62,8 @@ _start:
     .word   TIM1_TRG_COM_IRQHandler    	/* TIM1 Trigger and Commutation */
     .word   TIM1_CC_IRQHandler         	/* TIM1 Capture Compare */
     .word   TIM2_IRQHandler            	/* TIM2 */
+    .word   USART2_IRQHandler          	/* USART2 */
+    .word   OPCM_IRQHandler            	/* OPCM */
 
 	.option rvc;
 	.section  .text.vector_handler, "ax", @progbits
@@ -92,6 +94,8 @@ _start:
 	.weak   TIM1_TRG_COM_IRQHandler
 	.weak   TIM1_CC_IRQHandler
 	.weak   TIM2_IRQHandler
+	.weak   USART2_IRQHandler
+	.weak   OPCM_IRQHandler
 
 NMI_Handler:
 HardFault_Handler:
@@ -120,6 +124,8 @@ TIM1_UP_IRQHandler:
 TIM1_TRG_COM_IRQHandler:
 TIM1_CC_IRQHandler:
 TIM2_IRQHandler:
+USART2_IRQHandler:
+OPCM_IRQHandler:
 1:
 	j 1b
 
@@ -133,19 +139,6 @@ handle_reset:
 .option pop
 1:
 	la sp, _eusrstack
-
-	/* Load highcode code  section from flash to RAM */
-2:
-    la a0, _highcode_lma
-    la a1, _highcode_vma_start
-    la a2, _highcode_vma_end
-    bgeu a1, a2, 2f
-1:
-    lw t0, (a0)
-    sw t0, (a1)
-    addi a0, a0, 4
-    addi a1, a1, 4
-    bltu a1, a2, 1b
 2:
 /* Load data section from flash to RAM */
 	la a0, _data_lma
@@ -179,7 +172,7 @@ handle_reset:
     ori t0, t0, 3
     csrw mtvec, t0
   
-    jal   SystemInit
+    jal SystemInit
     la t0, main
     csrw mepc, t0
     mret

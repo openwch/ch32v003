@@ -1,21 +1,22 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_gpio.c
+ * File Name          : ch32v00X_gpio.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2024/01/09
+ * Version            : V1.0.1
+ * Date               : 2025/03/10
  * Description        : This file provides all the GPIO firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#include <ch32v00x_gpio.h>
-#include <ch32v00x_rcc.h>
+#include <ch32v00X_gpio.h>
+#include <ch32v00X_rcc.h>
 
 /* MASK */
 #define LSB_MASK                  ((uint16_t)0xFFFF)
 #define DBGAFR_POSITION_MASK      ((uint32_t)0x000F0000)
 #define DBGAFR_SDI_MASK           ((uint32_t)0xF8FFFFFF)
+#define DBGAFR_TIM2RP_MASK        ((uint32_t)0x00400000)
 #define DBGAFR_LOCATION_MASK      ((uint32_t)0x00200000)
 #define DBGAFR_NUMBITS_MASK       ((uint32_t)0x00100000)
 
@@ -33,18 +34,23 @@ void GPIO_DeInit(GPIO_TypeDef *GPIOx)
 {
     if(GPIOx == GPIOA)
     {
-        RCC_APB2PeriphResetCmd(RCC_APB2Periph_GPIOA, ENABLE);
-        RCC_APB2PeriphResetCmd(RCC_APB2Periph_GPIOA, DISABLE);
+        RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOA, ENABLE);
+        RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOA, DISABLE);
+    }
+    else if(GPIOx == GPIOB)
+    {
+        RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOB, ENABLE);
+        RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOB, DISABLE);
     }
     else if(GPIOx == GPIOC)
     {
-        RCC_APB2PeriphResetCmd(RCC_APB2Periph_GPIOC, ENABLE);
-        RCC_APB2PeriphResetCmd(RCC_APB2Periph_GPIOC, DISABLE);
+        RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOC, ENABLE);
+        RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOC, DISABLE);
     }
     else if(GPIOx == GPIOD)
     {
-        RCC_APB2PeriphResetCmd(RCC_APB2Periph_GPIOD, ENABLE);
-        RCC_APB2PeriphResetCmd(RCC_APB2Periph_GPIOD, DISABLE);
+        RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOD, ENABLE);
+        RCC_PB2PeriphResetCmd(RCC_PB2Periph_GPIOD, DISABLE);
     }
 }
 
@@ -58,8 +64,8 @@ void GPIO_DeInit(GPIO_TypeDef *GPIOx)
  */
 void GPIO_AFIODeInit(void)
 {
-    RCC_APB2PeriphResetCmd(RCC_APB2Periph_AFIO, ENABLE);
-    RCC_APB2PeriphResetCmd(RCC_APB2Periph_AFIO, DISABLE);
+    RCC_PB2PeriphResetCmd(RCC_PB2Periph_AFIO, ENABLE);
+    RCC_PB2PeriphResetCmd(RCC_PB2Periph_AFIO, DISABLE);
 }
 
 /*********************************************************************
@@ -130,7 +136,7 @@ void GPIO_Init(GPIO_TypeDef *GPIOx, GPIO_InitTypeDef *GPIO_InitStruct)
 void GPIO_StructInit(GPIO_InitTypeDef *GPIO_InitStruct)
 {
     GPIO_InitStruct->GPIO_Pin = GPIO_Pin_All;
-    GPIO_InitStruct->GPIO_Speed = GPIO_Speed_2MHz;
+    GPIO_InitStruct->GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_InitStruct->GPIO_Mode = GPIO_Mode_IN_FLOATING;
 }
 
@@ -316,90 +322,117 @@ void GPIO_PinLockConfig(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
  * @brief   Changes the mapping of the specified pin.
  *
  * @param   GPIO_Remap - selects the pin to remap.
- *            GPIO_Remap_SPI1 - SPI1 Alternate Function mapping
- *            GPIO_PartialRemap_I2C1 - I2C1 Partial Alternate Function mapping
- *            GPIO_FullRemap_I2C1 - I2C1 Full Alternate Function mapping
+ *            GPIO_PartialRemap1_SPI1 - SPI1 Partial Alternate Function mapping
+ *            GPIO_PartialRemap2_SPI1 - SPI1 Partia2 Alternate Function mapping
+ *            GPIO_PartialRemap3_SPI1 - SPI1 Partia3 Alternate Function mapping
+ *            GPIO_PartialRemap4_SPI1 - SPI1 Partia4 Alternate Function mapping
+ *            GPIO_PartialRemap5_SPI1 - SPI1 Partia5 Alternate Function mapping
+ *            GPIO_FullRemap_SPI1 - SPI1 Full Alternate Function mapping
+ *            GPIO_PartialRemap1_I2C1 - I2C1 Partia1 Alternate Function mapping
+ *            GPIO_PartialRemap2_I2C1 - I2C1 Partia2 Alternate Function mapping
+ *            GPIO_PartialRemap3_I2C1 - I2C1 Partia3 Alternate Function mapping
+ *            GPIO_FullRemap4_I2C1 - I2C1 Full Alternate Function mapping
  *            GPIO_PartialRemap1_USART1 - USART1 Partial1 Alternate Function mapping
  *            GPIO_PartialRemap2_USART1 - USART1 Partial2 Alternate Function mapping
+ *            GPIO_PartialRemap3_USART1 - USART1 Partial3 Alternate Function mapping
+ *            GPIO_PartialRemap4_USART1 - USART1 Partial4 Alternate Function mapping
+ *            GPIO_PartialRemap5_USART1 - USART1 Partial5 Alternate Function mapping
+ *            GPIO_PartialRemap6_USART1 - USART1 Partial6 Alternate Function mapping
+ *            GPIO_PartialRemap7_USART1 - USART1 Partial7 Alternate Function mapping
+ *            GPIO_PartialRemap8_USART1 - USART1 Partial8 Alternate Function mapping
  *            GPIO_FullRemap_USART1 - USART1 Full Alternate Function mapping
  *            GPIO_PartialRemap1_TIM1 - TIM1 Partial1 Alternate Function mapping
  *            GPIO_PartialRemap2_TIM1 - TIM1 Partial2 Alternate Function mapping
+ *            GPIO_PartialRemap3_TIM1 - TIM1 Partial3 Alternate Function mapping
+ *            GPIO_PartialRemap4_TIM1 - TIM1 Partial4 Alternate Function mapping
+ *            GPIO_PartialRemap5_TIM1 - TIM1 Partial5 Alternate Function mapping
+ *            GPIO_PartialRemap6_TIM1 - TIM1 Partial6 Alternate Function mapping
+ *            GPIO_PartialRemap7_TIM1 - TIM1 Partial7 Alternate Function mapping
+ *            GPIO_PartialRemap8_TIM1 - TIM1 Partial8 Alternate Function mapping
  *            GPIO_FullRemap_TIM1 - TIM1 Full Alternate Function mapping
  *            GPIO_PartialRemap1_TIM2 - TIM2 Partial1 Alternate Function mapping
  *            GPIO_PartialRemap2_TIM2 - TIM2 Partial2 Alternate Function mapping
+ *            GPIO_PartialRemap3_TIM2 - TIM2 Partial3 Alternate Function mapping
+ *            GPIO_PartialRemap4_TIM2 - TIM2 Partial4 Alternate Function mapping
+ *            GPIO_PartialRemap5_TIM2 - TIM2 Partial5 Alternate Function mapping
+ *            GPIO_PartialRemap6_TIM2 - TIM2 Partial6 Alternate Function mapping
  *            GPIO_FullRemap_TIM2 - TIM2 Full Alternate Function mapping
- *            GPIO_Remap_PA1PA2 - PA1_PA2 Alternate Function mapping
- *            GPIO_Remap_ADC1_ETRGINJ - ADC1 External Trigger Injected Conversion remapping
- *            GPIO_Remap_ADC1_ETRGREG - ADC1 External Trigger Regular Conversion remapping
+ *            GPIO_Remap_PA1_2 - PA1 and PA2 Alternate Function mapping
+ *            GPIO_Remap_ADC1_ETRGINJ - ADC1 External Trigger Injected Conversion mapping
+ *            GPIO_Remap_ADC1_ETRGREG - ADC1 External Trigger Regular Conversion mapping
+ *            GPIO_PartialRemap1_USART2 - USART2 Partial1 Alternate Function mapping
+ *            GPIO_PartialRemap2_USART2 - USART2 Partial2 Alternate Function mapping
+ *            GPIO_PartialRemap3_USART2 - USART2 Partial3 Alternate Function mapping
+ *            GPIO_PartialRemap4_USART2 - USART2 Partial4 Alternate Function mapping
+ *            GPIO_PartialRemap5_USART2 - USART2 Partial5 Alternate Function mapping
+ *            GPIO_FullRemap_USART2 - USART2 Full Alternate Function mapping
  *            GPIO_Remap_LSI_CAL - LSI calibration Alternate Function mapping
  *            GPIO_Remap_SDI_Disable - SDI Disabled
  *          NewState - ENABLE or DISABLE.
  *
  * @return  none
  */
+
 void GPIO_PinRemapConfig(uint32_t GPIO_Remap, FunctionalState NewState)
 {
     uint32_t tmp = 0x00, tmp1 = 0x00, tmpreg = 0x00, tmpmask = 0x00;
 
-    tmpreg = AFIO->PCFR1;
-
     tmpmask = (GPIO_Remap & DBGAFR_POSITION_MASK) >> 0x10;
     tmp = GPIO_Remap & LSB_MASK;
+    tmpreg = AFIO->PCFR1;
 
-    if((GPIO_Remap & 0x10000000) == 0x10000000)
+    /* Clear bit */
+    if((GPIO_Remap & 0x08000000) == 0x08000000) /* 3bit */
     {
-        tmpreg &= ~((1<<1) | (1<<22));
-        tmpreg |= ~DBGAFR_SDI_MASK;
-        if(NewState != DISABLE)
+        if((GPIO_Remap & (DBGAFR_LOCATION_MASK | DBGAFR_NUMBITS_MASK)) == (DBGAFR_LOCATION_MASK | DBGAFR_NUMBITS_MASK)) /* [26:24] SDI */
         {
-            tmpreg |= (GPIO_Remap & 0xEFFFFFFF);
+            tmpreg &= DBGAFR_SDI_MASK;
+            AFIO->PCFR1 &= DBGAFR_SDI_MASK;
         }
-
-    }
-    else if((GPIO_Remap & 0x80000000) == 0x80000000)
-    {
-        tmpreg &= ~((1<<2) | (1<<21));
-        tmpreg |= ~DBGAFR_SDI_MASK;
-        if(NewState != DISABLE)
+        else if((GPIO_Remap & DBGAFR_TIM2RP_MASK) == DBGAFR_TIM2RP_MASK) /* [16:14] 3bit */
         {
-            tmpreg |= (GPIO_Remap & 0x7FFFFFFF);
+            tmp1 = ((uint32_t)0x07) << tmpmask;
+            tmpreg &= ~tmp1;
+
+            if(NewState != DISABLE)
+            {
+                tmpreg |= (tmp << tmpmask);
+            }
+
+            AFIO->PCFR1 = tmpreg;
+            return;
         }
-
-    }
-    else if((GPIO_Remap & (DBGAFR_LOCATION_MASK | DBGAFR_NUMBITS_MASK)) == (DBGAFR_LOCATION_MASK | DBGAFR_NUMBITS_MASK))/* SDI */
-    {
-        tmpreg &= DBGAFR_SDI_MASK;
-        AFIO->PCFR1 &= DBGAFR_SDI_MASK;
-
-        if(NewState != DISABLE)
+        else if((GPIO_Remap & (DBGAFR_LOCATION_MASK | DBGAFR_NUMBITS_MASK)) == DBGAFR_LOCATION_MASK) /* [31:16] 3bit */
         {
-            tmpreg |= (tmp << ((GPIO_Remap >> 0x15) * 0x10));
+            tmp1 = ((uint32_t)0x07) << (tmpmask + 0x10);
+            tmpreg &= ~tmp1;
         }
-    }
-    else if((GPIO_Remap & DBGAFR_NUMBITS_MASK) == DBGAFR_NUMBITS_MASK)/* [15:0] 2bit */
-    {
-        tmp1 = ((uint32_t)0x03) << tmpmask;
-        tmpreg &= ~tmp1;
-        tmpreg |= ~DBGAFR_SDI_MASK;
-
-        if(NewState != DISABLE)
+        else /* [15:0] 3bit */
         {
-            tmpreg |= (tmp << ((GPIO_Remap >> 0x15) * 0x10));
+            tmp1 = ((uint32_t)0x07) << tmpmask;
+            tmpreg &= ~tmp1;
         }
     }
-    else/* [31:0] 1bit */
+    else
     {
-        tmpreg &= ~(tmp << ((GPIO_Remap >> 0x15) * 0x10));
-        tmpreg |= ~DBGAFR_SDI_MASK;
-
-        if(NewState != DISABLE)
+        if((GPIO_Remap & DBGAFR_NUMBITS_MASK) == DBGAFR_NUMBITS_MASK) /* [15:0] 4bit */
         {
-            tmpreg |= (tmp << ((GPIO_Remap >> 0x15) * 0x10));
+            tmp1 = ((uint32_t)0x0F) << tmpmask;
+            tmpreg &= ~tmp1;
+        }
+        else /* [31:0] 1bit */
+        {
+            tmpreg &= ~(tmp << (((GPIO_Remap & 0x00FFFFFF ) >> 0x15) * 0x10));
         }
     }
 
+    /* Set bit */
+    if(NewState != DISABLE)
+    {
+        tmpreg |= (tmp << (((GPIO_Remap & 0x00FFFFFF )>> 0x15) * 0x10));
+    }
 
-     AFIO->PCFR1 = tmpreg;
+    AFIO->PCFR1 = tmpreg;
 }
 
 /*********************************************************************
@@ -426,7 +459,7 @@ void GPIO_EXTILineConfig(uint8_t GPIO_PortSource, uint8_t GPIO_PinSource)
 /*********************************************************************
  * @fn      GPIO_IPD_Unused
  *
- * @brief   Configure unused GPIO as input pull-up.
+ * @brief   Configure unused GPIO as input pull-down.
  *
  * @param   none
  *
@@ -436,34 +469,294 @@ void GPIO_IPD_Unused(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
     uint32_t chip = 0;
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOC, ENABLE);
-    chip =  *( uint32_t * )0x1FFFF7C4 & (~0x000000F0);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA |RCC_PB2Periph_GPIOB | RCC_PB2Periph_GPIOC | RCC_PB2Periph_GPIOD, ENABLE);
+    chip =  *( uint32_t * )0x1FFFF704 & (~0x000000F0);
     switch(chip)
     {
-        case 0x00320500:     //CH32V003A4M6
+        case 0x00630600:     //CH32V006F8P6
         {
-            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_2\
-                                         |GPIO_Pin_3;
-            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-            GPIO_Init(GPIOD, &GPIO_InitStructure);
-            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
-            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_5\
+                                         |GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2\
+                                         |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00620600:     //CH32V006F8U6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_5\
+                                         |GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2\
+                                         |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00610600:     //CH32V006E8R6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3|GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
             GPIO_Init(GPIOC, &GPIO_InitStructure);
             break;
         }
-        case 0x00330500:     //CH32V003J4M6
+        case 0x00640600:     //CH32V006F4U6
         {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_4\
+                                         |GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2\
+                                         |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00600600:     //CH32V006K8U6
+        {
+            break;
+        }
+
+        case 0x00720600:     //CH32V007K8U6
+        {
+            break;
+        }
+        case 0x00710600:     //CH32V007E8R6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3|GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOC, &GPIO_InitStructure);
+            break;
+        }
+
+        case 0x00730800:     //CH32M007E8R6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_6\
+                                         |GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOC, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00740800:     //CH32M007E8U6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3|GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOC, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00700800:     //CH32M007G8R6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_3\
+                                         |GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOC, &GPIO_InitStructure);
+            break;
+        }
+
+        case 0x00530600:     //CH32V005D6U6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_3;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_5;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOC, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOD, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00520600:     //CH32V005F6P6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_3;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00510600:     //CH32V005F6U6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_3;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00500600:     //CH32V005E6R6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3|GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOC, &GPIO_InitStructure);
+            break;
+        }
+
+        case 0x00240600:     //CH32V002J4M6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_4\
+                                         |GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2\
+                                         |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_5\
+                                         |GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOC, &GPIO_InitStructure);
             GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_3\
-                                          |GPIO_Pin_7;
-            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+                                         |GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
             GPIO_Init(GPIOD, &GPIO_InitStructure);
-            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3\
-                                          |GPIO_Pin_5|GPIO_Pin_6\
-                                          |GPIO_Pin_7;
-            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-            GPIO_Init(GPIOC, &GPIO_InitStructure);
             break;
         }
+
+        case 0x00230600:     //CH32V002D4U6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_4\
+                                         |GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2\
+                                         |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1|GPIO_Pin_2|GPIO_Pin_5;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOC, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOD, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00220600:     //CH32V002A4M6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_4\
+                                         |GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2\
+                                         |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOC, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_3;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOD, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00210600:     //CH32V002F4U6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_4\
+                                         |GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2\
+                                         |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00200600:     //CH32V002F4P6
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_4\
+                                         |GPIO_Pin_5|GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2\
+                                         |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00400600:     //CH32V004F6P1
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_5\
+                                         |GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2\
+                                         |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            break;
+        }
+        case 0x00410600:     //CH32V004F6U1
+        {
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_3|GPIO_Pin_5\
+                                         |GPIO_Pin_6|GPIO_Pin_7;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2\
+                                         |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5\
+                                         |GPIO_Pin_6;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            break;
+        }
+
         default:
         {
             break;
@@ -472,6 +765,4 @@ void GPIO_IPD_Unused(void)
     }
 
 }
-
-
 

@@ -1,16 +1,16 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_adc.c
+ * File Name          : ch32v00X_adc.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Version            : V1.0.1
+ * Date               : 2025/01/07
  * Description        : This file provides all the ADC firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#include <ch32v00x_adc.h>
-#include <ch32v00x_rcc.h>
+#include <ch32v00X_adc.h>
+#include <ch32v00X_rcc.h>
 
 /* ADC DISCNUM mask */
 #define CTLR1_DISCNUM_Reset              ((uint32_t)0xFFFF1FFF)
@@ -44,12 +44,6 @@
 #define CTLR2_DMA_Set                    ((uint32_t)0x00000100)
 #define CTLR2_DMA_Reset                  ((uint32_t)0xFFFFFEFF)
 
-/* ADC RSTCAL mask */
-#define CTLR2_RSTCAL_Set                 ((uint32_t)0x00000008)
-
-/* ADC CAL mask */
-#define CTLR2_CAL_Set                    ((uint32_t)0x00000004)
-
 /* ADC SWSTART mask */
 #define CTLR2_SWSTART_Set                ((uint32_t)0x00400000)
 
@@ -75,10 +69,6 @@
 #define CTLR2_JEXTTRIG_JSWSTART_Set      ((uint32_t)0x00208000)
 #define CTLR2_JEXTTRIG_JSWSTART_Reset    ((uint32_t)0xFFDF7FFF)
 
-/* ADC TSPD mask */
-#define CTLR2_TSVREFE_Set                ((uint32_t)0x00800000)
-#define CTLR2_TSVREFE_Reset              ((uint32_t)0xFF7FFFFF)
-
 /* CTLR2 register Mask */
 #define CTLR2_CLEAR_Mask                 ((uint32_t)0xFFF1F7FD)
 
@@ -98,7 +88,6 @@
 #define ISQR_JL_Reset                    ((uint32_t)0xFFCFFFFF)
 
 /* ADC SMPx mask */
-#define SAMPTR1_SMP_Set                  ((uint32_t)0x00000007)
 #define SAMPTR2_SMP_Set                  ((uint32_t)0x00000007)
 
 /* ADC IDATARx registers offset */
@@ -117,10 +106,10 @@
 void ADC_DeInit(ADC_TypeDef *ADCx)
 {
     if(ADCx == ADC1)
-    {
-        RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC1, ENABLE);
-        RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC1, DISABLE);
-    }
+	{
+		RCC_PB2PeriphResetCmd(RCC_PB2Periph_ADC1, ENABLE);
+		RCC_PB2PeriphResetCmd(RCC_PB2Periph_ADC1, DISABLE);
+	}
 }
 
 /*********************************************************************
@@ -255,89 +244,11 @@ void ADC_ITConfig(ADC_TypeDef *ADCx, uint16_t ADC_IT, FunctionalState NewState)
 }
 
 /*********************************************************************
- * @fn      ADC_ResetCalibration
- *
- * @brief   Resets the selected ADC calibration registers.
- *
- * @param   ADCx - where x can be 1 to select the ADC peripheral.
- *
- * @return  none
- */
-void ADC_ResetCalibration(ADC_TypeDef *ADCx)
-{
-    ADCx->CTLR2 |= CTLR2_RSTCAL_Set;
-}
-
-/*********************************************************************
- * @fn      ADC_GetResetCalibrationStatus
- *
- * @brief   Gets the selected ADC reset calibration registers status.
- *
- * @param   ADCx - where x can be 1 to select the ADC peripheral.
- *
- * @return  FlagStatus: SET or RESET.
- */
-FlagStatus ADC_GetResetCalibrationStatus(ADC_TypeDef *ADCx)
-{
-    FlagStatus bitstatus = RESET;
-
-    if((ADCx->CTLR2 & CTLR2_RSTCAL_Set) != (uint32_t)RESET)
-    {
-        bitstatus = SET;
-    }
-    else
-    {
-        bitstatus = RESET;
-    }
-
-    return bitstatus;
-}
-
-/*********************************************************************
- * @fn      ADC_StartCalibration
- *
- * @brief   Starts the selected ADC calibration process.
- *
- * @param   ADCx - where x can be 1 to select the ADC peripheral.
- *
- * @return  None
- */
-void ADC_StartCalibration(ADC_TypeDef *ADCx)
-{
-    ADCx->CTLR2 |= CTLR2_CAL_Set;
-}
-
-/*********************************************************************
- * @fn      ADC_GetCalibrationStatus
- *
- * @brief   Gets the selected ADC calibration status.
- *
- * @param   ADCx - where x can be 1 to select the ADC peripheral.
- *
- * @return  FlagStatus: SET or RESET.
- */
-FlagStatus ADC_GetCalibrationStatus(ADC_TypeDef *ADCx)
-{
-    FlagStatus bitstatus = RESET;
-
-    if((ADCx->CTLR2 & CTLR2_CAL_Set) != (uint32_t)RESET)
-    {
-        bitstatus = SET;
-    }
-    else
-    {
-        bitstatus = RESET;
-    }
-
-    return bitstatus;
-}
-
-/*********************************************************************
  * @fn      ADC_SoftwareStartConvCmd
  *
  * @brief   Enables or disables the selected ADC software start conversion.
  *
- * @param   ADCx - where x can be 1 or 2 to select the ADC peripheral.
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
  *          NewState - ENABLE or DISABLE.
  *
  * @return  None
@@ -443,18 +354,26 @@ void ADC_DiscModeCmd(ADC_TypeDef *ADCx, FunctionalState NewState)
  *            ADC_Channel_6 - ADC Channel6 selected.
  *            ADC_Channel_7 - ADC Channel7 selected.
  *            ADC_Channel_Vrefint - ADC Channel8 selected.
- *            ADC_Channel_Vcalint - ADC Channel9 selected.
+ *            ADC_Channel_OPA - ADC Channel9 selected.
  *          Rank - The rank in the regular group sequencer.
  *            This parameter must be between 1 to 16.
  *          ADC_SampleTime - The sample time value to be set for the selected channel.
- *            ADC_SampleTime_3Cycles - Sample time equal to 3 cycles.
- *            ADC_SampleTime_9Cycles - Sample time equal to 9 cycles.
- *            ADC_SampleTime_15Cycles - Sample time equal to 15 cycles.
- *            ADC_SampleTime_30Cycles - Sample time equal to 30 cycles.
- *            ADC_SampleTime_43Cycles - Sample time equal to 43 cycles.
- *            ADC_SampleTime_57Cycles - Sample time equal to 57 cycles.
- *            ADC_SampleTime_73Cycles - Sample time equal to 73 cycles.
- *            ADC_SampleTime_241Cycles - Sample time equal to 241 cycles.
+ *            ADC_SampleTime_CyclesMode0 - Sample time equal to 3.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 3.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode1 - Sample time equal to 7.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 7.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode2 - Sample time equal to 11.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 13.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode3 - Sample time equal to 19.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 28.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode4 - Sample time equal to 35.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 41.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode5 - Sample time equal to 55.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 55.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode6 - Sample time equal to 71.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 71.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode7 - Sample time equal to 239.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 239.5 cycles(CTLR3 bit[0]-ADC_LP=1).
  *
  * @return  None
  */
@@ -462,24 +381,12 @@ void ADC_RegularChannelConfig(ADC_TypeDef *ADCx, uint8_t ADC_Channel, uint8_t Ra
 {
     uint32_t tmpreg1 = 0, tmpreg2 = 0;
 
-    if(ADC_Channel > ADC_Channel_9)
-    {
-        tmpreg1 = ADCx->SAMPTR1;
-        tmpreg2 = SAMPTR1_SMP_Set << (3 * (ADC_Channel - 10));
-        tmpreg1 &= ~tmpreg2;
-        tmpreg2 = (uint32_t)ADC_SampleTime << (3 * (ADC_Channel - 10));
-        tmpreg1 |= tmpreg2;
-        ADCx->SAMPTR1 = tmpreg1;
-    }
-    else
-    {
-        tmpreg1 = ADCx->SAMPTR2;
-        tmpreg2 = SAMPTR2_SMP_Set << (3 * ADC_Channel);
-        tmpreg1 &= ~tmpreg2;
-        tmpreg2 = (uint32_t)ADC_SampleTime << (3 * ADC_Channel);
-        tmpreg1 |= tmpreg2;
-        ADCx->SAMPTR2 = tmpreg1;
-    }
+    tmpreg1 = ADCx->SAMPTR2;
+    tmpreg2 = SAMPTR2_SMP_Set << (3 * ADC_Channel);
+    tmpreg1 &= ~tmpreg2;
+    tmpreg2 = (uint32_t)ADC_SampleTime << (3 * ADC_Channel);
+    tmpreg1 |= tmpreg2;
+    ADCx->SAMPTR2 = tmpreg1;
 
     if(Rank < 7)
     {
@@ -604,7 +511,9 @@ void ADC_InjectedDiscModeCmd(ADC_TypeDef *ADCx, FunctionalState NewState)
  *            ADC_ExternalTrigInjecConv_T1_CC4 - Timer1 capture compare4 selected.
  *            ADC_ExternalTrigInjecConv_T2_CC3 - Timer2 capture compare3 selected.
  *            ADC_ExternalTrigInjecConv_T2_CC4 - Timer2 capture compare4 selected.
- *            ADC_ExternalTrigInjecConv_Ext_PD1_PA2 - PD1 or PA2 selected.
+ *            ADC_ExternalTrigInjecConv_T3_CC1 - Timer3 capture compare1 selected.
+ *            ADC_ExternalTrigInjecConv_T4_CC2 - Timer3 capture compare2 selected.
+ *            ADC_ExternalTrigInjecConv_Ext_PD1_PA2_OPA - PD1 or PA2 or OPA selected.
  *        line 15 event selected.
  *            ADC_ExternalTrigInjecConv_None: Injected conversion started
  *        by software and not by external trigger.
@@ -709,18 +618,26 @@ FlagStatus ADC_GetSoftwareStartInjectedConvCmdStatus(ADC_TypeDef *ADCx)
  *            ADC_Channel_6 - ADC Channel6 selected.
  *            ADC_Channel_7 - ADC Channel7 selected.
  *            ADC_Channel_Vrefint - ADC Channel8 selected.
- *            ADC_Channel_Vcalint - ADC Channel9 selected.
+ *            ADC_Channel_OPA - ADC Channel9 selected.
  *          Rank - The rank in the regular group sequencer.
  *            This parameter must be between 1 to 16.
  *          ADC_SampleTime - The sample time value to be set for the selected channel.
- *            ADC_SampleTime_3Cycles - Sample time equal to 3 cycles.
- *            ADC_SampleTime_9Cycles - Sample time equal to 9 cycles.
- *            ADC_SampleTime_15Cycles - Sample time equal to 15 cycles.
- *            ADC_SampleTime_30Cycles - Sample time equal to 30 cycles.
- *            ADC_SampleTime_43Cycles - Sample time equal to 43 cycles.
- *            ADC_SampleTime_57Cycles - Sample time equal to 57 cycles.
- *            ADC_SampleTime_73Cycles - Sample time equal to 73 cycles.
- *            ADC_SampleTime_241Cycles - Sample time equal to 241 cycles.
+ *            ADC_SampleTime_CyclesMode0 - Sample time equal to 3.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 3.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode1 - Sample time equal to 7.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 7.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode2 - Sample time equal to 11.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 13.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode3 - Sample time equal to 19.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 28.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode4 - Sample time equal to 35.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 41.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode5 - Sample time equal to 55.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 55.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode6 - Sample time equal to 71.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 71.5 cycles(CTLR3 bit[0]-ADC_LP=1).
+ *            ADC_SampleTime_CyclesMode7 - Sample time equal to 239.5 cycles(CTLR3 bit[0]-ADC_LP=0).
+ *                                       - Sample time equal to 239.5 cycles(CTLR3 bit[0]-ADC_LP=1).
  *
  * @return  None
  */
@@ -728,24 +645,12 @@ void ADC_InjectedChannelConfig(ADC_TypeDef *ADCx, uint8_t ADC_Channel, uint8_t R
 {
     uint32_t tmpreg1 = 0, tmpreg2 = 0, tmpreg3 = 0;
 
-    if(ADC_Channel > ADC_Channel_9)
-    {
-        tmpreg1 = ADCx->SAMPTR1;
-        tmpreg2 = SAMPTR1_SMP_Set << (3 * (ADC_Channel - 10));
-        tmpreg1 &= ~tmpreg2;
-        tmpreg2 = (uint32_t)ADC_SampleTime << (3 * (ADC_Channel - 10));
-        tmpreg1 |= tmpreg2;
-        ADCx->SAMPTR1 = tmpreg1;
-    }
-    else
-    {
-        tmpreg1 = ADCx->SAMPTR2;
-        tmpreg2 = SAMPTR2_SMP_Set << (3 * ADC_Channel);
-        tmpreg1 &= ~tmpreg2;
-        tmpreg2 = (uint32_t)ADC_SampleTime << (3 * ADC_Channel);
-        tmpreg1 |= tmpreg2;
-        ADCx->SAMPTR2 = tmpreg1;
-    }
+    tmpreg1 = ADCx->SAMPTR2;
+    tmpreg2 = SAMPTR2_SMP_Set << (3 * ADC_Channel);
+    tmpreg1 &= ~tmpreg2;
+    tmpreg2 = (uint32_t)ADC_SampleTime << (3 * ADC_Channel);
+    tmpreg1 |= tmpreg2;
+    ADCx->SAMPTR2 = tmpreg1;
 
     tmpreg1 = ADCx->ISQR;
     tmpreg3 = (tmpreg1 & ISQR_JL_Set) >> 20;
@@ -885,6 +790,46 @@ void ADC_AnalogWatchdogThresholdsConfig(ADC_TypeDef *ADCx, uint16_t HighThreshol
 }
 
 /*********************************************************************
+ * @fn      ADC_AnalogWatchdog1ThresholdsConfig
+ *
+ * @brief   Configures the high and low thresholds of the analog watchdog1.
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          HighThreshold - the ADC analog watchdog1 High threshold value.
+ *            This parameter must be a 12bit value.
+ *          LowThreshold - the ADC analog watchdog1 Low threshold value.
+ *            This parameter must be a 12bit value.
+ *
+ * @return  none
+ */
+void ADC_AnalogWatchdog1ThresholdsConfig(ADC_TypeDef *ADCx, uint16_t HighThreshold,
+                                        uint16_t LowThreshold)
+{
+    ADCx->WDTR1 = (uint32_t)HighThreshold<<16;
+    ADCx->WDTR1 |= (uint32_t)LowThreshold;
+}
+
+/*********************************************************************
+ * @fn      ADC_AnalogWatchdog2ThresholdsConfig
+ *
+ * @brief   Configures the high and low thresholds of the analog watchdog2.
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          HighThreshold - the ADC analog watchdog2 High threshold value.
+ *            This parameter must be a 12bit value.
+ *          LowThreshold - the ADC analog watchdog2 Low threshold value.
+ *            This parameter must be a 12bit value.
+ *
+ * @return  none
+ */
+void ADC_AnalogWatchdog2ThresholdsConfig(ADC_TypeDef *ADCx, uint16_t HighThreshold,
+                                        uint16_t LowThreshold)
+{
+    ADCx->WDTR2 = (uint32_t)HighThreshold<<16;
+    ADCx->WDTR2 |= (uint32_t)LowThreshold;
+}
+
+/*********************************************************************
  * @fn      ADC_AnalogWatchdogSingleChannelConfig
  *
  * @brief   Configures the analog watchdog guarded single channel.
@@ -900,7 +845,7 @@ void ADC_AnalogWatchdogThresholdsConfig(ADC_TypeDef *ADCx, uint16_t HighThreshol
  *            ADC_Channel_6 - ADC Channel6 selected.
  *            ADC_Channel_7 - ADC Channel7 selected.
  *            ADC_Channel_Vrefint - ADC Channel8 selected.
- *            ADC_Channel_Vcalint - ADC Channel9 selected.
+ *            ADC_Channel_OPA - ADC Channel9 selected.
  *
  * @return  None
  */
@@ -1020,41 +965,293 @@ void ADC_ClearITPendingBit(ADC_TypeDef *ADCx, uint16_t ADC_IT)
 }
 
 /*********************************************************************
- * @fn      ADC_Calibration_Vol
+ * @fn      ADC_BufferCmd
  *
- * @brief   ADC calibration voltage.
+ * @brief   Enables or disables the ADCx buffer.
  *
  * @param   ADCx - where x can be 1 to select the ADC peripheral.
- *          ADC_CALVOL - ADC calibration voltage.
- *            ADC_CALVOL_50PERCENT - 50% VDD.
- *            ADC_CALVOL_75PERCENT - 75% VDD.
+ *          NewState - ENABLE or DISABLE.
  *
  * @return  none
  */
-void ADC_Calibration_Vol(ADC_TypeDef *ADCx, uint32_t ADC_CALVOL)
+void ADC_BufferCmd(ADC_TypeDef *ADCx, FunctionalState NewState)
 {
-    ADCx->CTLR1 &= ~(uint32_t)(3<<25);
-    ADCx->CTLR1 |= ADC_CALVOL;
+    if(NewState != DISABLE)
+    {
+        ADCx->CTLR1 |= (1 << 26);
+    }
+    else
+    {
+        ADCx->CTLR1 &= ~(1 << 26);
+    }
 }
 
 /*********************************************************************
- * @fn      ADC_ExternalTrig_DLY
+ * @fn      ADC_TKeyCmd
  *
- * @brief   ADC external trigger sources delay channels and time.
+ * @brief   Enables or disables the TKey.
  *
  * @param   ADCx - where x can be 1 to select the ADC peripheral.
- *          channel - ADC external trigger sources delay channels.
- *            ADC_ExternalTrigRegul_DLY - External trigger sources regular.
- *            ADC_ExternalTrigInjec_DLY - External trigger sources injected.
- *          DelayTim - ADC external trigger sources delay time
- *              This parameter must range from 0 to 0x1FF.
+ *          NewState - ENABLE or DISABLE.
  *
  * @return  none
  */
-void ADC_ExternalTrig_DLY(ADC_TypeDef *ADCx, uint32_t channel, uint16_t DelayTim)
+void ADC_TKeyCmd(ADC_TypeDef *ADCx, FunctionalState NewState)
 {
-    ADCx->DLYR &= ~(uint32_t)(0x3FF);
-    ADCx->DLYR |= channel;
-    ADCx->DLYR |= DelayTim;
+    if(NewState != DISABLE)
+    {
+        ADCx->CTLR1 |= (1 << 24);
+    }
+    else
+    {
+        ADCx->CTLR1 &= ~(1 << 24);
+    }
 }
 
+/*********************************************************************
+ * @fn      ADC_Tkey_CurrentConfig
+ *
+ * @brief   Configures TKey current.
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          TKey_Current - Tkey current.
+ *            ADC_TKey_Current_mode0 - TKey Current mode0(35uA).
+ *            ADC_TKey_Current_mode1 - TKey Current mode1(17.5uA).
+ *
+ * @return  none
+ */
+void ADC_Tkey_CurrentConfig(ADC_TypeDef *ADCx, uint32_t TKey_CurrentMode)
+{
+    ADCx->CTLR1 &= ~ADC_TKITUNE;
+    ADCx->CTLR1 |= TKey_CurrentMode;
+}
+
+/*********************************************************************
+ * @fn      ADC_RegularExTrigConvConfig
+ *
+ * @brief   Configures ADC Regular external trigger conversion.
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          RegularExTrigConv - ADC Regular external trigger conversion.
+ *            ADC_RegularExTrigConv_PD3_PC2 - ADC Regular external trigger
+ *        conversion is PD3 or PC2.
+ *            ADC_RegularExTrigConv_OPA - ADC Regular external trigger
+ *        conversion is OPA.
+ *
+ * @return  none
+ */
+void ADC_RegularExTrigConvConfig(ADC_TypeDef *ADCx, uint32_t RegularExTrigConv)
+{
+    ADCx->CTLR2 &= ~ADC_RegularExTrigConv_OPA;
+    ADCx->CTLR2 |= RegularExTrigConv;
+}
+
+/*********************************************************************
+ * @fn      ADC_InjectedExTrigConvConfig
+ *
+ * @brief   Configures ADC Injected external trigger conversion.
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          RegularExTrigConv - ADC Injected external trigger conversion.
+ *            ADC_InjectedExTrigConv_PD1_PA2 - ADC Injected external trigger
+ *        conversion is PD1 or PA2.
+ *            ADC_InjectedExTrigConv_OPA - ADC Injected external trigger
+ *        conversion is OPA.
+ *
+ * @return  none
+ */
+void ADC_InjectedExTrigConvConfig(ADC_TypeDef *ADCx, uint32_t InjectedExTrigConv)
+{
+    ADCx->CTLR2 &= ~ADC_InjectedExTrigConv_OPA;
+    ADCx->CTLR2 |= InjectedExTrigConv;
+}
+
+/*********************************************************************
+ * @fn      ADC_TKey_ChannelxMulShieldCmd
+ *
+ * @brief   Enables or disables TKey Multiplex shielding of the selected ADC channel.
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          ADC_Channel - the ADC channel to configure.
+ *            ADC_Channel_0 - ADC Channel0 selected.
+ *            ADC_Channel_1 - ADC Channel1 selected.
+ *            ADC_Channel_2 - ADC Channel2 selected.
+ *            ADC_Channel_3 - ADC Channel3 selected.
+ *            ADC_Channel_4 - ADC Channel4 selected.
+ *            ADC_Channel_5 - ADC Channel5 selected.
+ *            ADC_Channel_6 - ADC Channel6 selected.
+ *            ADC_Channel_7 - ADC Channel7 selected.
+ *            ADC_Channel_Vrefint - ADC Channel8 selected.
+ *            ADC_Channel_OPA - ADC Channel9 selected.
+ *          NewState - ENABLE or DISABLE.
+ *
+ * @return  none
+ */
+void ADC_TKey_ChannelxMulShieldCmd(ADC_TypeDef *ADCx, uint8_t ADC_Channel, FunctionalState NewState)
+{
+    if(NewState != DISABLE)
+    {
+        ADCx->CTLR3 |= ((1<<16)<< ADC_Channel);
+    }
+    else
+    {
+        ADCx->CTLR3 &= ~((1<<16)<< ADC_Channel);
+    }
+}
+
+/*********************************************************************
+ * @fn      ADC_TKey_MulShieldCmd
+ *
+ * @brief   Enables or disables the TKey Multiplex shielding.
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          NewState - ENABLE or DISABLE.
+ *
+ * @return  none
+ */
+void ADC_TKey_MulShieldCmd(ADC_TypeDef *ADCx, FunctionalState NewState)
+{
+    if(NewState != DISABLE)
+    {
+        ADCx->CTLR3 |= (1 << 2);
+    }
+    else
+    {
+        ADCx->CTLR3 &= ~(1 << 2);
+    }
+}
+
+/*********************************************************************
+ * @fn      ADC_Sample_ModeConfig
+ *
+ * @brief   Configures the ADC Sample Mode.
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          ADC_Sample_Mode - Sample Mode.
+ *            ADC_Sample_NoOver_1M_Mode - sampling rate no over 1M(<=1M) mode.
+ *            ADC_Sample_Over_1M_Mode - sampling rate over 1M(>1M) mode.
+ *
+ * @return  none
+ */
+void ADC_Sample_ModeConfig(ADC_TypeDef *ADCx, uint32_t ADC_Sample_Mode)
+{
+    ADCx->CTLR3 &= ~ADC_Sample_NoOver_1M_Mode;
+    ADCx->CTLR3 |= ADC_Sample_Mode;
+}
+
+/*********************************************************************
+ * @fn      ADC_DutyDelayCmd
+ *
+ * @brief   Enables or disables the Duty delay.
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          NewState - ENABLE or DISABLE.
+ *
+ * @return  none
+ */
+void ADC_DutyDelayCmd(ADC_TypeDef *ADCx, FunctionalState NewState)
+{
+    if(NewState != DISABLE)
+    {
+        ADCx->CTLR3 |= (1 << 1);
+    }
+    else
+    {
+        ADCx->CTLR3 &= ~(1 << 1);
+    }
+}
+
+/*********************************************************************
+ * @fn      ADC_GetAnalogWatchdogFlagStatus
+ *
+ * @brief   Checks whether the specified ADC Analog Watchdog flag is set or not.
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          AnalogWatchdog_FLAG - specifies the Analog watchdog flag to check.
+ *            ADC_AnalogWatchdog_0_FLAG - Analog watchdog 0 flag.
+ *            ADC_AnalogWatchdog_1_FLAG - Analog watchdog 1 flag.
+ *            ADC_AnalogWatchdog_2_FLAG - Analog watchdog 2 flag.
+ *
+ * @return  FlagStatus: SET or RESET.
+ */
+FlagStatus ADC_GetAnalogWatchdogFlagStatus(ADC_TypeDef *ADCx, uint32_t AnalogWatchdog_FLAG)
+{
+    FlagStatus bitstatus = RESET;
+
+    if((ADCx->CTLR3 & AnalogWatchdog_FLAG) != (uint8_t)RESET)
+    {
+        bitstatus = SET;
+    }
+    else
+    {
+        bitstatus = RESET;
+    }
+
+    return bitstatus;
+}
+
+/*********************************************************************
+ * @fn      ADC_ClearAnalogWatchdogFlag
+ *
+ * @brief   Clears the ADCx's pending Analog Watchdog flags.
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          AnalogWatchdog_FLAG - specifies the Analog watchdog flag to check.
+ *            ADC_AnalogWatchdog_0_FLAG - Analog watchdog 0 flag.
+ *            ADC_AnalogWatchdog_1_FLAG - Analog watchdog 1 flag.
+ *            ADC_AnalogWatchdog_2_FLAG - Analog watchdog 2 flag.
+ *
+ * @return  none
+ */
+void ADC_ClearAnalogWatchdogFlag(ADC_TypeDef *ADCx, uint32_t AnalogWatchdog_FLAG)
+{
+    ADCx->CTLR3 &= ~(uint32_t)AnalogWatchdog_FLAG;
+}
+
+/*********************************************************************
+ * @fn      ADC_AnalogWatchdogResetCmd
+ *
+ * @brief   Enables or disables the analog watchdog reset
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          ADC_AnalogWatchdog_x -  Analog watchdog X.
+ *            ADC_AnalogWatchdog_0_RST_EN.
+ *            ADC_AnalogWatchdog_1_RST_EN.
+ *            ADC_AnalogWatchdog_2_RST_EN.
+ *          NewState - ENABLE or DISABLE.
+ *
+ * @return  none
+ */
+void ADC_AnalogWatchdogResetCmd(ADC_TypeDef *ADCx, uint32_t ADC_AnalogWatchdog_x, FunctionalState NewState)
+{
+  if(NewState != DISABLE)
+  {
+      ADCx->CTLR3 |= ADC_AnalogWatchdog_x;
+  }
+  else
+  {
+      ADCx->CTLR3 &= ~ADC_AnalogWatchdog_x;
+  }
+}
+
+/*********************************************************************
+ * @fn      ADC_AnalogWatchdogScanCmd
+ *
+ * @brief   Enable ADC clock duty cycle adjustment.
+ *
+ * @param   ADCx - where x can be 1 to select the ADC peripheral.
+ *          NewState - ENABLE or DISABLE.
+ *
+ * @return  none
+ */
+void ADC_AnalogWatchdogScanCmd(ADC_TypeDef *ADCx, FunctionalState NewState)
+{
+    if(NewState != DISABLE)
+    {
+        ADCx->CTLR3 |= (1<<3);
+    }
+    else
+    {
+        ADCx->CTLR3 &= ~(1<<3);
+    }
+}

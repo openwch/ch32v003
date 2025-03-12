@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_misc.h
+ * File Name          : ch32v00X_misc.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/26
+ * Date               : 2024/01/01
  * Description        : This file contains all the functions prototypes for the 
  *                      miscellaneous firmware library functions.
  *********************************************************************************
@@ -17,21 +17,21 @@
  extern "C" {
 #endif
 
-#include <ch32v00x.h>
+#include <ch32v00X.h>
 
 /* CSR_INTSYSCR_INEST_definition */
 #define INTSYSCR_INEST_NoEN   0x00   /* interrupt nesting disable(CSR-0x804 bit1 = 0) */
 #define INTSYSCR_INEST_EN     0x01   /* interrupt nesting enable(CSR-0x804 bit1 = 1) */
 
 /* Check the configuration of CSR(0x804) in the startup file(.S)
-*   interrupt nesting enable(CSR-0x804 bit1 = 1)
-*     priority - bit[7] - Preemption Priority
-*                bit[6] - Sub priority
-*                bit[5:0] - Reserve
-*   interrupt nesting disable(CSR-0x804 bit1 = 0)
-*     priority - bit[7:6] - Sub priority
-*                bit[5:0] - Reserve
-*/
+ *   interrupt nesting enable(CSR-0x804 bit1 = 1)
+ *     priority - bit[7] - Preemption Priority
+ *                bit[6] - Sub priority
+ *                bit[5:0] - Reserve
+ *   interrupt nesting disable(CSR-0x804 bit1 = 0)
+ *     priority - bit[7:6] - Sub priority
+ *                bit[5:0] - Reserve
+ */
 
 #ifndef INTSYSCR_INEST
 #define INTSYSCR_INEST   INTSYSCR_INEST_EN
@@ -49,17 +49,17 @@
  */
 typedef struct
 {
-  uint8_t NVIC_IRQChannel;
-  uint8_t NVIC_IRQChannelPreemptionPriority;
-  uint8_t NVIC_IRQChannelSubPriority;
-  FunctionalState NVIC_IRQChannelCmd;
+    uint8_t NVIC_IRQChannel;
+    uint8_t NVIC_IRQChannelPreemptionPriority;
+    uint8_t NVIC_IRQChannelSubPriority;
+    FunctionalState NVIC_IRQChannelCmd;
 } NVIC_InitTypeDef;
 
 /* Preemption_Priority_Group */
 #if (INTSYSCR_INEST == INTSYSCR_INEST_NoEN)
-#define NVIC_PriorityGroup_0           ((uint32_t)0x00) /* interrupt nesting enable(CSR-0x804 bit1 = 1) */
+#define NVIC_PriorityGroup_0           ((uint32_t)0x00) /* interrupt nesting disable(CSR-0x804 bit1 = 0) */
 #else
-#define NVIC_PriorityGroup_1           ((uint32_t)0x01) /* interrupt nesting disable(CSR-0x804 bit1 = 0) */
+#define NVIC_PriorityGroup_1           ((uint32_t)0x01) /* interrupt nesting enable(CSR-0x804 bit1 = 1) */
 #endif
 
 
@@ -70,5 +70,5 @@ void NVIC_Init(NVIC_InitTypeDef* NVIC_InitStruct);
 }
 #endif
 
-#endif /* __CH32V00x_MISC_H */
+#endif
 

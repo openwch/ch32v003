@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -57,8 +57,8 @@ void TIM2_IRQHandler(void)
 void TIM_TimSynchroMode1_Init(void)
 {
     NVIC_InitTypeDef NVIC_InitStructure={0};
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM1, ENABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM2, ENABLE);
 
     TIM_CounterModeConfig(TIM1, TIM_CounterMode_Up);
     TIM_CounterModeConfig(TIM2, TIM_CounterMode_Up);
@@ -102,8 +102,8 @@ void TIM_TimSynchroMode2_Init(void)
 {
     TIM_OCInitTypeDef TIM_OCInitStructure = {0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM1, ENABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM2, ENABLE);
 
     TIM_CounterModeConfig(TIM1, TIM_CounterMode_Up);
     TIM_CounterModeConfig(TIM2, TIM_CounterMode_Up);
@@ -133,8 +133,8 @@ void TIM_TimSynchroMode2_Init(void)
  */
 void TIM_TimSynchroMode3_Init(void)
 {
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM1, ENABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM2, ENABLE);
 
     TIM_CounterModeConfig(TIM1, TIM_CounterMode_Up);
     TIM_CounterModeConfig(TIM2, TIM_CounterMode_Up);
@@ -158,8 +158,8 @@ void TIM_TimSynchroMode4_Init(void)
     GPIO_InitTypeDef  GPIO_InitStructure = {0};
     TIM_ICInitTypeDef TIM_ICInitStructure = {0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_TIM1, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD | RCC_PB2Periph_TIM1, ENABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM2, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;

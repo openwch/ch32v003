@@ -1,15 +1,15 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : ch32v00x_misc.c
+ * File Name          : ch32v00X_misc.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Date               : 2024/01/01
  * Description        : This file provides all the miscellaneous firmware functions .
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#include <ch32v00x_misc.h>
+#include <ch32v00X_misc.h>
 
 __IO uint32_t NVIC_Priority_Group = 0;
 

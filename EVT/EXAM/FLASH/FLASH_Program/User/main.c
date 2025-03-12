@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -21,25 +21,6 @@
 
 
 /* Global define */
-typedef enum
-{
-    FAILED = 0,
-    PASSED = !FAILED
-} TestStatus;
-#define PAGE_WRITE_START_ADDR          ((uint32_t)0x08003000) /* Start from 12K */
-#define PAGE_WRITE_END_ADDR            ((uint32_t)0x08004000) /* End at 16K */
-#define FLASH_PAGE_SIZE                1024
-#define FLASH_PAGES_TO_BE_PROTECTED    FLASH_WRProt_Pages240to255
-
-/* Global Variable */
-volatile uint32_t              EraseCounter = 0x0, Address = 0x0;
-volatile uint16_t              Data = 0xAAAA;
-volatile uint32_t              WRPR_Value = 0xFFFFFFFF, ProtectedPages = 0x0;
-volatile uint32_t              NbrOfPage;
-volatile FLASH_Status FLASHStatus = FLASH_COMPLETE;
-volatile TestStatus MemoryProgramStatus = PASSED;
-volatile TestStatus MemoryEraseStatus = PASSED;
-
 #define Fadr    0x08003000
 #define Fsize   (256>>2)
 u32 buf[Fsize];
@@ -53,98 +34,19 @@ u32 buf[Fsize];
  */
 void Option_Byte_CFG(void)
 {
-    FLASH_Unlock();
-    FLASH_EraseOptionBytes();
-    FLASH_UserOptionByteConfig(OB_IWDG_SW, OB_STDBY_NoRST, OB_RST_EN_DT12ms, OB_PowerON_Start_Mode_BOOT);
-    FLASH_Lock();
-}
+    FLASH_Status status = FLASH_COMPLETE;
 
-/*********************************************************************
- * @fn      Flash_Test
- *
- * @brief   Flash Program Test.
- *
- * @return  none
- */
-void Flash_Test(void)
-{
-    FLASH_Unlock();
-    WRPR_Value = FLASH_GetWriteProtectionOptionByte();
+    status = FLASH_UserOptionByteConfig(OB_IWDG_SW,  OB_STDBY_NoRST, OB_RST_EN_DT12ms, OB_PowerON_Start_Mode_BOOT);
 
-    NbrOfPage = (PAGE_WRITE_END_ADDR - PAGE_WRITE_START_ADDR) / FLASH_PAGE_SIZE;
-
-    if((WRPR_Value & FLASH_PAGES_TO_BE_PROTECTED) != 0x00)
-    {
-        FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_WRPRTERR);
-
-        for(EraseCounter = 0; (EraseCounter < NbrOfPage) && (FLASHStatus == FLASH_COMPLETE); EraseCounter++)
-        {
-            FLASHStatus = FLASH_ErasePage(PAGE_WRITE_START_ADDR + (FLASH_PAGE_SIZE * EraseCounter));
-            if(FLASHStatus != FLASH_COMPLETE)
-            {
-                printf("FLASH Erase ERR at Page%d\r\n", EraseCounter + 60);
-                return;
-            }
-            printf("FLASH Erase Page%d...\r\n", EraseCounter + 60);
-        }
-
-        Address = PAGE_WRITE_START_ADDR;
-        printf("Erase Cheking...\r\n");
-        while((Address < PAGE_WRITE_END_ADDR) && (MemoryEraseStatus != FAILED))
-        {
-            if((*(__IO uint16_t *)Address) != 0xFFFF)
-            {
-                MemoryEraseStatus = FAILED;
-            }
-            Address += 2;
-        }
-        if(MemoryEraseStatus == FAILED)
-        {
-            printf("Erase Flash FAIL!\r\n");
-            printf("\r\n");
-        }
-        else
-        {
-            printf("Erase Flash PASS!\r\n");
-            printf("\r\n");
-        }
-
-        Address = PAGE_WRITE_START_ADDR;
-        printf("Programing...\r\n");
-        while((Address < PAGE_WRITE_END_ADDR) && (FLASHStatus == FLASH_COMPLETE))
-        {
-            FLASHStatus = FLASH_ProgramHalfWord(Address, Data);
-            Address = Address + 2;
-        }
-
-        Address = PAGE_WRITE_START_ADDR;
-        printf("Program Cheking...\r\n");
-        while((Address < PAGE_WRITE_END_ADDR) && (MemoryProgramStatus != FAILED))
-        {
-            if((*(__IO uint16_t *)Address) != Data)
-            {
-                MemoryProgramStatus = FAILED;
-            }
-            Address += 2;
-        }
-        if(MemoryProgramStatus == FAILED)
-        {
-            printf("Memory Program FAIL!\r\n");
-            printf("\r\n");
-        }
-        else
-        {
-            printf("Memory Program PASS!\r\n");
-            printf("\r\n");
-        }
+    if(status == FLASH_RDP)
+    printf("MCU in read protected state, user option byte cannot be configured. \
+            Need to use WCHISPTool or WCH-LinkUtility for configuration ");
+    else{
+        printf("0x1FFFF800-%08x\r\n", *(u32*)0x1FFFF800);
+        printf("0x1FFFF804-%08x\r\n", *(u32*)0x1FFFF804);
+        printf("0x1FFFF808-%08x\r\n", *(u32*)0x1FFFF808);
+        printf("0x1FFFF80C-%08x\r\n", *(u32*)0x1FFFF80C);
     }
-    else
-    {
-        MemoryProgramStatus = FAILED;
-        printf("Error to program the flash : The desired pages are write protected\r\n");
-    }
-
-    FLASH_Lock();
 }
 
 /*********************************************************************
@@ -223,11 +125,16 @@ int main(void)
     SystemCoreClockUpdate();
     Delay_Init();
     Delay_Ms(1000);
+    
+#if (SDI_PRINT == SDI_PR_OPEN)
+    SDI_Printf_Enable();
+#else
     USART_Printf_Init(115200);
+#endif
 
     printf("SystemClk-1:%d\r\n", SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
-    Flash_Test();
+
     Flash_Test_Fast();
 
     while(1);

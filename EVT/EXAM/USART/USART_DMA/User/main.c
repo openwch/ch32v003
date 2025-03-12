@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -48,7 +48,7 @@ TestStatus TransferStatus1 = FAILED;
 /*********************************************************************
  * @fn      GPIO_Toggle_INIT
  *
- * @brief   Initializes GPIOA.0
+ * @brief   Initializes GPIOD.0
  *
  * @return  none
  */
@@ -56,7 +56,7 @@ void GPIO_Toggle_INIT(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD, ENABLE);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
@@ -92,7 +92,7 @@ TestStatus Buffercmp(uint8_t *Buf1, uint8_t *Buf2, uint16_t BufLength)
 /*********************************************************************
  * @fn      USARTx_CFG
  *
- * @brief   Initializes the USART1peripheral.
+ * @brief   Initializes the USART1 peripheral.
  *
  * @return  none
  */
@@ -101,7 +101,7 @@ void USARTx_CFG(void)
     GPIO_InitTypeDef  GPIO_InitStructure = {0};
     USART_InitTypeDef USART_InitStructure = {0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD | RCC_PB2Periph_USART1, ENABLE);
 
     /* USART1 TX-->D.5   RX-->D.6 */
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
@@ -137,7 +137,7 @@ void USARTx_CFG(void)
 void DMA_INIT(void)
 {
     DMA_InitTypeDef DMA_InitStructure = {0};
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
+    RCC_HBPeriphClockCmd(RCC_HBPeriph_DMA1, ENABLE);
 
     DMA_DeInit(DMA1_Channel4);
     DMA_InitStructure.DMA_PeripheralBaseAddr = (u32)(&USART1->DATAR);

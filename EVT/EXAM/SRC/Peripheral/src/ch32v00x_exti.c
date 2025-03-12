@@ -1,15 +1,15 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_exti.c
+ * File Name          : ch32v00X_exti.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : This file provides all the EXTI firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#include <ch32v00x_exti.h>
+#include <ch32v00X_exti.h>
 
 /* No interrupt selected */
 #define EXTI_LINENONE    ((uint32_t)0x00000)

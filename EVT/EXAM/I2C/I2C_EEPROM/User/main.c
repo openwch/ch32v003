@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Version            : V1.0.1
+ * Date               : 2025/01/08
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -42,7 +42,7 @@ WRITE EERPOM:Start + 0xA0 + 8bit Data Address + Write Data + Stop.
 #define SIZE sizeof(TEXT_Buffer)
 
 /* Global Variable */
-const u8 TEXT_Buffer[]={"CH32V00x I2C TEST"};
+const u8 TEXT_Buffer[]={"CH32V00X I2C TEST"};
 
 /*********************************************************************
  * @fn      IIC_Init
@@ -56,8 +56,8 @@ void IIC_Init(u32 bound, u16 address)
     GPIO_InitTypeDef GPIO_InitStructure={0};
     I2C_InitTypeDef I2C_InitTSturcture={0};
 
-    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO, ENABLE );
-    RCC_APB1PeriphClockCmd( RCC_APB1Periph_I2C1, ENABLE );
+    RCC_PB2PeriphClockCmd( RCC_PB2Periph_GPIOC | RCC_PB2Periph_AFIO, ENABLE );
+    RCC_PB1PeriphClockCmd( RCC_PB1Periph_I2C1, ENABLE );
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
@@ -78,7 +78,6 @@ void IIC_Init(u32 bound, u16 address)
     I2C_Init( I2C1, &I2C_InitTSturcture );
 
     I2C_Cmd( I2C1, ENABLE );
-
 }
 
 /*********************************************************************
@@ -133,11 +132,11 @@ u8 AT24CXX_ReadOneByte(u16 ReadAddr)
     I2C_Send7bitAddress( I2C1, 0XA0, I2C_Direction_Receiver );
 
     while( !I2C_CheckEvent( I2C1, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED ) );
-  while( I2C_GetFlagStatus( I2C1, I2C_FLAG_RXNE ) ==  RESET )
+	while( I2C_GetFlagStatus( I2C1, I2C_FLAG_RXNE ) ==  RESET );
     I2C_AcknowledgeConfig( I2C1, DISABLE );
 
     temp = I2C_ReceiveData( I2C1 );
-  I2C_GenerateSTOP( I2C1, ENABLE );
+    I2C_GenerateSTOP( I2C1, ENABLE );
 
     return temp;
 }
@@ -239,7 +238,11 @@ int main(void)
     SystemCoreClockUpdate();
     Delay_Init();
 
-    USART_Printf_Init(460800);
+#if (SDI_PRINT == SDI_PR_OPEN)
+    SDI_Printf_Enable();
+#else
+    USART_Printf_Init( 460800 );
+#endif
 
     printf("SystemClk:%d\r\n",SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );

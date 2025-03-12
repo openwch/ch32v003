@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/22
+ * Date               : 2024/07/26
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -54,8 +54,8 @@ void IIC_Init(u32 bound, u16 address)
     GPIO_InitTypeDef GPIO_InitStructure={0};
     I2C_InitTypeDef I2C_InitTSturcture={0};
 
-    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO, ENABLE );
-    RCC_APB1PeriphClockCmd( RCC_APB1Periph_I2C1, ENABLE );
+    RCC_PB2PeriphClockCmd( RCC_PB2Periph_GPIOC | RCC_PB2Periph_AFIO, ENABLE );
+    RCC_PB1PeriphClockCmd( RCC_PB1Periph_I2C1, ENABLE );
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
@@ -76,7 +76,6 @@ void IIC_Init(u32 bound, u16 address)
     I2C_Init( I2C1, &I2C_InitTSturcture );
 
     I2C_Cmd( I2C1, ENABLE );
-
 }
 
 /*********************************************************************
@@ -94,7 +93,11 @@ int main(void)
     SystemCoreClockUpdate();
     Delay_Init();
 
-    USART_Printf_Init(460800);
+#if (SDI_PRINT == SDI_PR_OPEN)
+    SDI_Printf_Enable();
+#else
+    USART_Printf_Init( 460800 );
+#endif
 
     printf("SystemClk:%d\r\n",SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
@@ -145,7 +148,8 @@ int main(void)
             i++;
         }
     }
-   I2C1->CTLR1 &= I2C1->CTLR1;
+    while(I2C_GetFlagStatus(I2C1, I2C_FLAG_STOPF) == RESET);
+    I2C1->CTLR1 &= I2C1->CTLR1;
    }
 	 printf( "RxData:\r\n" );
 	 for(p=0; p<5; p++)

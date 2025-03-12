@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_i2c.h
+ * File Name          : ch32v00X_i2c.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : This file contains all the functions prototypes for the
  *                      I2C firmware library.
  *********************************************************************************
@@ -10,14 +10,14 @@
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#ifndef __CH32V00x_I2C_H
-#define __CH32V00x_I2C_H
+#ifndef __CH32V00X_I2C_H
+#define __CH32V00X_I2C_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <ch32v00x.h>
+#include <ch32v00X.h>
 
 /* I2C Init structure definition  */
 typedef struct
@@ -97,14 +97,14 @@ typedef struct
 #define I2C_IT_ADDR                                          ((uint32_t)0x02000002)
 #define I2C_IT_SB                                            ((uint32_t)0x02000001)
 
-/* SR2 register flags  */
+/* STAR2 register flags  */
 #define I2C_FLAG_DUALF                                       ((uint32_t)0x00800000)
 #define I2C_FLAG_GENCALL                                     ((uint32_t)0x00100000)
 #define I2C_FLAG_TRA                                         ((uint32_t)0x00040000)
 #define I2C_FLAG_BUSY                                        ((uint32_t)0x00020000)
 #define I2C_FLAG_MSL                                         ((uint32_t)0x00010000)
 
-/* SR1 register flags */
+/* STAR1 register flags */
 #define I2C_FLAG_PECERR                                      ((uint32_t)0x10001000)
 #define I2C_FLAG_OVR                                         ((uint32_t)0x10000800)
 #define I2C_FLAG_AF                                          ((uint32_t)0x10000400)
@@ -159,7 +159,7 @@ typedef struct
 /* EVT6 */
 #define  I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED        ((uint32_t)0x00070082)  /* BUSY, MSL, ADDR, TXE and TRA flags */
 #define  I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED           ((uint32_t)0x00030002)  /* BUSY, MSL and ADDR flags */
-/*EVT9 */
+/* EVT9 */
 #define  I2C_EVENT_MASTER_MODE_ADDRESS10                   ((uint32_t)0x00030008)  /* BUSY, MSL and ADD10 flags */
 
 /******************************************************************************************************************** 
@@ -279,7 +279,7 @@ typedef struct
 /* EVT3 */
 #define  I2C_EVENT_SLAVE_BYTE_TRANSMITTED                  ((uint32_t)0x00060084)  /* TRA, BUSY, TXE and BTF flags */
 #define  I2C_EVENT_SLAVE_BYTE_TRANSMITTING                 ((uint32_t)0x00060080)  /* TRA, BUSY and TXE flags */
-/*EVT3_2 */
+/* EVT3_2 */
 #define  I2C_EVENT_SLAVE_ACK_FAILURE                       ((uint32_t)0x00000400)  /* AF flag */
 
 
@@ -358,7 +358,7 @@ void     I2C_FastModeDutyCycleConfig(I2C_TypeDef *I2Cx, uint16_t I2C_DutyCycle);
  *       - This function is suitable for the same applications above but it 
  *         don't have the limitations of I2C_GetFlagStatus() function .
  *         The returned value could be compared to events already defined in the 
- *         library (CH32V00x_i2c.h) or to custom values defined by user.
+ *         library (CH32V00X_i2c.h) or to custom values defined by user.
  *       - This function can be used to monitor the status of multiple flags simultaneously.
  *       - Contrary to the I2C_CheckEvent () function, this function can choose the time to
  *         accept the event according to the user's needs (when all event flags are set and  
@@ -412,4 +412,4 @@ void     I2C_ClearITPendingBit(I2C_TypeDef *I2Cx, uint32_t I2C_IT);
 }
 #endif
 
-#endif /*__CH32V00x_I2C_H */
+#endif /*__CH32V00X_I2C_H */

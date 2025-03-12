@@ -2,25 +2,25 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Date               : 2024/01/01
  * Description        : Main program body.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
+* Attention: This software (modified or not) and binary are used for
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
 
 /*
  *@Note
- *7-bit addressing mode, master/slave mode, transceiver routine:
- *I2C1_SCL(PC2)\I2C1_SDA(PC1).
- *This routine demonstrates that Master sends and Slave receives using interrupt.
- *Note: The two boards download the Master and Slave programs respectively,
- *and power on at the same time.
- *     Hardware connection:PC2 -- PC2
- *                         PC1 -- PC1
- *
- */
+ 7-bit addressing mode, master/slave mode, transceiver routine:
+ I2C1_SCL(PC2)\I2C1_SDA(PC1).
+ This routine demonstrates that Master sends and Slave receives using interrupt.
+Note: The two boards download the Master and Slave programs respectively,
+and power on at the same time.
+     Hardware connection:PC2 -- PC2
+                         PC1 -- PC1
+
+*/
 
 #include "debug.h"
 
@@ -57,8 +57,7 @@ volatile uint16_t master_send_len = 0;
 /*
  * 0 - start
  * 0xff - end
- *
- */
+ * */
 volatile uint8_t slave_state = 0;
 volatile uint16_t slave_recv_len = 0;
 volatile uint16_t slave_send_len = 0;
@@ -80,17 +79,17 @@ void IIC_Init(u32 bound, u16 address)
     I2C_InitTypeDef I2C_InitTSturcture={0};
     NVIC_InitTypeDef NVIC_InitStructure = {0};
 
-    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO, ENABLE );
-    RCC_APB1PeriphClockCmd( RCC_APB1Periph_I2C1, ENABLE );
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init( GPIOC, &GPIO_InitStructure );
+    RCC_PB2PeriphClockCmd( RCC_PB2Periph_GPIOC | RCC_PB2Periph_AFIO, ENABLE );
+    RCC_PB1PeriphClockCmd( RCC_PB1Periph_I2C1, ENABLE );
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
+    GPIO_Init( GPIOC, &GPIO_InitStructure );
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_Init( GPIOC, &GPIO_InitStructure );
 
     I2C_InitTSturcture.I2C_ClockSpeed = bound;
@@ -133,42 +132,47 @@ int main(void)
 {
     u8 i = 0,j = 0;
     Delay_Init();
+#if (SDI_PRINT == SDI_PR_OPEN)
+    SDI_Printf_Enable();
+#else
     USART_Printf_Init( 460800 );
+#endif
     printf( "SystemClk:%d\r\n", SystemCoreClock );
-    printf( "I2C 7bit Interrupt\r\n");
 
 #if (I2C_MODE == HOST_MODE)
     printf("IIC Host mode\r\n");
 
     IIC_Init( 80000, TxAdderss);
     Delay_Ms(1000);
-    for (j = 0; j < 3; ++j)
-    {
-        while( I2C_GetFlagStatus( I2C1, I2C_FLAG_BUSY ) != RESET );
-        I2C_GenerateSTART(I2C1, ENABLE);
+        for (j = 0; j < 3; ++j) {
+            while( I2C_GetFlagStatus( I2C1, I2C_FLAG_BUSY ) != RESET );
+            I2C_GenerateSTART(I2C1, ENABLE);
 
-        while(master_sate != 0xff);
-        printf( "RxData:\r\n" );
-        for( i = 0; i < 6; i++ )
-        {
-            printf( "%02x ", RxData[i] );
+            while(master_sate != 0xff);
+              printf( "RxData:\r\n" );
+              for( i = 0; i < 6; i++ )
+              {
+                 printf( "%02x ", RxData[i] );
+              }
+              printf("\n");
+
+            // Reset the host state machine
+            master_sate = 0;
+            master_recv_len = 0;
+            master_send_len = 0;
+            Delay_Ms(500);
         }
-        printf("\n");
 
-        // Reset the host state machine
-        master_sate = 0;
-        master_recv_len = 0;
-        master_send_len = 0;
-        Delay_Ms(500);
-    }
+
+
+
 
 #elif (I2C_MODE == SLAVE_MODE)
     printf("IIC Slave mode\r\n");
     IIC_Init( 80000, RXAdderss);
 
     i = 0;
-    while(1)
-    {
+    while(1){
        while(slave_state != 0xff);
        printf( "RxData:\r\n" );
        for( i = 0; i < 6; i++ )

@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -38,8 +38,8 @@ void One_Pulse_Init(u16 arr, u16 psc, u16 ccp)
     TIM_ICInitTypeDef TIM_ICInitStructure={0};
     TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure={0};
 
-    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOD, ENABLE );
-    RCC_APB1PeriphClockCmd( RCC_APB1Periph_TIM2, ENABLE );
+    RCC_PB2PeriphClockCmd( RCC_PB2Periph_GPIOD, ENABLE );
+    RCC_PB1PeriphClockCmd( RCC_PB1Periph_TIM2, ENABLE );
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;

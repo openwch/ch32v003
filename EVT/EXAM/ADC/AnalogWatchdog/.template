@@ -1,16 +1,18 @@
-Mcu Type=CH32V00x
+Vendor=WCH
+Toolchain=RISC-V
+Series=CH32V006
+RTOS=NoneOS
+MCU=CH32V006K8U6
+Link=WCH-Link
+PeripheralVersion====1.0
+Description====CH32V006 series is based on barley RISC-V2C core design of industrial-grade general-purpose microcontrollers, support for 48MHz system frequency, with a wide range of voltage, low power consumption, single and dual-wire debugging and so on.CH32V006 series chip built-in 1 group of 12-bit analog-to-digital converter ADC, the sampling rate of up to 3Msps; built-in OPA op-amps to support the high-speed mode to increase the swing rate of the pressure, and the positive side of its It supports 3-channel polling; it provides 2 sets of voltage comparator CMP, 7-channel DMA controller, 8-channel TouchKey, multi-group timer, 2 sets of USART serial port, I2C, SPI and other rich peripheral resources.
+Mcu Type=CH32V002/4/5/6/7
 Address=0x08000000
 Target Path=obj\AnalogWatchdog.hex
+CLKSpeed=1
+DebugInterfaceMode=0
 Erase All=true
 Program=true
 Verify=true
 Reset=true
-
-Vendor=WCH
-Link=WCH-Link
-Toolchain=RISC-V
-Series=CH32V003
-Description=ROM(byte): 16K, SRAM(byte): 2K, CHIP PINS: 20, GPIO PORTS: 51.\nWCH CH32V0 series of mainstream MCUs covers the needs of a large variety of applications in the industrial,medical and consumer markets. High performance with first-class peripherals and low-power,low-voltage operation is paired with a high level of integration at accessible prices with a simple architecture and easy-to-use tools.
-
-PeripheralVersion=1.0
-MCU=CH32V003F4P6
+SDIPrintf=false

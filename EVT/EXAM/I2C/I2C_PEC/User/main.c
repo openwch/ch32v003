@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -55,8 +55,8 @@ void IIC_Init(u32 bound, u16 address)
     I2C_InitTypeDef  I2C_InitTSturcture = {0};
     NVIC_InitTypeDef NVIC_InitStructure = {0};
 
-    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO, ENABLE );
-    RCC_APB1PeriphClockCmd( RCC_APB1Periph_I2C1, ENABLE );
+    RCC_PB2PeriphClockCmd( RCC_PB2Periph_GPIOC | RCC_PB2Periph_AFIO, ENABLE );
+    RCC_PB1PeriphClockCmd( RCC_PB1Periph_I2C1, ENABLE );
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
@@ -78,8 +78,8 @@ void IIC_Init(u32 bound, u16 address)
 
 #if(I2C_MODE == SLAVE_MODE)
     NVIC_InitStructure.NVIC_IRQChannel = I2C1_ER_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 
@@ -89,7 +89,6 @@ void IIC_Init(u32 bound, u16 address)
 
     I2C_Cmd(I2C1, ENABLE);
     I2C_CalculatePEC(I2C1, ENABLE);
-
 }
 
 /*********************************************************************
@@ -105,11 +104,14 @@ int main(void)
     u8 pecValue;
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-
     SystemCoreClockUpdate();
     Delay_Init();
 
-    USART_Printf_Init(460800);
+#if (SDI_PRINT == SDI_PR_OPEN)
+    SDI_Printf_Enable();
+#else
+    USART_Printf_Init( 460800 );
+#endif
 
     printf("SystemClk:%d\r\n", SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );

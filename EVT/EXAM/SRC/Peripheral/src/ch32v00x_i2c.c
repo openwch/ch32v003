@@ -1,16 +1,16 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_i2c.c
+ * File Name          : ch32v00X_i2c.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : This file provides all the I2C firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#include <ch32v00x_i2c.h>
-#include <ch32v00x_rcc.h>
+#include <ch32v00X_i2c.h>
+#include <ch32v00X_rcc.h>
 
 /* I2C SPE mask */
 #define CTLR1_PE_Set             ((uint16_t)0x0001)
@@ -103,8 +103,8 @@ void I2C_DeInit(I2C_TypeDef *I2Cx)
 {
     if(I2Cx == I2C1)
     {
-        RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C1, ENABLE);
-        RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C1, DISABLE);
+        RCC_PB1PeriphResetCmd(RCC_PB1Periph_I2C1, ENABLE);
+        RCC_PB1PeriphResetCmd(RCC_PB1Periph_I2C1, DISABLE);
     }
 }
 
@@ -852,8 +852,6 @@ FlagStatus I2C_GetFlagStatus(I2C_TypeDef *I2Cx, uint32_t I2C_FLAG)
  *
  * @param   I2Cx - where x can be 1 to select the I2C peripheral.
  *          I2C_FLAG - specifies the flag to clear.
- *            I2C_FLAG_SMBALERT - SMBus Alert flag.
- *            I2C_FLAG_TIMEOUT - Timeout or Tlow error flag.
  *            I2C_FLAG_PECERR - PEC error in reception flag.
  *            I2C_FLAG_OVR - Overrun/Underrun flag (Slave mode).
  *            I2C_FLAG_AF - Acknowledge failure flag.
@@ -871,7 +869,7 @@ FlagStatus I2C_GetFlagStatus(I2C_TypeDef *I2Cx, uint32_t I2C_FLAG)
  *             read/write to I2C_DATAR register (I2C_SendData()).
  *           - ADDR (Address sent) is cleared by software sequence: a read operation to 
  *             I2C_SATR1 register (I2C_GetFlagStatus()) followed by a read operation to 
- *             I2C_SATR2 register ((void)(I2Cx->SR2)).
+ *             I2C_SATR2 register ((void)(I2Cx->STAR2)).
  *           - SB (Start Bit) is cleared software sequence: a read operation to I2C_STAR1
  *             register (I2C_GetFlagStatus()) followed by a write operation to I2C_DATAR
  *             register  (I2C_SendData()). 
@@ -952,7 +950,7 @@ ITStatus I2C_GetITStatus(I2C_TypeDef *I2Cx, uint32_t I2C_IT)
  *             read/write to I2C_DATAR register (I2C_SendData()).
  *           - ADDR (Address sent) is cleared by software sequence: a read operation to 
  *             I2C_STAR1 register (I2C_GetITStatus()) followed by a read operation to 
- *             I2C_STAR2 register ((void)(I2Cx->SR2)).
+ *             I2C_STAR2 register ((void)(I2Cx->STAR2)).
  *           - SB (Start Bit) is cleared by software sequence: a read operation to 
  *             I2C_STAR1 register (I2C_GetITStatus()) followed by a write operation to 
  *             I2C_DATAR register (I2C_SendData()).
