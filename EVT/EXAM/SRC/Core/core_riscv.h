@@ -1,14 +1,14 @@
 /********************************** (C) COPYRIGHT  *******************************
-* File Name          : core_riscv.h
-* Author             : WCH
-* Version            : V1.0.1
-* Date               : 2024/10/28
-* Description        : RISC-V V2 Core Peripheral Access Layer Header File for CH32V003
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ * File Name          : core_riscv.h
+ * Author             : WCH
+ * Version            : V1.0.2
+ * Date               : 2025/03/10
+ * Description        : RISC-V V2 Core Peripheral Access Layer Header File for CH32V00X
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 #ifndef __CORE_RISCV_H__
 #define __CORE_RISCV_H__
 
@@ -138,6 +138,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq()
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __disable_irq()
 {
   __asm volatile ("csrc mstatus, %0" : : "r" (0x88) );
+  __asm volatile ("fence.i");
 }
 
 /*********************************************************************
@@ -178,6 +179,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_EnableIRQ(IRQn_Typ
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_DisableIRQ(IRQn_Type IRQn)
 {
   NVIC->IRER[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));
+  __asm volatile ("fence.i");
 }
 
 /*********************************************************************
@@ -290,23 +292,32 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void _SEV(void)
 }
 
 /*********************************************************************
- * @fn      WFItoWFE
+ * @fn      _WFE
  *
- * @brief   WFI to WFE
+ * @brief   Wait for Events
  *
  * @return  none
  */
-__attribute__( ( always_inline ) ) RV_STATIC_INLINE void WFItoWFE(void)
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void _WFE(void)
 {
+  __attribute__((unused)) uint32_t t=0;
+
+  if(NVIC->SCTLR & (1 << 2))
+  {
+    __disable_irq();
+    t = *(__IO uint32_t*)0x40010404; 
+    *(__IO uint32_t*)0x40010404 |= *(__IO uint32_t*)0x40010400;
+  }
+
   NVIC->SCTLR |= (1<<3);
+  asm volatile ("wfi");
+
+  if(NVIC->SCTLR & (1 << 2))
+  {
+    *(__IO uint32_t*)0x40010404 = t;
+    __enable_irq();
+  }
 }
-
-__attribute__( (section(".highcode")) ) void WFE(u32 t);
-
-#define _WFE()   WFE(19) //48M
-//#define _WFE()   WFE(11) //24M
-//#define _WFE()   WFE(8) //16M
-//#define _WFE()   WFE(5) //8M
 
 /*********************************************************************
  * @fn      __WFE
@@ -317,14 +328,26 @@ __attribute__( (section(".highcode")) ) void WFE(u32 t);
  */
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFE(void)
 {
-    NVIC->SCTLR |= (1<<4);
+  __attribute__((unused)) uint32_t t=0;
+
+  if(NVIC->SCTLR & (1 << 2))
+  {
     __disable_irq();
-    _SEV();
-    WFItoWFE();
-    _WFE();
-    WFItoWFE();
-    _WFE();
-    __enable_irq();
+    t = *(__IO uint32_t*)0x40010404; 
+    *(__IO uint32_t*)0x40010404 |= *(__IO uint32_t*)0x40010400;
+  }
+
+  _SEV();
+  NVIC->SCTLR |= (1<<3);
+  asm volatile ("wfi");
+  NVIC->SCTLR |= (1<<3);
+  asm volatile ("wfi");
+  
+  if(NVIC->SCTLR & (1 << 2))
+  {
+    *(__IO uint32_t*)0x40010404 = t;
+      __enable_irq();
+  }
 }
 
 /*********************************************************************

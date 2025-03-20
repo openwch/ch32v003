@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_wwdg.h
+ * File Name          : ch32v00X_wwdg.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : This file contains all the functions prototypes for the WWDG
  *                      firmware library.
  *********************************************************************************
@@ -10,14 +10,14 @@
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#ifndef __CH32V00x_WWDG_H
-#define __CH32V00x_WWDG_H
+#ifndef __CH32V00X_WWDG_H
+#define __CH32V00X_WWDG_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <ch32v00x.h>
+#include <ch32v00X.h>
 
 /* WWDG_Prescaler */
 #define WWDG_Prescaler_1    ((uint32_t)0x00000000)
@@ -38,4 +38,4 @@ void       WWDG_ClearFlag(void);
 }
 #endif
 
-#endif /* __CH32V00x_WWDG_H */
+#endif /* __CH32V00X_WWDG_H */

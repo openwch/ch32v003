@@ -2,7 +2,7 @@
  * File Name          : SoftUART.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/08/23
+ * Date               : 2024/01/01
  * Description        : Simulate UART with software
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -191,7 +191,7 @@ static void RxInit(void)
     NVIC_InitTypeDef NVIC_InitStructure={0};
     NVIC_InitStructure.NVIC_IRQChannel = EXTI7_0_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
     NVIC_Init(&NVIC_InitStructure);
 
@@ -395,9 +395,9 @@ static u8 ReceiveBytes(vu8 *data, u16 timeout)
 void Init(void)
 {
     // Configure the RCC used
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_TIM1 | RCC_APB2Periph_AFIO | RCC_APB2Periph_GPIOD, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA | RCC_PB2Periph_TIM1 | RCC_PB2Periph_AFIO | RCC_PB2Periph_GPIOD, ENABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM2, ENABLE);
+    RCC_HBPeriphClockCmd(RCC_HBPeriph_DMA1, ENABLE);
     // Select the peripheral used for the SoftUart
     SoftUARTHardware.rxTIM = DEFAULT_RXTIM;
     SoftUARTHardware.rxPort = DEFAULT_RXPORT;
@@ -442,9 +442,9 @@ void Init(void)
 void Init(u32 baudrate)
 {
     // Configure the RCC used
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_TIM1 | RCC_APB2Periph_AFIO | RCC_APB2Periph_GPIOD, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA | RCC_PB2Periph_TIM1 | RCC_PB2Periph_AFIO | RCC_PB2Periph_GPIOD, ENABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM2, ENABLE);
+    RCC_HBPeriphClockCmd(RCC_HBPeriph_DMA1, ENABLE);
 
     // Select the peripheral used for the SoftUart
     SoftUARTHardware.rxTIM = TIM1;

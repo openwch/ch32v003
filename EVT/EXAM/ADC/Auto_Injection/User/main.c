@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/22
+ * Version            : V1.0.1
+ * Date               : 2025/01/08
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -31,8 +31,8 @@ void ADC_Function_Init(void)
     ADC_InitTypeDef  ADC_InitStructure = {0};
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOC | RCC_PB2Periph_GPIOD, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_ADC1, ENABLE);
     RCC_ADCCLKConfig(RCC_PCLK2_Div8);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
@@ -52,17 +52,12 @@ void ADC_Function_Init(void)
     ADC_InitStructure.ADC_NbrOfChannel = 1;
     ADC_Init(ADC1, &ADC_InitStructure);
 
-    ADC_InjectedSequencerLengthConfig(ADC1, 1);
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_2, 1, ADC_SampleTime_241Cycles);
-    ADC_InjectedChannelConfig(ADC1, ADC_Channel_3, 1, ADC_SampleTime_241Cycles);
-    ADC_Calibration_Vol(ADC1, ADC_CALVOL_50PERCENT);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_2, 1, ADC_SampleTime_CyclesMode7);
+    ADC_InjectedChannelConfig(ADC1, ADC_Channel_3, 1, ADC_SampleTime_CyclesMode7);
     ADC_AutoInjectedConvCmd(ADC1, ENABLE);
     ADC_Cmd(ADC1, ENABLE);
 
-    ADC_ResetCalibration(ADC1);
-    while(ADC_GetResetCalibrationStatus(ADC1));
-    ADC_StartCalibration(ADC1);
-    while(ADC_GetCalibrationStatus(ADC1));
+    ADC_BufferCmd(ADC1, DISABLE);    //disable buffer
 }
 
 /*********************************************************************
@@ -88,7 +83,8 @@ u16 Get_ADC_Val(u8 ch)
 {
     u16 val;
 
-    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+    ADC_RegularChannelConfig(ADC1, ch, 1, ADC_SampleTime_CyclesMode7);
+	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 
     while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC));
 

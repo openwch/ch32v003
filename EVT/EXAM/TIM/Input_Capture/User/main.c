@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -40,7 +40,7 @@ void Input_Capture_Init(u16 arr, u16 psc)
     TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure = {0};
     NVIC_InitTypeDef        NVIC_InitStructure = {0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_TIM1, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD | RCC_PB2Periph_TIM1, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
@@ -63,8 +63,8 @@ void Input_Capture_Init(u16 arr, u16 psc)
     TIM_PWMIConfig(TIM1, &TIM_ICInitStructure);
 
     NVIC_InitStructure.NVIC_IRQChannel = TIM1_CC_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 

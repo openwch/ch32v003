@@ -1,14 +1,14 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : main.c
- * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/22
- * Description        : Main program body.
- *********************************************************************************
- * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * Attention: This software (modified or not) and binary are used for 
- * microcontroller manufactured by Nanjing Qinheng Microelectronics.
- *******************************************************************************/
+* File Name          : main.c
+* Author             : WCH
+* Version            : V1.0.0
+* Date               : 2024/01/01
+* Description        : Main program body.
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
 
 /**
  * @note
@@ -43,8 +43,8 @@ void PVD_IRQHandler(void)
 
 void PVD_Init(void)
 {
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_PWR, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_AFIO, ENABLE);
 
     EXTI_InitTypeDef EXIT_InitStructure = {0};
     NVIC_InitTypeDef NVIC_InitStructure = {0};
@@ -61,7 +61,7 @@ void PVD_Init(void)
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 
-    PWR_PVDLevelConfig(PWR_PVDLevel_MODE0);
+    PWR_PVDLevelConfig(PWR_PVDLevel_3);
 
     PWR_PVDCmd(ENABLE);
 }
@@ -75,10 +75,15 @@ void PVD_Init(void)
  */
 int main(void)
 {
+
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     SystemCoreClockUpdate();
     Delay_Init();
-    USART_Printf_Init(115200);
+#if (SDI_PRINT == SDI_PR_OPEN)
+    SDI_Printf_Enable();
+#else
+    USART_Printf_Init( 115200 );
+#endif
     printf("SystemClk:%d\r\n", SystemCoreClock);
     printf("ChipID:%08x\r\n", DBGMCU_GetCHIPID());
 

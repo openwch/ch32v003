@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_iwdg.h
+ * File Name          : ch32v00X_iwdg.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : This file contains all the functions prototypes for the
  *                      IWDG firmware library.
  *********************************************************************************
@@ -10,14 +10,14 @@
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#ifndef __CH32V00x_IWDG_H
-#define __CH32V00x_IWDG_H
+#ifndef __CH32V00X_IWDG_H
+#define __CH32V00X_IWDG_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <ch32v00x.h>
+#include <ch32v00X.h>
 
 /* IWDG_WriteAccess */
 #define IWDG_WriteAccess_Enable     ((uint16_t)0x5555)
@@ -47,4 +47,4 @@ FlagStatus IWDG_GetFlagStatus(uint16_t IWDG_FLAG);
 }
 #endif
 
-#endif /* __CH32V00x_IWDG_H */
+#endif /* __CH32V00X_IWDG_H */

@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_usart.h
+ * File Name          : ch32v00X_usart.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : This file contains all the functions prototypes for the
  *                      USART firmware library.
  *********************************************************************************
@@ -10,14 +10,14 @@
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#ifndef __CH32V00x_USART_H
-#define __CH32V00x_USART_H
+#ifndef __CH32V00X_USART_H
+#define __CH32V00X_USART_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <ch32v00x.h>
+#include <ch32v00X.h>
 
 /* USART Init Structure definition */
 typedef struct
@@ -48,23 +48,6 @@ typedef struct
                                            This parameter can be a value of @ref USART_Hardware_Flow_Control */
 } USART_InitTypeDef;
 
-/* USART Clock Init Structure definition */
-typedef struct
-{
-    uint16_t USART_Clock; /* Specifies whether the USART clock is enabled or disabled.
-                             This parameter can be a value of @ref USART_Clock */
-
-    uint16_t USART_CPOL; /* Specifies the steady state value of the serial clock.
-                            This parameter can be a value of @ref USART_Clock_Polarity */
-
-    uint16_t USART_CPHA; /* Specifies the clock transition on which the bit capture is made.
-                            This parameter can be a value of @ref USART_Clock_Phase */
-
-    uint16_t USART_LastBit; /* Specifies whether the clock pulse corresponding to the last transmitted
-                               data bit (MSB) has to be output on the SCLK pin in synchronous mode.
-                               This parameter can be a value of @ref USART_Last_Bit */
-} USART_ClockInitTypeDef;
-
 /* USART_Word_Length */
 #define USART_WordLength_8b                  ((uint16_t)0x0000)
 #define USART_WordLength_9b                  ((uint16_t)0x1000)
@@ -89,22 +72,6 @@ typedef struct
 #define USART_HardwareFlowControl_RTS        ((uint16_t)0x0100)
 #define USART_HardwareFlowControl_CTS        ((uint16_t)0x0200)
 #define USART_HardwareFlowControl_RTS_CTS    ((uint16_t)0x0300)
-
-/* USART_Clock */
-#define USART_Clock_Disable                  ((uint16_t)0x0000)
-#define USART_Clock_Enable                   ((uint16_t)0x0800)
-
-/* USART_Clock_Polarity */
-#define USART_CPOL_Low                       ((uint16_t)0x0000)
-#define USART_CPOL_High                      ((uint16_t)0x0400)
-
-/* USART_Clock_Phase */
-#define USART_CPHA_1Edge                     ((uint16_t)0x0000)
-#define USART_CPHA_2Edge                     ((uint16_t)0x0200)
-
-/* USART_Last_Bit */
-#define USART_LastBit_Disable                ((uint16_t)0x0000)
-#define USART_LastBit_Enable                 ((uint16_t)0x0100)
 
 /* USART_Interrupt_definition */
 #define USART_IT_PE                          ((uint16_t)0x0028)
@@ -153,8 +120,6 @@ typedef struct
 void       USART_DeInit(USART_TypeDef *USARTx);
 void       USART_Init(USART_TypeDef *USARTx, USART_InitTypeDef *USART_InitStruct);
 void       USART_StructInit(USART_InitTypeDef *USART_InitStruct);
-void       USART_ClockInit(USART_TypeDef *USARTx, USART_ClockInitTypeDef *USART_ClockInitStruct);
-void       USART_ClockStructInit(USART_ClockInitTypeDef *USART_ClockInitStruct);
 void       USART_Cmd(USART_TypeDef *USARTx, FunctionalState NewState);
 void       USART_ITConfig(USART_TypeDef *USARTx, uint16_t USART_IT, FunctionalState NewState);
 void       USART_DMACmd(USART_TypeDef *USARTx, uint16_t USART_DMAReq, FunctionalState NewState);
@@ -166,13 +131,8 @@ void       USART_LINCmd(USART_TypeDef *USARTx, FunctionalState NewState);
 void       USART_SendData(USART_TypeDef *USARTx, uint16_t Data);
 uint16_t   USART_ReceiveData(USART_TypeDef *USARTx);
 void       USART_SendBreak(USART_TypeDef *USARTx);
-void       USART_SetGuardTime(USART_TypeDef *USARTx, uint8_t USART_GuardTime);
 void       USART_SetPrescaler(USART_TypeDef *USARTx, uint8_t USART_Prescaler);
-void       USART_SmartCardCmd(USART_TypeDef *USARTx, FunctionalState NewState);
-void       USART_SmartCardNACKCmd(USART_TypeDef *USARTx, FunctionalState NewState);
 void       USART_HalfDuplexCmd(USART_TypeDef *USARTx, FunctionalState NewState);
-void       USART_OverSampling8Cmd(USART_TypeDef *USARTx, FunctionalState NewState);
-void       USART_OneBitMethodCmd(USART_TypeDef *USARTx, FunctionalState NewState);
 void       USART_IrDAConfig(USART_TypeDef *USARTx, uint16_t USART_IrDAMode);
 void       USART_IrDACmd(USART_TypeDef *USARTx, FunctionalState NewState);
 FlagStatus USART_GetFlagStatus(USART_TypeDef *USARTx, uint16_t USART_FLAG);
@@ -184,4 +144,4 @@ void       USART_ClearITPendingBit(USART_TypeDef *USARTx, uint16_t USART_IT);
 }
 #endif
 
-#endif /* __CH32V00x_USART_H */
+#endif /* __CH32V00X_USART_H */

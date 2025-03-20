@@ -1,0 +1,723 @@
+{
+	"version": "1.0",
+	"isNormalMRSProject": true,
+	"basic": {
+		"chipInfo": {
+			"vendor": "WCH",
+			"toolchain": "RISC-V",
+			"series": "CH32V006",
+			"rtos": "NoneOS",
+			"mcu": "CH32V006E8R6",
+			"description": "===CH32V006 series is based on barley RISC-V2C core design of industrial-grade general-purpose microcontrollers, support for 48MHz system frequency, with a wide range of voltage, low power consumption, single and dual-wire debugging and so on.CH32V006 series chip built-in 1 group of 12-bit analog-to-digital converter ADC, the sampling rate of up to 3Msps; built-in OPA op-amps to support the high-speed mode to increase the swing rate of the pressure, and the positive side of its It supports 3-channel polling; it provides 2 sets of voltage comparator CMP, 7-channel DMA controller, 8-channel TouchKey, multi-group timer, 2 sets of USART serial port, I2C, SPI and other rich peripheral resources.",
+			"link": "WCH-Link",
+			"peripheral_version": "===1.0"
+		},
+		"linkedFolders": [
+			{
+				"name": "TKYLIB",
+				"location": "../TKYLIB"
+			},
+			{
+				"name": "Core",
+				"location": "../../SRC/Core"
+			},
+			{
+				"name": "Debug",
+				"location": "../../SRC/Debug"
+			},
+			{
+				"name": "Ld",
+				"location": "../../SRC/Ld"
+			},
+			{
+				"name": "Peripheral",
+				"location": "../../SRC/Peripheral"
+			},
+			{
+				"name": "Startup",
+				"location": "../../SRC/Startup"
+			}
+		],
+		"removedResources": [
+			{
+				"parentLogicPath": "",
+				"type": "file",
+				"name": "*.wvproj"
+			}
+		],
+		"projectName": "Touch_EX002",
+		"architecture": "RISC-V",
+		"projectType": "c"
+	},
+	"buildConfig": {
+		"configurations": [
+			{
+				"buildArtifact": {
+					"artifact_name": "${ProjName}",
+					"artifact_extension": "elf",
+					"output_prefix": "",
+					"artifact_type": "Executable"
+				},
+				"parallelizationNumber": "optimal",
+				"stop_on_first_build_error": true,
+				"pre_script": "",
+				"pre_script_description": "",
+				"post_script": "",
+				"post_script_description": "",
+				"excludeResources": [
+					"${project}/TKYLIB/CHIPSFR.h",
+					"${project}/TKYLIB/tkyconfig.c",
+					"${project}/TKYLIB/tkyconfig.h",
+					"${project}/TKYLIB/WCH_touchKey.c"
+				],
+				"riscvTargetProcessor": {
+					"architecture": "rv32e",
+					"multiply_extension": false,
+					"atomic_extension": false,
+					"floating_point": "none",
+					"compressed_extension": true,
+					"extra_compressed_extension": true,
+					"bit_extension": false,
+					"multiplication_subset_of_the_M_extension": true,
+					"integer_ABI": "ilp32e",
+					"floating_point_ABI": "none",
+					"tuning": "default",
+					"code_model": "default",
+					"small_data_limit": 0,
+					"align": "default",
+					"save_restore": true,
+					"other_target_flags": ""
+				},
+				"optimization": {
+					"level": "size",
+					"message_length": true,
+					"char_is_signed": true,
+					"function_sections": true,
+					"data_sections": true,
+					"no_common_unitialized": true,
+					"do_not_inline_functions": false,
+					"assume_freestanding_environment": false,
+					"disable_builtin": false,
+					"single_precision_constants": false,
+					"position_independent_code": false,
+					"link_time_optimizer": false,
+					"disable_loop_invariant_move": false,
+					"optimize_unused_sections_declared_as_high_code": false,
+					"code_generation_without_hardware_floating": false,
+					"use_pipelines": false,
+					"show_caret_indicating_the_column": false,
+					"other_optimization_flags": ""
+				},
+				"warnings": {
+					"check_syntax_only": false,
+					"pedantic": false,
+					"pedantic_warnings_as_errors": false,
+					"inhibit_all_warnings": false,
+					"warn_on_various_unused_elements": true,
+					"warn_on_uninitialized_variables": true,
+					"enable_all_common_warnings": false,
+					"enable_extra_warnings": false,
+					"warn_on_undeclared_global_function": false,
+					"warn_on_implicit_conversions": false,
+					"warn_if_pointer_arthmetic": false,
+					"warn_if_padding_is_included": false,
+					"warn_if_shadowed_variable": false,
+					"warn_if_suspicious_logical_ops": false,
+					"warn_if_struct_is_returned": false,
+					"warn_if_floats_are_compared_as_equal": false,
+					"generate_errors_instead_of_warnings": false,
+					"other_warning_flags": ""
+				},
+				"debugging": {
+					"debug_level": "default",
+					"debug_format": "default",
+					"generate_prof_information": false,
+					"generate_gprof_information": false,
+					"other_debugging_flags": ""
+				},
+				"assembler": {
+					"preprocessor": {
+						"use_preprocessor": true,
+						"do_not_search_system_directories": false,
+						"preprocess_only": false,
+						"defined_symbols": [],
+						"undefined_symbols": []
+					},
+					"includes": {
+						"include_paths": [
+							"${project}/Startup"
+						],
+						"include_system_paths": [],
+						"include_files": []
+					},
+					"other_warning_flags": "",
+					"miscellaneous": {
+						"assembler_flags": [],
+						"generate_assembler_listing": false,
+						"save_temporary_files": false,
+						"verbose": false,
+						"other_assembler_flags": ""
+					}
+				},
+				"ccompiler": {
+					"preprocessor": {
+						"do_not_search_system_directories": false,
+						"preprocess_only": false,
+						"defined_symbols": [],
+						"undefined_symbols": []
+					},
+					"includes": {
+						"include_paths": [
+							"${project}/Debug",
+							"${project}/Core",
+							"${project}/User",
+							"${project}/Peripheral/inc",
+							"${project}/TKYLIB"
+						],
+						"include_system_paths": [],
+						"include_files": []
+					},
+					"optimization": {
+						"language_standard": "gnu99",
+						"other_optimization_flags": ""
+					},
+					"warnings": {
+						"warn_if_a_global_function_has_no_prototype": false,
+						"warn_if_a_function_has_no_arg_type": false,
+						"warn_if_wrong_cast": false,
+						"other_warning_flags": ""
+					},
+					"miscellaneous": {
+						"generate_assembler_listing": false,
+						"save_temporary_files": false,
+						"verbose": false,
+						"other_compiler_flags": ""
+					}
+				},
+				"cppcompiler": {
+					"preprocessor": {
+						"do_not_search_system_directories": false,
+						"do_not_search_system_cpp_directories": false,
+						"preprocess_only": false,
+						"defined_symbols": [],
+						"undefined_symbols": []
+					},
+					"includes": {
+						"include_paths": [],
+						"include_system_paths": [],
+						"include_files": []
+					},
+					"optimization": {
+						"cpp_language_standard": "gnucpp11",
+						"abi_version": "0",
+						"do_not_use_exceptions": false,
+						"do_not_use_rtti": false,
+						"do_not_use__cxa_atexit": false,
+						"do_not_use_thread_safe_statics": false,
+						"other_optimization_flags": ""
+					},
+					"warnings": {
+						"warn_on_abi_violations": false,
+						"warn_on_class_privacy": false,
+						"warn_on_no_except_expressions": false,
+						"warn_on_virtual_destructors": false,
+						"warn_on_uncast_null": false,
+						"warn_on_sign_promotion": false,
+						"warn_about_effictive_cpp_violcations": false,
+						"other_warning_flags": ""
+					},
+					"miscellaneous": {
+						"generate_assembler_listing": false,
+						"save_temporary_files": false,
+						"verbose": false,
+						"other_compiler_flags": ""
+					}
+				},
+				"clinker": {
+					"general": {
+						"scriptFiles": [
+							"${project}/Ld/Link.ld"
+						],
+						"do_not_use_standard_start_files": true,
+						"do_not_use_default_libraries": false,
+						"no_startup_or_default_libs": false,
+						"remove_unused_sections": true,
+						"print_removed_sections": false,
+						"omit_all_symbol_information": false
+					},
+					"libraries": {
+						"libraries": [
+							"CH32V00X_TOUCH"
+						],
+						"library_search_path": [
+							"${project}/TKYLIB"
+						]
+					},
+					"miscellaneous": {
+						"picolibc": "disabled",
+						"linker_flags": [],
+						"other_objects": [],
+						"generate_map": "\"${BuildArtifactFileBaseName}.map\"",
+						"cross_reference": false,
+						"print_link_map": false,
+						"use_newlib_nano": true,
+						"use_float_with_nano_printf": false,
+						"use_float_with_nano_scanf": false,
+						"do_not_use_syscalls": true,
+						"verbose": false,
+						"use_wch_printffloat": false,
+						"use_wch_printf": true,
+						"use_iqmath": false,
+						"other_linker_flags": ""
+					}
+				},
+				"cpplinker": {
+					"general": {
+						"scriptFiles": [
+							"${project}/Ld/Link.ld"
+						],
+						"do_not_use_standard_start_files": true,
+						"do_not_use_default_libraries": false,
+						"no_startup_or_default_libs": false,
+						"remove_unused_sections": true,
+						"print_removed_sections": false,
+						"omit_all_symbol_information": false
+					},
+					"libraries": {
+						"libraries": [
+							"CH32V00X_TOUCH"
+						],
+						"library_search_path": [
+							"${project}/TKYLIB"
+						]
+					},
+					"miscellaneous": {
+						"picolibc": "disabled",
+						"linker_flags": [],
+						"other_objects": [],
+						"generate_map": "\"${BuildArtifactFileBaseName}.map\"",
+						"cross_reference": false,
+						"print_link_map": false,
+						"use_newlib_nano": true,
+						"use_float_with_nano_printf": false,
+						"use_float_with_nano_scanf": false,
+						"do_not_use_syscalls": true,
+						"verbose": false,
+						"use_wch_printffloat": false,
+						"use_wch_printf": true,
+						"use_iqmath": false,
+						"other_linker_flags": ""
+					}
+				},
+				"archiver": {
+					"archiver_flags": "-r"
+				},
+				"createFlash": {
+					"enabled": true,
+					"outputFileFormat": "ihex",
+					"copy_only_section_text": false,
+					"copy_only_section_data": false,
+					"copy_only_sections": [],
+					"other_flags": ""
+				},
+				"createList": {
+					"enabled": true,
+					"display_source": false,
+					"display_all_headers": true,
+					"demangle_names": true,
+					"display_debug_info": false,
+					"disassemble": true,
+					"display_file_headers": false,
+					"display_line_numbers": false,
+					"display_relocation_info": false,
+					"display_symbols": false,
+					"wide_lines": false,
+					"other_flags": ""
+				},
+				"printSize": {
+					"enabled": true,
+					"size_format": "berkeley",
+					"hex": false,
+					"show_totals": false,
+					"other_flags": ""
+				},
+				"component_toolchain": "${WCH:Toolchain:GCC12}",
+				"name": "obj",
+				"configVariables": []
+			},
+			{
+				"buildArtifact": {
+					"artifact_name": "${ProjName}",
+					"artifact_extension": "elf",
+					"output_prefix": "",
+					"artifact_type": "Executable"
+				},
+				"parallelizationNumber": "optimal",
+				"stop_on_first_build_error": true,
+				"pre_script": "",
+				"pre_script_description": "",
+				"post_script": "",
+				"post_script_description": "",
+				"excludeResources": [],
+				"riscvTargetProcessor": {
+					"architecture": "rv32e",
+					"multiply_extension": false,
+					"atomic_extension": false,
+					"floating_point": "none",
+					"compressed_extension": true,
+					"extra_compressed_extension": true,
+					"bit_extension": false,
+					"multiplication_subset_of_the_M_extension": true,
+					"integer_ABI": "ilp32e",
+					"floating_point_ABI": "none",
+					"tuning": "default",
+					"code_model": "default",
+					"small_data_limit": 0,
+					"align": "default",
+					"save_restore": true,
+					"other_target_flags": ""
+				},
+				"optimization": {
+					"level": "size",
+					"message_length": true,
+					"char_is_signed": true,
+					"function_sections": true,
+					"data_sections": true,
+					"no_common_unitialized": true,
+					"do_not_inline_functions": false,
+					"assume_freestanding_environment": false,
+					"disable_builtin": false,
+					"single_precision_constants": false,
+					"position_independent_code": false,
+					"link_time_optimizer": false,
+					"disable_loop_invariant_move": false,
+					"optimize_unused_sections_declared_as_high_code": false,
+					"code_generation_without_hardware_floating": false,
+					"use_pipelines": false,
+					"show_caret_indicating_the_column": false,
+					"other_optimization_flags": ""
+				},
+				"warnings": {
+					"check_syntax_only": false,
+					"pedantic": false,
+					"pedantic_warnings_as_errors": false,
+					"inhibit_all_warnings": false,
+					"warn_on_various_unused_elements": true,
+					"warn_on_uninitialized_variables": true,
+					"enable_all_common_warnings": false,
+					"enable_extra_warnings": false,
+					"warn_on_undeclared_global_function": false,
+					"warn_on_implicit_conversions": false,
+					"warn_if_pointer_arthmetic": false,
+					"warn_if_padding_is_included": false,
+					"warn_if_shadowed_variable": false,
+					"warn_if_suspicious_logical_ops": false,
+					"warn_if_struct_is_returned": false,
+					"warn_if_floats_are_compared_as_equal": false,
+					"generate_errors_instead_of_warnings": false,
+					"other_warning_flags": ""
+				},
+				"debugging": {
+					"debug_level": "default",
+					"debug_format": "default",
+					"generate_prof_information": false,
+					"generate_gprof_information": false,
+					"other_debugging_flags": ""
+				},
+				"assembler": {
+					"preprocessor": {
+						"use_preprocessor": true,
+						"do_not_search_system_directories": false,
+						"preprocess_only": false,
+						"defined_symbols": [],
+						"undefined_symbols": []
+					},
+					"includes": {
+						"include_paths": [
+							"${project}/Startup"
+						],
+						"include_system_paths": [],
+						"include_files": []
+					},
+					"other_warning_flags": "",
+					"miscellaneous": {
+						"assembler_flags": [],
+						"generate_assembler_listing": false,
+						"save_temporary_files": false,
+						"verbose": false,
+						"other_assembler_flags": ""
+					}
+				},
+				"ccompiler": {
+					"preprocessor": {
+						"do_not_search_system_directories": false,
+						"preprocess_only": false,
+						"defined_symbols": [],
+						"undefined_symbols": []
+					},
+					"includes": {
+						"include_paths": [
+							"${project}/Debug",
+							"${project}/Core",
+							"${project}/User",
+							"${project}/Peripheral/inc"
+						],
+						"include_system_paths": [],
+						"include_files": []
+					},
+					"optimization": {
+						"language_standard": "gnu99",
+						"other_optimization_flags": ""
+					},
+					"warnings": {
+						"warn_if_a_global_function_has_no_prototype": false,
+						"warn_if_a_function_has_no_arg_type": false,
+						"warn_if_wrong_cast": false,
+						"other_warning_flags": ""
+					},
+					"miscellaneous": {
+						"generate_assembler_listing": false,
+						"save_temporary_files": false,
+						"verbose": false,
+						"other_compiler_flags": ""
+					}
+				},
+				"cppcompiler": {
+					"preprocessor": {
+						"do_not_search_system_directories": false,
+						"do_not_search_system_cpp_directories": false,
+						"preprocess_only": false,
+						"defined_symbols": [],
+						"undefined_symbols": []
+					},
+					"includes": {
+						"include_paths": [],
+						"include_system_paths": [],
+						"include_files": []
+					},
+					"optimization": {
+						"cpp_language_standard": "gnucpp11",
+						"abi_version": "0",
+						"do_not_use_exceptions": false,
+						"do_not_use_rtti": false,
+						"do_not_use__cxa_atexit": false,
+						"do_not_use_thread_safe_statics": false,
+						"other_optimization_flags": ""
+					},
+					"warnings": {
+						"warn_on_abi_violations": false,
+						"warn_on_class_privacy": false,
+						"warn_on_no_except_expressions": false,
+						"warn_on_virtual_destructors": false,
+						"warn_on_uncast_null": false,
+						"warn_on_sign_promotion": false,
+						"warn_about_effictive_cpp_violcations": false,
+						"other_warning_flags": ""
+					},
+					"miscellaneous": {
+						"generate_assembler_listing": false,
+						"save_temporary_files": false,
+						"verbose": false,
+						"other_compiler_flags": ""
+					}
+				},
+				"clinker": {
+					"general": {
+						"scriptFiles": [
+							"${project}/Ld/Link.ld"
+						],
+						"do_not_use_standard_start_files": true,
+						"do_not_use_default_libraries": false,
+						"no_startup_or_default_libs": false,
+						"remove_unused_sections": true,
+						"print_removed_sections": false,
+						"omit_all_symbol_information": false
+					},
+					"libraries": {
+						"libraries": [],
+						"library_search_path": []
+					},
+					"miscellaneous": {
+						"picolibc": "disabled",
+						"linker_flags": [],
+						"other_objects": [],
+						"generate_map": "\"${BuildArtifactFileBaseName}.map\"",
+						"cross_reference": false,
+						"print_link_map": false,
+						"use_newlib_nano": true,
+						"use_float_with_nano_printf": false,
+						"use_float_with_nano_scanf": false,
+						"do_not_use_syscalls": true,
+						"verbose": false,
+						"use_wch_printffloat": false,
+						"use_wch_printf": true,
+						"use_iqmath": false,
+						"other_linker_flags": ""
+					}
+				},
+				"cpplinker": {
+					"general": {
+						"scriptFiles": [
+							"${project}/Ld/Link.ld"
+						],
+						"do_not_use_standard_start_files": true,
+						"do_not_use_default_libraries": false,
+						"no_startup_or_default_libs": false,
+						"remove_unused_sections": true,
+						"print_removed_sections": false,
+						"omit_all_symbol_information": false
+					},
+					"libraries": {
+						"libraries": [],
+						"library_search_path": []
+					},
+					"miscellaneous": {
+						"picolibc": "disabled",
+						"linker_flags": [],
+						"other_objects": [],
+						"generate_map": "\"${BuildArtifactFileBaseName}.map\"",
+						"cross_reference": false,
+						"print_link_map": false,
+						"use_newlib_nano": true,
+						"use_float_with_nano_printf": false,
+						"use_float_with_nano_scanf": false,
+						"do_not_use_syscalls": true,
+						"verbose": false,
+						"use_wch_printffloat": false,
+						"use_wch_printf": true,
+						"use_iqmath": false,
+						"other_linker_flags": ""
+					}
+				},
+				"archiver": {
+					"archiver_flags": "-r"
+				},
+				"createFlash": {
+					"enabled": true,
+					"outputFileFormat": "ihex",
+					"copy_only_section_text": false,
+					"copy_only_section_data": false,
+					"copy_only_sections": [],
+					"other_flags": ""
+				},
+				"createList": {
+					"enabled": true,
+					"display_source": false,
+					"display_all_headers": true,
+					"demangle_names": true,
+					"display_debug_info": false,
+					"disassemble": true,
+					"display_file_headers": false,
+					"display_line_numbers": false,
+					"display_relocation_info": false,
+					"display_symbols": false,
+					"wide_lines": false,
+					"other_flags": ""
+				},
+				"printSize": {
+					"enabled": true,
+					"size_format": "berkeley",
+					"hex": false,
+					"show_totals": false,
+					"other_flags": ""
+				},
+				"component_toolchain": "${WCH:Toolchain:GCC12}",
+				"name": "dbg",
+				"configVariables": []
+			}
+		]
+	},
+	"flashConfig": {
+		"mcutype": "CH32V002/4/5/6/7",
+		"address": "0x08000000",
+		"target_path": "obj\\Touch_EX002.hex",
+		"clkSpeed": "High",
+		"debug_interface_mode": "1-wire serial",
+		"erase": true,
+		"program": true,
+		"verify": true,
+		"reset": true,
+		"sdiPrintf": false,
+		"disablepowerout": false,
+		"clearcodeflash": false,
+		"disablecodeprotect": false,
+		"exepath": "",
+		"exearguments": ""
+	},
+	"debugConfigurations": {
+		"openOCDCfg": {
+			"useLocalOpenOCD": true,
+			"executable": "${WCH:OpenOCD:default}",
+			"gdbport": 3333,
+			"telnetport": 4444,
+			"tclport": 6666,
+			"configOptions": [
+				"-f \"${WCH:OpenOCD:default}/bin/wch-riscv.cfg\""
+			],
+			"host": "localhost",
+			"port": 3333,
+			"skipDownloadBeforeDebug": false,
+			"enablePageEraser": false,
+			"enableNoZeroWaitingAreaFlash": false
+		},
+		"gdbCfg": {
+			"executable": "${WCH:Toolchain:GCC12}",
+			"options": [],
+			"commands": [
+				"set mem inaccessible-by-default off",
+				"set architecture riscv:rv32",
+				"set remotetimeout unlimited",
+				"set disassembler-options xw"
+			]
+		},
+		"startup": {
+			"initCommands": {
+				"initReset": true,
+				"initResetType": "init",
+				"additionalCommands": [],
+				"armSemihosting": false,
+				"armSemihosting_old": false
+			},
+			"loadedFiles": {
+				"loadSymbols": true,
+				"useProjBinaryForSymbols": true,
+				"useFileForSymbols": false,
+				"symbolFile": "",
+				"symbolFileOffset": "",
+				"loadImage": true,
+				"useProjBinaryForImage": true,
+				"useFileForImage": false,
+				"executableFile": "",
+				"executableFileOffset": ""
+			},
+			"runCommands": {
+				"runReset": true,
+				"runResetType": "halt",
+				"additionalCommands": [],
+				"setBreakAt": "handle_reset",
+				"continue": true,
+				"setBreak": true,
+				"setProgramCounter": false,
+				"setProgramCounterAddress": ""
+			},
+			"debugInRAM": false
+		},
+		"svdpath": "${WCH:SDK:default}/RISC-V/CH32V006/NoneOS/CH32V00Xxx.svd",
+		"output": {
+			"showDebugGDBTrace": true,
+			"saveDebugOutputToFile": false,
+			"showDebugOutputTimestamps": true
+		},
+		"reserve": {
+			"PROGRAM_NAME": "obj\\Touch_8_Keys.elf",
+			"PROJECT_ATTR": "Touch_8_Keys",
+			"PROJECT_BUILD_CONFIG_AUTO_ATTR": true,
+			"PROJECT_BUILD_CONFIG_ID_ATTR": "",
+			"ATTR_BUILD_BEFORE_LAUNCH_ATTR": 2,
+			"GdbServerAllocateConsole": true,
+			"GdbServerAllocateTelnetConsole": false,
+			"StartGdbCLient": true,
+			"UPDATE_THREADLIST_ON_SUSPEND": false
+		}
+	}
+}

@@ -1,16 +1,16 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : ch32v00x_wwdg.c
+ * File Name          : ch32v00X_wwdg.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : This file provides all the WWDG firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#include <ch32v00x_rcc.h>
-#include <ch32v00x_wwdg.h>
+#include <ch32v00X_rcc.h>
+#include <ch32v00X_wwdg.h>
 
 /* CTLR register bit mask */
 #define CTLR_WDGA_Set      ((uint32_t)0x00000080)
@@ -29,8 +29,8 @@
  */
 void WWDG_DeInit(void)
 {
-    RCC_APB1PeriphResetCmd(RCC_APB1Periph_WWDG, ENABLE);
-    RCC_APB1PeriphResetCmd(RCC_APB1Periph_WWDG, DISABLE);
+    RCC_PB1PeriphResetCmd(RCC_PB1Periph_WWDG, ENABLE);
+    RCC_PB1PeriphResetCmd(RCC_PB1Periph_WWDG, DISABLE);
 }
 
 /*********************************************************************

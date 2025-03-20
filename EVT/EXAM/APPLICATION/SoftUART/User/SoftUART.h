@@ -2,7 +2,7 @@
  * File Name          : SoftUART.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/08/23
+ * Date               : 2024/01/01
  * Description        : Simulate UART with software
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -13,7 +13,7 @@
 #ifndef USER_SOFTUART_H_
 #define USER_SOFTUART_H_
 
-#include "ch32v00x.h"
+#include "ch32v00X.h"
 #include "malloc.h"
 #include "string.h"
 

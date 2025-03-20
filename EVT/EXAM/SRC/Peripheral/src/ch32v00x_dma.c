@@ -1,16 +1,16 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_dma.c
+ * File Name          : ch32v00X_dma.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : This file provides all the DMA firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#include <ch32v00x_dma.h>
-#include <ch32v00x_rcc.h>
+#include <ch32v00X_dma.h>
+#include <ch32v00X_rcc.h>
 
 /* DMA1 Channelx interrupt pending bit masks */
 #define DMA1_Channel1_IT_Mask    ((uint32_t)(DMA_GIF1 | DMA_TCIF1 | DMA_HTIF1 | DMA_TEIF1))
@@ -20,9 +20,6 @@
 #define DMA1_Channel5_IT_Mask    ((uint32_t)(DMA_GIF5 | DMA_TCIF5 | DMA_HTIF5 | DMA_TEIF5))
 #define DMA1_Channel6_IT_Mask    ((uint32_t)(DMA_GIF6 | DMA_TCIF6 | DMA_HTIF6 | DMA_TEIF6))
 #define DMA1_Channel7_IT_Mask    ((uint32_t)(DMA_GIF7 | DMA_TCIF7 | DMA_HTIF7 | DMA_TEIF7))
-
-/* DMA2 FLAG mask */
-#define FLAG_Mask                ((uint32_t)0x10000000)
 
 /* DMA registers Masks */
 #define CFGR_CLEAR_Mask          ((uint32_t)0xFFFF800F)
@@ -312,9 +309,7 @@ FlagStatus DMA_GetFlagStatus(uint32_t DMAy_FLAG)
  */
 void DMA_ClearFlag(uint32_t DMAy_FLAG)
 {
-
     DMA1->INTFCR = DMAy_FLAG;
-
 }
 
 /*********************************************************************

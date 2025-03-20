@@ -1,16 +1,16 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : ch32v00x_spi.c
+ * File Name          : ch32v00X_spi.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/06/05
  * Description        : This file provides all the SPI firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#include <ch32v00x_rcc.h>
-#include <ch32v00x_spi.h>
+#include <ch32v00X_rcc.h>
+#include <ch32v00X_spi.h>
 
 /* SPI SPE mask */
 #define CTLR1_SPE_Set         ((uint16_t)0x0040)
@@ -29,7 +29,6 @@
 
 /* SPI registers Masks */
 #define CTLR1_CLEAR_Mask      ((uint16_t)0x3040)
-#define I2SCFGR_CLEAR_Mask    ((uint16_t)0xF040)
 
 
 /*********************************************************************
@@ -45,8 +44,8 @@ void SPI_I2S_DeInit(SPI_TypeDef *SPIx)
 {
     if(SPIx == SPI1)
     {
-        RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI1, ENABLE);
-        RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI1, DISABLE);
+        RCC_PB2PeriphResetCmd(RCC_PB2Periph_SPI1, ENABLE);
+        RCC_PB2PeriphResetCmd(RCC_PB2Periph_SPI1, DISABLE);
     }
 }
 
@@ -96,7 +95,6 @@ void SPI_StructInit(SPI_InitTypeDef *SPI_InitStruct)
     SPI_InitStruct->SPI_CPOL = SPI_CPOL_Low;
     SPI_InitStruct->SPI_CPHA = SPI_CPHA_1Edge;
     SPI_InitStruct->SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2;
-        /*"SPI_FirstBit_LSB" not support SPI slave mode*/
     SPI_InitStruct->SPI_FirstBit = SPI_FirstBit_MSB;
     SPI_InitStruct->SPI_CRCPolynomial = 7;
 }
@@ -128,14 +126,14 @@ void SPI_Cmd(SPI_TypeDef *SPIx, FunctionalState NewState)
  *
  * @brief   Enables or disables the specified SPI interrupts.
  *
- * @param   SPIx - where x can be
- *            - 1 in SPI mode.
+ * @param   SPIx - where x can be 1 in SPI mode.
  *          SPI_I2S_IT - specifies the SPI interrupt source to be
  *        enabled or disabled.
  *            SPI_I2S_IT_TXE - Tx buffer empty interrupt mask.
  *            SPI_I2S_IT_RXNE - Rx buffer not empty interrupt mask.
  *            SPI_I2S_IT_ERR - Error interrupt mask.
  *          NewState: ENABLE or DISABLE.
+ *
  * @return  none
  */
 void SPI_I2S_ITConfig(SPI_TypeDef *SPIx, uint8_t SPI_I2S_IT, FunctionalState NewState)
@@ -160,8 +158,7 @@ void SPI_I2S_ITConfig(SPI_TypeDef *SPIx, uint8_t SPI_I2S_IT, FunctionalState New
  *
  * @brief   Enables or disables the SPIx DMA interface.
  *
- * @param   SPIx - where x can be
- *            - 1 in SPI mode.
+ * @param   SPIx - where x can be 1 in SPI mode.
  *          SPI_I2S_DMAReq - specifies the SPI DMA transfer request to
  *        be enabled or disabled.
  *            SPI_I2S_DMAReq_Tx - Tx buffer DMA transfer request.
@@ -187,8 +184,7 @@ void SPI_I2S_DMACmd(SPI_TypeDef *SPIx, uint16_t SPI_I2S_DMAReq, FunctionalState 
  *
  * @brief   Transmits a Data through the SPIx peripheral.
  *
- * @param   SPIx - where x can be
- *            - 1 in SPI mode.
+ * @param   SPIx - where x can be 1 in SPI mode.
  *          Data - Data to be transmitted.
  *
  * @return  none
@@ -203,8 +199,7 @@ void SPI_I2S_SendData(SPI_TypeDef *SPIx, uint16_t Data)
  *
  * @brief   Returns the most recent received data by the SPIx peripheral.
  *
- * @param   SPIx - where x can be
- *            - 1 in SPI mode.
+ * @param   SPIx - where x can be 1 in SPI mode.
  *          Data - Data to be transmitted.
  *
  * @return  SPIx->DATAR - The value of the received data.
@@ -383,6 +378,28 @@ void SPI_BiDirectionalLineConfig(SPI_TypeDef *SPIx, uint16_t SPI_Direction)
 }
 
 /*********************************************************************
+ * @fn      SPI_HS_RX_Cmd
+ *
+ * @brief   Enables or disables high speed read mode the specified SPI peripheral.
+ *
+ * @param   SPIx - where x can be 1 to select the SPI peripheral.
+ *          NewState - ENABLE or DISABLE.
+ *
+ * @return  none
+ */
+void SPI_HS_RX_Cmd(SPI_TypeDef *SPIx, FunctionalState NewState)
+{
+    if(NewState != DISABLE)
+    {
+        SPIx->HSCR |= SPI_HSCR_HSRXEN;
+    }
+    else
+    {
+        SPIx->HSCR &= ~SPI_HSCR_HSRXEN;
+    }
+}
+
+/*********************************************************************
  * @fn      SPI_I2S_GetFlagStatus
  *
  * @brief   Checks whether the specified SPI flag is set or not.
@@ -396,8 +413,6 @@ void SPI_BiDirectionalLineConfig(SPI_TypeDef *SPIx, uint16_t SPI_Direction)
  *            SPI_I2S_FLAG_OVR - Overrun flag.
  *            SPI_FLAG_MODF - Mode Fault flag.
  *            SPI_FLAG_CRCERR - CRC Error flag.
- *            I2S_FLAG_UDR - Underrun Error flag.
- *            I2S_FLAG_CHSIDE - Channel Side flag.
  *
  * @return  FlagStatus: SET or RESET.
  */
@@ -455,7 +470,6 @@ void SPI_I2S_ClearFlag(SPI_TypeDef *SPIx, uint16_t SPI_I2S_FLAG)
  *            SPI_I2S_IT_OVR - Overrun interrupt.
  *            SPI_IT_MODF - Mode Fault interrupt.
  *            SPI_IT_CRCERR - CRC Error interrupt.
- *            I2S_IT_UDR - Underrun Error interrupt.
  *
  * @return  FlagStatus: SET or RESET.
  */

@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/07/04
+ * Date               : 2024/07/08
  * Description        : Main program body.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -52,9 +52,9 @@ int main(void)
 void SysTick_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 /*********************************************************************
- * @fn      SysTick_IRQHandler
+ * @fn      ADC1_IRQHandler
  *
- * @brief   SysTick Interrupt Service Function.
+ * @brief   ADC1_2 Interrupt Service Function.
  *
  * @return  none
  */

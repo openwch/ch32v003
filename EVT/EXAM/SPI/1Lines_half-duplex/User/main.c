@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/06/01
+ * Date               : 2024/06/05
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -20,11 +20,10 @@
  *Note: The two boards download the Master and Slave programs respectively,
  *and power on at the same time.
  *     Hardware connection:PC5 -- PC5
- *                         PC7-- PC6
+ *           PC7-- PC6
  *When using SPI slave mode to send data:
  *  -the CPOL bit should be set to 1
  *  -the data should be sent using spi mode 2 or spi mode 3.
- * 
  */
 
 #include "debug.h"
@@ -62,7 +61,7 @@ void SPI_1Lines_HalfDuplex_Init(void)
     SPI_InitTypeDef SPI_InitStructure={0};
     NVIC_InitTypeDef NVIC_InitStructure={0};
 
-    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOC | RCC_APB2Periph_SPI1, ENABLE );
+    RCC_PB2PeriphClockCmd( RCC_PB2Periph_GPIOC | RCC_PB2Periph_SPI1, ENABLE );
 
 #if (SPI_MODE == HOST_MODE)
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
@@ -97,8 +96,8 @@ void SPI_1Lines_HalfDuplex_Init(void)
 #endif
 
     SPI_InitStructure.SPI_DataSize = SPI_DataSize_16b;
-    SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
-    SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
+	SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
+	SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
     SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
     SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_64;
     SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
@@ -106,8 +105,8 @@ void SPI_1Lines_HalfDuplex_Init(void)
     SPI_Init( SPI1, &SPI_InitStructure );
 
     NVIC_InitStructure.NVIC_IRQChannel = SPI1_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 
@@ -131,7 +130,6 @@ int main(void)
     u8 i;
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-
     SystemCoreClockUpdate();
     Delay_Init();
 #if (SDI_PRINT == SDI_PR_OPEN)

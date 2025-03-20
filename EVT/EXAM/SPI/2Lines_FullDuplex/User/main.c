@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/06/01
+ * Date               : 2024/06/05
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -13,8 +13,8 @@
 /*
  *@Note
  *two-wire full duplex mode, master/slave mode, data transceiver:
- *Master:SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6).
- *Slave:SPI1_SCK(PC5)、SPI1_MISO(PC7)、SPI1_MOSI(PC6).
+ *Master:SPI1_SCK(PC5)\SPI1_MISO(PC7)\SPI1_MOSI(PC6).
+ *Slave:SPI1_SCK(PC5)\SPI1_MISO(PC7)\SPI1_MOSI(PC6).
  *
  *This example demonstrates simultaneous full-duplex transmission and reception
  *between Master and Slave.
@@ -25,8 +25,7 @@
  *                      PC7 -- PC7
  *When using SPI slave mode to send data:
  *  -the CPOL bit should be set to 1
- *  -the data should be sent using spi mode 2 or spi mode 3. 
- * 
+ *  -the data should be sent using spi mode 2 or spi mode 3.
  */
 
 
@@ -63,7 +62,7 @@ void SPI_FullDuplex_Init(void)
     GPIO_InitTypeDef GPIO_InitStructure={0};
     SPI_InitTypeDef SPI_InitStructure={0};
 
-    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOC | RCC_APB2Periph_SPI1, ENABLE );
+    RCC_PB2PeriphClockCmd( RCC_PB2Periph_GPIOC | RCC_PB2Periph_SPI1, ENABLE );
 
 #if (SPI_MODE == HOST_MODE)
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
@@ -107,8 +106,8 @@ void SPI_FullDuplex_Init(void)
 #endif
 
     SPI_InitStructure.SPI_DataSize = SPI_DataSize_16b;
-    SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
-    SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
+	SPI_InitStructure.SPI_CPOL = SPI_CPOL_High;
+	SPI_InitStructure.SPI_CPHA = SPI_CPHA_2Edge;
     SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
     SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_256;
     SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
@@ -133,7 +132,11 @@ int main(void)
 
     SystemCoreClockUpdate();
     Delay_Init();
-    USART_Printf_Init(460800);
+#if (SDI_PRINT == SDI_PR_OPEN)
+    SDI_Printf_Enable();
+#else
+    USART_Printf_Init( 460800 );
+#endif
     printf("SystemClk:%d\r\n",SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 

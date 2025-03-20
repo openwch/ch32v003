@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_dma.h
+ * File Name          : ch32v00X_dma.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : This file contains all the functions prototypes for the
  *                      DMA firmware library.
  *********************************************************************************
@@ -10,14 +10,14 @@
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#ifndef __CH32V00x_DMA_H
-#define __CH32V00x_DMA_H
+#ifndef __CH32V00X_DMA_H
+#define __CH32V00X_DMA_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <ch32v00x.h>
+#include <ch32v00X.h>
 
 /* DMA Init structure definition */
 typedef struct
@@ -174,4 +174,4 @@ void       DMA_ClearITPendingBit(uint32_t DMAy_IT);
 }
 #endif
 
-#endif /*__CH32V00x_DMA_H */
+#endif /*__CH32V00X_DMA_H */

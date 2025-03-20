@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -34,7 +34,7 @@ vu8 val;
 /*********************************************************************
  * @fn      USARTx_CFG
  *
- * @brief   Initializes the USART2 & USART3 peripheral.
+ * @brief   Initializes the USART1 peripheral.
  *
  * @return  none
  */
@@ -43,7 +43,7 @@ void USARTx_CFG(void)
     GPIO_InitTypeDef  GPIO_InitStructure = {0};
     USART_InitTypeDef USART_InitStructure = {0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD | RCC_PB2Periph_USART1, ENABLE);
 
     /* USART1 TX-->D.5   RX-->D.6 */
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;

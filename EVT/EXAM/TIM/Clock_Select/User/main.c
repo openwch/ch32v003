@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -38,7 +38,7 @@
  */
 void TIM1_ETRClockMode1_Init(void)
 {
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1 | RCC_APB2Periph_GPIOD, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM1 | RCC_PB2Periph_GPIOD, ENABLE);
 
     TIM_CounterModeConfig(TIM1, TIM_CounterMode_Up);
     TIM_SetAutoreload(TIM1, 0x3EB);
@@ -57,7 +57,7 @@ void TIM1_ETRClockMode1_Init(void)
  */
 void TIM1_ETRClockMode2_Init(void)
 {
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1 | RCC_APB2Periph_GPIOC, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM1 | RCC_PB2Periph_GPIOC, ENABLE);
 
     TIM_CounterModeConfig(TIM1, TIM_CounterMode_Up);
     TIM_SetAutoreload(TIM1, 0x3EB);

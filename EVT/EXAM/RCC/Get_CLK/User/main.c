@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -12,10 +12,10 @@
 
 /*
  *@Note
- *Get system-HCLK-AHB1-AHB2 clock routine:
+ *Get system-HCLK-HB1-HB2 clock routine:
  *MCO(PC4)
  *This example demonstrates MCO(PC4) pin output system clock and get clock;
- *    -RCC_GetClocksFreq() function to get systemclk-HCLK-AHB1-AHB2 clock
+ *    -RCC_GetClocksFreq() function to get systemclk-HCLK-HB1-HB2 clock
  *    -SystemCoreClockUpdate() function to get HCLK clock
  *
  */
@@ -35,7 +35,6 @@ int main(void)
     RCC_ClocksTypeDef RCC_ClocksStatus={0};
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-
     Delay_Init();
 #if (SDI_PRINT == SDI_PR_OPEN)
     SDI_Printf_Enable();
@@ -52,7 +51,7 @@ int main(void)
     printf("PCLK1_Frequency-%d\r\n", RCC_ClocksStatus.PCLK1_Frequency);
     printf("PCLK2_Frequency-%d\r\n", RCC_ClocksStatus.PCLK2_Frequency);
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOC, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;

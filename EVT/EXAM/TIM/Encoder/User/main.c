@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/02/26
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -33,7 +33,7 @@ volatile uint32_t time = 0;
 void TIM1_UP_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 /*********************************************************************
  * @fn TIM1_UP_IRQHandler
- * 
+ *
  * @brief TIM1_UP_IRQHandler function handles the interrupt for TIM1 and updates the "circle" variable based
  * on the current count and auto-reload values of TIM1.
  */
@@ -58,9 +58,9 @@ void TIM1_UP_IRQHandler()
 
 /*********************************************************************
  * @fn TIM1_Encoder_Init
- * 
+ *
  * @brief function initializes the TIM1 timer as an encoder with specific settings.
- * 
+ *
  * @return none
  */
 void TIM1_Encoder_Init()
@@ -70,8 +70,8 @@ void TIM1_Encoder_Init()
     GPIO_InitTypeDef GPIO_InitStructure;
     NVIC_InitTypeDef NVIC_InitStructure;
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD|RCC_APB2Periph_GPIOA, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD|RCC_PB2Periph_GPIOA, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_TIM1, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 ;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
@@ -107,10 +107,10 @@ void TIM1_Encoder_Init()
 
 /*********************************************************************
  * @fn TIM2_EncoderSignalGenerator_Init
- * 
+ *
  * @brief The function initializes the TIM2 timer as an encoder signal generator with the specified prescaler,
  *      auto-reload value, and capture/compare value.
- * 
+ *
  * @param psc The "psc" parameter stands for Prescaler value. It is used to divide the timer clock
  *          frequency before it is fed into the counter. This helps in adjusting the timer resolution and the
  *          frequency at which the counter increments.
@@ -120,7 +120,7 @@ void TIM1_Encoder_Init()
  *        ccr The "ccr" parameter in the function TIM2_EncoderSignalGenerator_Init is used to set the
  *          initial value of the Capture/Compare register (CCR) for the Timer 2 output channels. The CCR
  *          determines the duty cycle or pulse width of the generated signal.
- * 
+ *
  * @return none
  */
 void TIM2_EncoderSignalGenerator_Init(uint16_t psc, uint16_t arr, uint16_t ccr)
@@ -129,12 +129,12 @@ void TIM2_EncoderSignalGenerator_Init(uint16_t psc, uint16_t arr, uint16_t ccr)
     TIM_OCInitTypeDef TIM_OCInitStructure = {0};
     TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure = {0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD, ENABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_TIM2, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
@@ -173,7 +173,11 @@ int main(void)
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     SystemCoreClockUpdate();
     Delay_Init();
-    USART_Printf_Init(115200);
+#if (SDI_PRINT == SDI_PR_OPEN)
+    SDI_Printf_Enable();
+#else
+    USART_Printf_Init( 115200 );
+#endif
     printf("SystemClk:%d\r\n", SystemCoreClock);
     printf("ChipID:%08x\r\n", DBGMCU_GetCHIPID());
 

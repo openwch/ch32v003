@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
- * File Name          : ch32v00x_spi.h
+ * File Name          : ch32v00X_spi.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/06/01
+ * Date               : 2024/06/05
  * Description        : This file contains all the functions prototypes for the
  *                      SPI firmware library.
  *********************************************************************************
@@ -10,14 +10,14 @@
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#ifndef __CH32V00x_SPI_H
-#define __CH32V00x_SPI_H
+#ifndef __CH32V00X_SPI_H
+#define __CH32V00X_SPI_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <ch32v00x.h>
+#include <ch32v00X.h>
 
 /* SPI Init structure definition */
 typedef struct
@@ -91,7 +91,7 @@ typedef struct
 
 /* SPI_MSB_LSB transmission */
 #define SPI_FirstBit_MSB                   ((uint16_t)0x0000)
-#define SPI_FirstBit_LSB                   ((uint16_t)0x0080)//not support SPI slave mode
+#define SPI_FirstBit_LSB                   ((uint16_t)0x0080)
 
 /* SPI_I2S_DMA_transfer_requests */
 #define SPI_I2S_DMAReq_Tx                  ((uint16_t)0x0002)
@@ -116,13 +116,10 @@ typedef struct
 #define SPI_I2S_IT_OVR                     ((uint8_t)0x56)
 #define SPI_IT_MODF                        ((uint8_t)0x55)
 #define SPI_IT_CRCERR                      ((uint8_t)0x54)
-#define I2S_IT_UDR                         ((uint8_t)0x53)
 
 /* SPI_I2S_flags_definition */
 #define SPI_I2S_FLAG_RXNE                  ((uint16_t)0x0001)
 #define SPI_I2S_FLAG_TXE                   ((uint16_t)0x0002)
-#define I2S_FLAG_CHSIDE                    ((uint16_t)0x0004)
-#define I2S_FLAG_UDR                       ((uint16_t)0x0008)
 #define SPI_FLAG_CRCERR                    ((uint16_t)0x0010)
 #define SPI_FLAG_MODF                      ((uint16_t)0x0020)
 #define SPI_I2S_FLAG_OVR                   ((uint16_t)0x0040)
@@ -144,6 +141,7 @@ void       SPI_CalculateCRC(SPI_TypeDef *SPIx, FunctionalState NewState);
 uint16_t   SPI_GetCRC(SPI_TypeDef *SPIx, uint8_t SPI_CRC);
 uint16_t   SPI_GetCRCPolynomial(SPI_TypeDef *SPIx);
 void       SPI_BiDirectionalLineConfig(SPI_TypeDef *SPIx, uint16_t SPI_Direction);
+void       SPI_HS_RX_Cmd(SPI_TypeDef *SPIx, FunctionalState NewState);
 FlagStatus SPI_I2S_GetFlagStatus(SPI_TypeDef *SPIx, uint16_t SPI_I2S_FLAG);
 void       SPI_I2S_ClearFlag(SPI_TypeDef *SPIx, uint16_t SPI_I2S_FLAG);
 ITStatus   SPI_I2S_GetITStatus(SPI_TypeDef *SPIx, uint8_t SPI_I2S_IT);
@@ -153,4 +151,4 @@ void       SPI_I2S_ClearITPendingBit(SPI_TypeDef *SPIx, uint8_t SPI_I2S_IT);
 }
 #endif
 
-#endif /*__CH32V00x_SPI_H */
+#endif /*__CH32V00X_SPI_H */

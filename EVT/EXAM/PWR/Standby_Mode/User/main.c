@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -37,7 +37,7 @@ void EXTI_INT_INIT(void)
 {
     EXTI_InitTypeDef EXTI_InitStructure = {0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_AFIO, ENABLE);
 
     EXTI_InitStructure.EXTI_Line = EXTI_Line9;
     EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Event;
@@ -65,12 +65,13 @@ int main(void)
     Delay_Ms(1000);
     EXTI_INT_INIT();
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD, ENABLE);
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
+    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA | RCC_PB2Periph_GPIOB | RCC_PB2Periph_GPIOC | RCC_PB2Periph_GPIOD, ENABLE);
+    RCC_PB1PeriphClockCmd(RCC_PB1Periph_PWR, ENABLE);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
 
     GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
     GPIO_Init(GPIOC, &GPIO_InitStructure);
     GPIO_Init(GPIOD, &GPIO_InitStructure);
 

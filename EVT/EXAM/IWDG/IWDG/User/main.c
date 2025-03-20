@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -20,7 +20,7 @@
 
 #include "debug.h"
 
-#define KEY0 GPIO_ReadInputDataBit( GPIOC, GPIO_Pin_1)  //PA0
+#define KEY0 GPIO_ReadInputDataBit( GPIOC, GPIO_Pin_1)  //PC1
 
 /*********************************************************************
  * @fn      KEY_Init
@@ -33,7 +33,7 @@ void KEY_Init(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure={0};
 
-    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOC, ENABLE );
+    RCC_PB2PeriphClockCmd( RCC_PB2Periph_GPIOC, ENABLE );
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;

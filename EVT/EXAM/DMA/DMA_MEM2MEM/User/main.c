@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/12/22
+ * Date               : 2024/01/01
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -70,7 +70,7 @@ u8 BufCmp(u32 *buf1, u32 *buf2, u16 buflength)
 void DMA1_CH3_Init(void)
 {
     DMA_InitTypeDef DMA_InitStructure = {0};
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
+    RCC_HBPeriphClockCmd(RCC_HBPeriph_DMA1, ENABLE);
 
     DMA_StructInit(&DMA_InitStructure);
     DMA_InitStructure.DMA_PeripheralBaseAddr = (u32)(SRC_BUF);
@@ -80,7 +80,7 @@ void DMA1_CH3_Init(void)
     DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Enable;
     DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
     DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
-    DMA_InitStructure.DMA_MemoryDataSize = DMA_PeripheralDataSize_Byte;
+    DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
     DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
     DMA_InitStructure.DMA_Priority = DMA_Priority_VeryHigh;
     DMA_InitStructure.DMA_M2M = DMA_M2M_Enable;
