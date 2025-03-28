@@ -6,7 +6,7 @@
  * Description        : RISC-V V2 Core Peripheral Access Layer Header File for CH32V00X
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * Attention: This software (modified or not) and binary are used for 
+ * Attention: This software (modified or not) and binary are used for
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 #ifndef __CORE_RISCV_H__
@@ -122,7 +122,7 @@ typedef struct
  *
  * @return  none
  */
-__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq()
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq(void)
 {
   __asm volatile ("csrs mstatus, %0" : : "r" (0x88) );
 }
@@ -135,7 +135,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq()
  *
  * @return  none
  */
-__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __disable_irq()
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __disable_irq(void)
 {
   __asm volatile ("csrc mstatus, %0" : : "r" (0x88) );
   __asm volatile ("fence.i");
@@ -148,7 +148,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __disable_irq()
  *
  * @return  none
  */
-__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __NOP()
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __NOP(void)
 {
   __asm volatile ("nop");
 }
@@ -403,7 +403,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_SystemReset(void)
 }
 
 
-/* Core_Exported_Functions */  
+/* Core_Exported_Functions */
 extern uint32_t __get_MSTATUS(void);
 extern void __set_MSTATUS(uint32_t value);
 extern uint32_t __get_MISA(void);
