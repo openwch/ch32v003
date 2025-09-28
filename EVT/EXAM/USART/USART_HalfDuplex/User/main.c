@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2023/12/25
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -21,7 +21,8 @@
  *
  *    Hardware connection:PD5 -- PD5
  *                        PD0 -- LED
- *
+ * Note: The pin should be GPIO_Mode_AF_OD in single-wire half-duplex mode.
+ *      The pin needs to connected a pull_up resistor 
  */
 
 #include "debug.h"
@@ -59,7 +60,7 @@ TestStatus TransferStatus1 = FAILED;
 /*********************************************************************
  * @fn      GPIO_Toggle_INIT
  *
- * @brief   Initializes GPIOD.0
+ * @brief   Initializes GPIOA.0
  *
  * @return  none
  */
@@ -67,7 +68,7 @@ void GPIO_Toggle_INIT(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
@@ -112,11 +113,11 @@ void USARTx_CFG(void)
     GPIO_InitTypeDef  GPIO_InitStructure = {0};
     USART_InitTypeDef USART_InitStructure = {0};
 
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD | RCC_PB2Periph_USART1, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
 
     USART_InitStructure.USART_BaudRate = 115200;

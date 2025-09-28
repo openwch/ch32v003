@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : main.c
 * Author             : WCH
-* Version            : V1.0.1
-* Date               : 2025/01/09
+* Version            : V1.0.0
+* Date               : 2024/02/20
 * Description        : Main program body.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -14,7 +14,7 @@
  *@Note
  *TIM trigger ADC conversion routine:
  *ADC channel 2 (PC4) - injection group channel, TIM1 CH3 pin (PC3)  TIM trigger,
- *In this mode, an ADC conversion is triggered by an event on TIM2 CH1 TIM trigger, and a JEOC interrupt is generated after
+ *In this mode, an ADC conversion is triggered by an event on TIM1 CH3 TIM trigger, and a JEOC interrupt is generated after
  *the conversion is completed.
  *
  */
@@ -36,8 +36,8 @@ void ADC_Function_Init(void)
     GPIO_InitTypeDef GPIO_InitStructure = {0};
     NVIC_InitTypeDef NVIC_InitStructure = {0};
 
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOC, ENABLE);
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_ADC1, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
     RCC_ADCCLKConfig(RCC_PCLK2_Div8);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
@@ -48,27 +48,30 @@ void ADC_Function_Init(void)
     ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
     ADC_InitStructure.ADC_ScanConvMode = DISABLE;
     ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
-    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigInjecConv_T1_CC3;
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
     ADC_InitStructure.ADC_NbrOfChannel = 1;
     ADC_Init(ADC1, &ADC_InitStructure);
 
-    ADC_ExternalTrigInjectedConvConfig(ADC1,ADC_ExternalTrigInjecConv_T1_CC3); 
-
     ADC_InjectedSequencerLengthConfig(ADC1, 1);
-    ADC_InjectedChannelConfig(ADC1, ADC_Channel_2, 1, ADC_SampleTime_CyclesMode7);
+    ADC_InjectedChannelConfig(ADC1, ADC_Channel_2, 1, ADC_SampleTime_241Cycles);
     ADC_ExternalTrigInjectedConvCmd(ADC1, ENABLE);
 
     NVIC_InitStructure.NVIC_IRQChannel = ADC_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 
+    ADC_ExternalTrig_DLY(ADC1, ADC_ExternalTrigInjec_DLY, 0x10);  /* external trigger sources delay time */
+    ADC_Calibration_Vol(ADC1, ADC_CALVOL_50PERCENT);
     ADC_ITConfig(ADC1, ADC_IT_JEOC, ENABLE);
     ADC_Cmd(ADC1, ENABLE);
 
-    ADC_BufferCmd(ADC1, DISABLE); //disable buffer
+    ADC_ResetCalibration(ADC1);
+    while(ADC_GetResetCalibrationStatus(ADC1));
+    ADC_StartCalibration(ADC1);
+    while(ADC_GetCalibrationStatus(ADC1));
 }
 
 /*********************************************************************
@@ -84,10 +87,10 @@ void TIM1_PWM_In(u16 arr, u16 psc, u16 ccp)
     TIM_OCInitTypeDef       TIM_OCInitStructure = {0};
     TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure = {0};
 
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOC| RCC_PB2Periph_TIM1, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC| RCC_APB2Periph_TIM1, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;//
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
 

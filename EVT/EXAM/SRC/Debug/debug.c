@@ -2,7 +2,7 @@
  * File Name          : debug.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2022/08/08
  * Description        : This file contains all the functions prototypes for UART
  *                      Printf , Delay functions.
  *********************************************************************************
@@ -94,7 +94,7 @@ void USART_Printf_Init(uint32_t baudrate)
     USART_InitTypeDef USART_InitStructure;
 
 #if (DEBUG == DEBUG_UART1_NoRemap)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD | RCC_PB2Periph_USART1, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
@@ -102,138 +102,31 @@ void USART_Printf_Init(uint32_t baudrate)
     GPIO_Init(GPIOD, &GPIO_InitStructure);
 
 #elif (DEBUG == DEBUG_UART1_Remap1)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD | RCC_PB2Periph_USART1 | RCC_PB2Periph_AFIO, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1 | RCC_APB2Periph_AFIO, ENABLE);
     GPIO_PinRemapConfig(GPIO_PartialRemap1_USART1, ENABLE);
 
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
 
 #elif (DEBUG == DEBUG_UART1_Remap2)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD | RCC_PB2Periph_USART1 | RCC_PB2Periph_AFIO, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1 | RCC_APB2Periph_AFIO, ENABLE);
     GPIO_PinRemapConfig(GPIO_PartialRemap2_USART1, ENABLE);
 
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
 
 #elif (DEBUG == DEBUG_UART1_Remap3)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOC | RCC_PB2Periph_USART1 | RCC_PB2Periph_AFIO, ENABLE);
-    GPIO_PinRemapConfig(GPIO_PartialRemap3_USART1, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC | RCC_APB2Periph_USART1 | RCC_APB2Periph_AFIO, ENABLE);
+    GPIO_PinRemapConfig(GPIO_FullRemap_USART1, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
-
-#elif (DEBUG == DEBUG_UART1_Remap4)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD | RCC_PB2Periph_USART1 | RCC_PB2Periph_AFIO, ENABLE);
-    GPIO_PinRemapConfig(GPIO_PartialRemap4_USART1, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOD, &GPIO_InitStructure);
-
-#elif (DEBUG == DEBUG_UART1_Remap5)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOB | RCC_PB2Periph_USART1 | RCC_PB2Periph_AFIO, ENABLE);
-    GPIO_PinRemapConfig(GPIO_PartialRemap5_USART1, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-#elif (DEBUG == DEBUG_UART1_Remap6)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOC | RCC_PB2Periph_USART1 | RCC_PB2Periph_AFIO, ENABLE);
-    GPIO_PinRemapConfig(GPIO_PartialRemap6_USART1, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOC, &GPIO_InitStructure);
-
-#elif (DEBUG == DEBUG_UART1_Remap7)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOB | RCC_PB2Periph_USART1 | RCC_PB2Periph_AFIO, ENABLE);
-    GPIO_PinRemapConfig(GPIO_PartialRemap7_USART1, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-#elif (DEBUG == DEBUG_UART1_Remap8)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA | RCC_PB2Periph_USART1 | RCC_PB2Periph_AFIO, ENABLE);
-    GPIO_PinRemapConfig(GPIO_PartialRemap8_USART1, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-#elif (DEBUG == DEBUG_UART2_NoRemap)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA | RCC_PB2Periph_USART2, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-#elif (DEBUG == DEBUG_UART2_Remap1)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA | RCC_PB2Periph_USART2 | RCC_PB2Periph_AFIO, ENABLE);
-    GPIO_PinRemapConfig(GPIO_PartialRemap1_USART2, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-#elif (DEBUG == DEBUG_UART2_Remap2)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA | RCC_PB2Periph_USART2 | RCC_PB2Periph_AFIO, ENABLE);
-    GPIO_PinRemapConfig(GPIO_PartialRemap2_USART2, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-#elif (DEBUG == DEBUG_UART2_Remap3)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOD | RCC_PB2Periph_USART2 | RCC_PB2Periph_AFIO, ENABLE);
-    GPIO_PinRemapConfig(GPIO_PartialRemap3_USART2, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOD, &GPIO_InitStructure);
-
-#elif (DEBUG == DEBUG_UART2_Remap4)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOB | RCC_PB2Periph_USART2 | RCC_PB2Periph_AFIO, ENABLE);
-    GPIO_PinRemapConfig(GPIO_PartialRemap4_USART2, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-#elif (DEBUG == DEBUG_UART2_Remap5)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOC | RCC_PB2Periph_USART2 | RCC_PB2Periph_AFIO, ENABLE);
-    GPIO_PinRemapConfig(GPIO_PartialRemap5_USART2, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOC, &GPIO_InitStructure);
-
-#elif (DEBUG == DEBUG_UART2_Remap6)
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOA | RCC_PB2Periph_USART2 | RCC_PB2Periph_AFIO, ENABLE);
-    GPIO_PinRemapConfig(GPIO_FullRemap_USART2, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
 
 #endif
 
@@ -244,17 +137,8 @@ void USART_Printf_Init(uint32_t baudrate)
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Tx;
 
-#if (DEBUG == DEBUG_UART1_NoRemap)||(DEBUG == DEBUG_UART1_Remap1)||(DEBUG == DEBUG_UART1_Remap2)||(DEBUG == DEBUG_UART1_Remap3)||(DEBUG == DEBUG_UART1_Remap4) \
-        ||(DEBUG == DEBUG_UART1_Remap5)||(DEBUG == DEBUG_UART1_Remap6)||(DEBUG == DEBUG_UART1_Remap7)||(DEBUG == DEBUG_UART1_Remap8)
     USART_Init(USART1, &USART_InitStructure);
     USART_Cmd(USART1, ENABLE);
-#endif
-
-#if (DEBUG == DEBUG_UART2_NoRemap)||(DEBUG == DEBUG_UART2_Remap1)||(DEBUG == DEBUG_UART2_Remap2)||(DEBUG == DEBUG_UART2_Remap3) \
-        ||(DEBUG == DEBUG_UART2_Remap4)||(DEBUG == DEBUG_UART2_Remap5)||(DEBUG == DEBUG_UART2_Remap6)
-    USART_Init(USART2, &USART_InitStructure);
-    USART_Cmd(USART2, ENABLE);
-#endif
 }
 
 /*********************************************************************
@@ -324,15 +208,8 @@ int _write(int fd, char *buf, int size)
 #else
 
     for(i = 0; i < size; i++){
-#if (DEBUG == DEBUG_UART1_NoRemap)||(DEBUG == DEBUG_UART1_Remap1)||(DEBUG == DEBUG_UART1_Remap2)||(DEBUG == DEBUG_UART1_Remap3)||(DEBUG == DEBUG_UART1_Remap4) \
-        ||(DEBUG == DEBUG_UART1_Remap5)||(DEBUG == DEBUG_UART1_Remap6)||(DEBUG == DEBUG_UART1_Remap7)||(DEBUG == DEBUG_UART1_Remap8)
         while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
         USART_SendData(USART1, *buf++);
-#elif (DEBUG == DEBUG_UART2_NoRemap)||(DEBUG == DEBUG_UART2_Remap1)||(DEBUG == DEBUG_UART2_Remap2)||(DEBUG == DEBUG_UART2_Remap3) \
-        ||(DEBUG == DEBUG_UART2_Remap4)||(DEBUG == DEBUG_UART2_Remap5)||(DEBUG == DEBUG_UART2_Remap6)
-        while(USART_GetFlagStatus(USART2, USART_FLAG_TC) == RESET);
-        USART_SendData(USART2, *buf++);
-#endif
     }
 
 
