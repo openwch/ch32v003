@@ -13,9 +13,9 @@
 /*
  *@Note
  *@Note
- *Timer DMA routines:
+ *TIM continue Mode routine:
  *TIM1_CH1(PD2)
- *This example demonstrates using DMA to output PWM through TIM1_CH1(PD2) pin.
+ *This example demonstrates that the TIM_CH1(PD2) pin outputs PWM in PWM mode by continue mode
  *
  */
 
