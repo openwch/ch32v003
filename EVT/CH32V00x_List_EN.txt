@@ -1,5 +1,5 @@
 
-Nanjing Qinheng Microelectronics Co., Ltd. 2024.08
+Nanjing Qinheng Microelectronics Co., Ltd. 2025.01
 
 https://wch-ic.com
 
@@ -48,6 +48,9 @@ Directory
   |      |      |      |      |-- V00x_APP:APP go to IAP routine  
   |      |      |      |-- IWDG
   |      |      |      |      |-- IWDG: independent watchdog routine
+  |      |      |      |-- INT
+  |      |      |      |      |-- Interrupt_VTF: VTF IRQ interrupt routine   
+  |      |      |      |      |-- VectorInRAM：Vector in RAM routine 
   |      |      |      |-- OPA 
   |      |      |      |      |-- OPA: OPA as voltage follower output routine 
   |      |      |      |-- PWR
@@ -82,6 +85,8 @@ Directory
   |      |      |      |      |-- Encode:Timer encoder mode routines
   |      |      |      |      |-- TIM_INT:Timer interput routines
   |      |      |      |      |-- TIM_Continuous：Timer Continuous mode routines
+  |      |      |      |      |-- PWM_Phase-shifted：Timer PWM Phase shifted routines
+  |      |      |      |      |-- PWM_6_Step：Timer 6_Step PWM routines
   |      |      |      |-- USART
   |      |      |      |      |-- USART_DMA: USART DMA, master/slave mode transceiver routine
   |      |      |      |      |-- USART_HalfDuplex: single wire half duplex mode, master/slave mode transceiver routine

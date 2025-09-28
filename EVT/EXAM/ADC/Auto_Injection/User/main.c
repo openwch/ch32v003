@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/22
+ * Version            : V1.0.1
+ * Date               : 2025/01/09
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -63,38 +63,6 @@ void ADC_Function_Init(void)
     while(ADC_GetResetCalibrationStatus(ADC1));
     ADC_StartCalibration(ADC1);
     while(ADC_GetCalibrationStatus(ADC1));
-}
-
-/*********************************************************************
- * @fn      Get_ADC_Val
- *
- * @brief   Returns ADCx conversion result data.
- *
- * @param   ch - ADC channel.
- *            ADC_Channel_0 - ADC Channel0 selected.
- *            ADC_Channel_1 - ADC Channel1 selected.
- *            ADC_Channel_2 - ADC Channel2 selected.
- *            ADC_Channel_3 - ADC Channel3 selected.
- *            ADC_Channel_4 - ADC Channel4 selected.
- *            ADC_Channel_5 - ADC Channel5 selected.
- *            ADC_Channel_6 - ADC Channel6 selected.
- *            ADC_Channel_7 - ADC Channel7 selected.
- *            ADC_Channel_8 - ADC Channel8 selected.
- *            ADC_Channel_9 - ADC Channel9 selected.
- *
- * @return  none
- */
-u16 Get_ADC_Val(u8 ch)
-{
-    u16 val;
-
-    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-
-    while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC));
-
-    val = ADC_GetConversionValue(ADC1);
-
-    return val;
 }
 
 /*********************************************************************
