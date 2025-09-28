@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.1
- * Date               : 2024/12/23
+ * Version            : V1.0.0
+ * Date               : 2022/08/08
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -35,8 +35,8 @@ void ADC_Function_Init(void)
     ADC_InitTypeDef  ADC_InitStructure = {0};
     GPIO_InitTypeDef GPIO_InitStructure = {0};
 
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_GPIOC, ENABLE);
-    RCC_PB2PeriphClockCmd(RCC_PB2Periph_ADC1, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
     RCC_ADCCLKConfig(RCC_PCLK2_Div8);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
@@ -52,10 +52,14 @@ void ADC_Function_Init(void)
     ADC_InitStructure.ADC_NbrOfChannel = 1;
     ADC_Init(ADC1, &ADC_InitStructure);
 
+    ADC_Calibration_Vol(ADC1, ADC_CALVOL_50PERCENT);
     ADC_DMACmd(ADC1, ENABLE);
     ADC_Cmd(ADC1, ENABLE);
 
-    ADC_BufferCmd(ADC1, DISABLE);    //disable buffer
+    ADC_ResetCalibration(ADC1);
+    while(ADC_GetResetCalibrationStatus(ADC1));
+    ADC_StartCalibration(ADC1);
+    while(ADC_GetCalibrationStatus(ADC1));
 }
 
 /*********************************************************************
@@ -81,7 +85,7 @@ u16 Get_ADC_Val(u8 ch)
 {
     u16 val;
 
-    ADC_RegularChannelConfig(ADC1, ch, 1, ADC_SampleTime_CyclesMode7);
+    ADC_RegularChannelConfig(ADC1, ch, 1, ADC_SampleTime_241Cycles);
     ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 
     while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC));
@@ -106,7 +110,7 @@ void DMA_Tx_Init(DMA_Channel_TypeDef *DMA_CHx, u32 ppadr, u32 memadr, u16 bufsiz
 {
     DMA_InitTypeDef DMA_InitStructure = {0};
 
-    RCC_HBPeriphClockCmd(RCC_HBPeriph_DMA1, ENABLE);
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
 
     DMA_DeInit(DMA_CHx);
     DMA_InitStructure.DMA_PeripheralBaseAddr = ppadr;
@@ -148,7 +152,7 @@ int main(void)
     DMA_Tx_Init(DMA1_Channel1, (u32)&ADC1->RDATAR, (u32)TxBuf, 10);
     DMA_Cmd(DMA1_Channel1, ENABLE);
 
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_2, 1, ADC_SampleTime_CyclesMode7);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_2, 1, ADC_SampleTime_241Cycles);
     ADC_SoftwareStartConvCmd(ADC1, ENABLE);
     Delay_Ms(50);
     ADC_SoftwareStartConvCmd(ADC1, DISABLE);

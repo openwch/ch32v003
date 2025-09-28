@@ -1,16 +1,16 @@
 
-南京沁恒微电子股份有限公司 2025.01
+南京沁恒微电子股份有限公司 2024.08
 最新资料请到我们的网站上查询
 https://wch.cn
 
 
 文件目录
   |
-  |-- CH32V00X：RISC-V内核微控制器
-  |      |-- EVT: CH32V00X评估板和CH32V00X相关例程
+  |-- CH32V00x：RISC-V内核微控制器
+  |      |-- EVT: CH32V00x评估板和CH32V00x相关例程
   |      |      |-- PUB: 
-  |      |      |      |-- CH32V00X评估板说明书.pdf：CH32V00X评估板说明及工程创建说明
-  |      |      |      |-- CH32V00XSCH.pdf：CH32V00X评估板原理图
+  |      |      |      |-- CH32V00x评估板说明书.pdf：CH32V00x评估板说明及工程创建说明
+  |      |      |      |-- CH32V00xSCH.pdf：CH32V00x评估板原理图
   |      |      |-- EXAM: 
   |      |      |      |-- SRC  
   |      |      |      |      |-- Core：内核系统头文件
@@ -24,21 +24,17 @@ https://wch.cn
   |      |      |      |      |-- Auto_Injection：自动注入模式例程
   |      |      |      |      |-- Discontinuous_mode：间断模式例程
   |      |      |      |      |-- ExtLines_Trigger：外部触发ADC转换例程
-  |      |      |      |      |-- TIM_Trigger：定时器触发ADC转换例程 
-  |      |      |      |      |-- SLTIM_Trigger：精简定时器触发ADC转换例程
+  |      |      |      |      |-- TIM_trigger：定时器触发ADC转换例程
   |      |      |      |-- APPLICATION
   |      |      |      |      |-- SoftUART：I/O口模拟串口例程 
-  |      |      |      |      |-- Motor
-  |      |      |      |      |      |-- Electric_Fan：基于FOC三相无刷电机的中低速风扇应用
-  |      |      |      |      |      |-- Voilent_Fan：基于BLDC的高速风扇应用
   |      |      |      |-- DMA
   |      |      |      |      |-- DMA_MEM2MEM：储存器到储存器模式例程
   |      |      |      |      |-- DMA_MEM2PERIP：储存器到外设模式、外设到储存器模式例程见各外设子例程
   |      |      |      |-- EXTI
   |      |      |      |      |-- EXTI0：外部中断线例程 
   |      |      |      |-- FLASH
-  |      |      |      |      |-- FLASH_Program：FLASH的擦/读/写，以及快速编程 
-  |      |      |      |      |-- BootAsUser：Boot Flash 用作用户区
+  |      |      |      |      |-- FLASH_Program：FLASH的擦/读/写，以及快速编程
+  |      |      |      |      |-- BootAsUser：Boot Flash 用作用户区 
   |      |      |      |-- GPIO
   |      |      |      |      |-- GPIO_Toggle：GPIO例程  
   |      |      |      |-- I2C
@@ -46,27 +42,21 @@ https://wch.cn
   |      |      |      |      |-- I2C_10bit_Mode：10位地址模式，Master/Slave 模式收发例程
   |      |      |      |      |-- I2C_DMA：I2C使用DMA，Master/Slave 模式收发例程
   |      |      |      |      |-- I2C_EEPROM：I2C接口操作EEPROM外设例程
-  |      |      |      |      |-- I2C_PEC：使用PEC错误校验，Master/Slave 模式收发例程
-  |      |      |      |      |-- I2C_7bit_Interrupt_Mode：使用中断进行收发例程
+  |      |      |      |      |-- I2C_PEC：使用PEC错误校验，Master/Slave 模式收发例程  
+  |      |      |      |      |-- I2C_7bit_Interrupt_Mode：使用中断进行收发例程 
   |      |      |      |-- IAP
-  |      |      |      |      |-- V00X_APP：APP跳转IAP例程   
-  |      |      |      |-- INT
-  |      |      |      |      |-- Interrupt_VTF：使用VTF IRQ中断例程  
-  |      |      |      |      |-- VectorInRAM：中断向量表在RAM的中断例程  
+  |      |      |      |      |-- V00x_APP：APP跳转IAP例程     
   |      |      |      |-- IWDG
   |      |      |      |      |-- IWDG：独立看门狗例程  
   |      |      |      |-- OPA
-  |      |      |      |      |-- CMP：比较器例程
-  |      |      |      |      |-- CMP_BKIN：CMP刹车例程
-  |      |      |      |      |-- CMP_Poll：CMP轮询例程
-  |      |      |      |      |-- OPA：OPA作电压跟随器输出例程
-  |      |      |      |      |-- OPA_PGA：OPA的PGA例程
-  |      |      |      |      |-- OPA_Poll：OPA轮询例程    
+  |      |      |      |      |-- OPA：OPA作电压跟随器输出例程    
   |      |      |      |-- PWR
   |      |      |      |      |-- Sleep_Mode：低功耗，睡眠模式例程
   |      |      |      |      |-- Standby_Mode：低功耗，待机模式例程
+  |      |      |      |      |-- PVD_Wakeup：STOP模式PVD中断唤醒例程
+  |      |      |      |      |-- PVD_VoltageJudger：PVD电压判定例程
   |      |      |      |-- RCC
-  |      |      |      |      |-- Get_CLK：获取system-HCLK-HB1-HB2时钟例程  
+  |      |      |      |      |-- Get_CLK：获取system-HCLK-AHB1-AHB2时钟例程  
   |      |      |      |      |-- MCO：MCO引脚时钟输出例程
   |      |      |      |-- SPI
   |      |      |      |      |-- 1Lines_half-duplex：单线半双工模式，Master/Slave 模式数据收发
@@ -89,14 +79,9 @@ https://wch.cn
   |      |      |      |      |-- Synchro_ExtTrigger：从模式例程，包括复位模式、门控模式、触发模式
   |      |      |      |      |-- Synchro_Timer：定时器同步模式
   |      |      |      |      |-- TIM_DMA：定时器使用DMA例程
-  |      |      |      |      |-- SLTIM_DMA：精简定时器使用DMA例程
   |      |      |      |      |-- Encoder：定时器编码器例程
-  |      |      |      |-- TOUCHKEY
-  |      |      |      |      |-- TOUCHKEY：TouchKey检测例程
-  |      |      |      |      |-- Touch_EX001：触摸按键综合演示例程  
-  |      |      |      |      |-- Touch_EX002：8按键触摸例程 
-  |      |      |      |      |-- TKYLIB：触摸按键库
-  |      |      |      |      |-- DOC_SCH_PCB：原理图及使用说明  
+  |      |      |      |      |-- TIM_INT：定时器中断例程
+  |      |      |      |      |-- TIM_Continuous：定时器连续模式例程
   |      |      |      |-- USART
   |      |      |      |      |-- USART_DMA：USART使用DMA，Master/Slave 模式收发例程
   |      |      |      |      |-- USART_HalfDuplex：单线半双工模式，Master/Slave 模式收发例程
@@ -106,7 +91,6 @@ https://wch.cn
   |      |      |      |      |-- USART_Polling：轮询收发模式，Master/Slave 模式收发例程
   |      |      |      |      |-- USART_Printf：串口打印调试例程
   |      |      |      |      |-- USART_SynchronousMode：同步模式，Master/Slave 模式收发例程  
-  |      |      |      |      |-- USART_Idle_Recv：串口使用DMA进行不定长接收例程
   |      |      |      |-- USART_IAP：IAP升级-内置Hex转Bin工具和IAP升级工具   
   |      |      |      |-- WWDG
   |      |      |      |      |-- WWDG：窗口看门狗例程

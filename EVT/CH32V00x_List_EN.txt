@@ -1,16 +1,16 @@
 
-Nanjing Qinheng Microelectronics Co., Ltd. 2025.01
+Nanjing Qinheng Microelectronics Co., Ltd. 2024.08
 
 https://wch-ic.com
 
 
 Directory
   |
-  |-- CH32V00X: RISC-V MCU
-  |      |-- EVT: CH32V00XEVT Evaluation Board and CH32V00X related software routine
+  |-- CH32V00x: RISC-V MCU
+  |      |-- EVT: CH32V00xEVT Evaluation Board and CH32V00x related software routines
   |      |      |-- PUB: 
-  |      |      |      |-- CH32V00XEVT Evaluation Board Manual.pdf: CH32V00XEVT evaluation board introduction and project creation description
-  |      |      |      |-- CH32V00XSCH.pdf: Schematic of CH32V00XEVT evaluation board
+  |      |      |      |-- CH32V00xEVT Evaluation Board Manual.pdf: CH32V00xEVT evaluation board introduction and project creation description
+  |      |      |      |-- CH32V00xSCH.pdf: Schematic of CH32V00xEVT evaluation board
   |      |      |-- EXAM: 
   |      |      |      |-- SRC  
   |      |      |      |      |-- Core: kernal system header file
@@ -19,26 +19,22 @@ Directory
   |      |      |      |      |-- Peripheral: basic peripheral driver source file and header file
   |      |      |      |      |-- Startup: startup file. 
   |      |      |      |-- ADC
-  |      |      |      |      |-- ADC_DMA: ADC DMA sampling routine
+  |      |      |      |      |-- ADC_DMA: ADC DMA sampling routines
   |      |      |      |      |-- AnalogWatchdog: analog watchdog routine
   |      |      |      |      |-- Auto_Injection: automatic injection mode routine
   |      |      |      |      |-- Discontinuous_mode: discontinuous mode routine
   |      |      |      |      |-- ExtLines_Trigger: external lines trigger ADC conversion routine
-  |      |      |      |      |-- TIM Trigger: TIM trigger ADC conversion routine
-  |      |      |      |      |-- SLTIM_Trigger: Streamlined Timer-Triggered ADC conversion routine
+  |      |      |      |      |-- TIM_Trigger:TIM trigger ADC conversion routine 
   |      |      |      |-- APPLICATION
-  |      |      |      |      |-- SoftUART: I/O port simulation serial port routine 
-  |      |      |      |      |-- Motor
-  |      |      |      |      |      |-- Electric_Fan:Application of medium and low speed fans based on FOC three-phase brushless motor
-  |      |      |      |      |      |-- voilent_fan: BLDC-based high-speed fan applications
+  |      |      |      |      |-- SoftUART：I/O port simulation serial port routine 
   |      |      |      |-- DMA
   |      |      |      |      |-- DMA_MEM2MEM: Memory to memory mode routine
-  |      |      |      |      |-- DMA_MEM2PERIP: Memory to peripheral mode, and peripheral to memory mode routine, see peripheral sub-routine
+  |      |      |      |      |-- DMA_MEM2PERIP: Memory to peripheral mode, and peripheral to memory mode routine, see peripheral sub-routines
   |      |      |      |-- EXTI
   |      |      |      |      |-- EXTI0: external interrupt line routine
   |      |      |      |-- FLASH
   |      |      |      |      |-- FLASH_Program: FLASH erase/read/write, and fast programming  
-  |      |      |      |      |-- BootAsUser:Boot Flash used for user flash
+  |      |      |      |      |-- BootAsUser：Boot Flash used for user flash
   |      |      |      |-- GPIO 
   |      |      |      |      |-- GPIO_Toggle: GPIO routine 
   |      |      |      |-- I2C
@@ -47,26 +43,20 @@ Directory
   |      |      |      |      |-- I2C_DMA: I2C DMA, master/slave mode transceiver routine
   |      |      |      |      |-- I2C_EEPROM: I2C interface routine to operate EEPROM peripheral 
   |      |      |      |      |-- I2C_PEC: PEC error check, master/slave mode transceiver routine 
-  |      |      |      |      |-- I2C_7bit_Interrupt_Mode: Send/receive routine using interrupts
+  |      |      |      |      |-- I2C_7bit_Interrupt_Mode：Use interrupt to receive and send routine 
   |      |      |      |-- IAP
-  |      |      |      |      |-- V00X_APP:APP go to IAP routine  
-  |      |      |      |-- INT
-  |      |      |      |      |-- Interrupt_VTF：use VTF IRQ interrupt routine  
-  |      |      |      |      |-- VectorInRAM：Interrupt routines for the interrupt vector table in RAM
+  |      |      |      |      |-- V00x_APP:APP go to IAP routine  
   |      |      |      |-- IWDG
   |      |      |      |      |-- IWDG: independent watchdog routine
   |      |      |      |-- OPA 
-  |      |      |      |      |-- CMP: comparator routine
-  |      |      |      |      |-- CMP_BKIN: CMP break routine
-  |      |      |      |      |-- CMP_Poll: CMP OPA polling routine
-  |      |      |      |      |-- OPA: OPA as the output routine of voltage follower
-  |      |      |      |      |-- OPA_PGA: PGA routine of OPA
-  |      |      |      |      |-- OPA_Poll: OPA polling routine  
+  |      |      |      |      |-- OPA: OPA as voltage follower output routine 
   |      |      |      |-- PWR
   |      |      |      |      |-- Sleep_Mode: low power, sleep mode routine
   |      |      |      |      |-- Standby_Mode: low power, standby mode routine
+  |      |      |      |      |-- PVD_Wakeup：STOP mode PVD wakeup MCU Routine
+  |      |      |      |      |-- PVD_VoltageJudger：PVD voltage Judger Routine
   |      |      |      |-- RCC
-  |      |      |      |      |-- Get_CLK:Get system-HCLK-HB1-HB2 clock routine   
+  |      |      |      |      |-- Get_CLK:Get system-HCLK-AHB1-AHB2 clock routine   
   |      |      |      |      |-- MCO: MCO pin clock output routine      
   |      |      |      |-- SPI
   |      |      |      |      |-- 1Lines_half-duplex: single wire half duplex mode, master/slave mode, data transceiver
@@ -80,23 +70,18 @@ Directory
   |      |      |      |      |-- SYSTICK_Interrupt:systick interrupt routine  
   |      |      |      |-- TIM
   |      |      |      |      |-- Clock_Select: clock source selection routine
-  |      |      |      |      |-- ComplementaryOutput_DeadTime: complementary output and deadband insertion mode routine
-  |      |      |      |      |-- ExtTrigger_Start_Two_Timer: external trigger routine to start two timers synchronously
+  |      |      |      |      |-- ComplementaryOutput_DeadTime: complementary output and deadband insertion mode routines
+  |      |      |      |      |-- ExtTrigger_Start_Two_Timer: external trigger routines to start two timers synchronously
   |      |      |      |      |-- Input_Capture: input capture routine
   |      |      |      |      |-- One_Pulse: single pulse output routine
   |      |      |      |      |-- Output_Compare_Mode: output comparison mode routine
   |      |      |      |      |-- PWM_Output: PWM output routine
   |      |      |      |      |-- Synchro_ExtTrigger:slave mode routine, including reset mode, gating mode and trigger mode
   |      |      |      |      |-- Synchro_Timer:timer synchronization mode
-  |      |      |      |      |-- TIM_DMA: timer DMA routine
-  |      |      |      |      |-- SLTIM_DMA: Streamlining Timers DMA routine
+  |      |      |      |      |-- TIM_DMA: timer DMA routines
   |      |      |      |      |-- Encode:Timer encoder mode routines
-  |      |      |      |-- TOUCHKEY
-  |      |      |      |      |-- TOUCHKEY: touchkey detection routine
-  |      |      |      |      |-- Touch_EX001：Comprehensive demonstration of touch keys
-  |      |      |      |      |-- Touch_EX002：8 Key Touch Routines 
-  |      |      |      |      |-- TKYLIB：Touch Button Library
-  |      |      |      |      |-- DOC_SCH_PCB: Schematic diagrams and instructions for use 
+  |      |      |      |      |-- TIM_INT:Timer interput routines
+  |      |      |      |      |-- TIM_Continuous：Timer Continuous mode routines
   |      |      |      |-- USART
   |      |      |      |      |-- USART_DMA: USART DMA, master/slave mode transceiver routine
   |      |      |      |      |-- USART_HalfDuplex: single wire half duplex mode, master/slave mode transceiver routine
@@ -106,7 +91,6 @@ Directory
   |      |      |      |      |-- USART_Polling: polling transceiver mode, master/slave transceiver routine
   |      |      |      |      |-- USART_Printf: USART Print debugging routine
   |      |      |      |      |-- USART_SynchronousMode: synchronous mode, master/slave mode, transceiver routine    
-  |      |      |      |      |-- USART_Idle_Recv: Serial port using DMA for indeterminate length reception routine
   |      |      |      |-- USART-IAP:IAP Upgrade Routine - Built-in Hex to Bin Tool and IAP Upgrade Tool  
   |      |      |      |-- WWDG: 
   |      |      |      |      |-- WWDG: window watchdog routine

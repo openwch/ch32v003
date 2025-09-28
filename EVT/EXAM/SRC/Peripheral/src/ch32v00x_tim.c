@@ -1,16 +1,16 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : ch32v00X_tim.c
+ * File Name          : ch32v00x_tim.c
  * Author             : WCH
- * Version            : V1.0.5
- * Date               : 2025/02/21
+ * Version            : V1.0.0
+ * Date               : 2023/12/25
  * Description        : This file provides all the TIM firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
-#include <ch32v00X_rcc.h>
-#include <ch32v00X_tim.h>
+#include <ch32v00x_rcc.h>
+#include <ch32v00x_tim.h>
 
 /* TIM registers bit mask */
 #define SMCFGR_ETR_Mask    ((uint16_t)0x00FF)
@@ -33,7 +33,7 @@ static void TI4_Config(TIM_TypeDef *TIMx, uint16_t TIM_ICPolarity, uint16_t TIM_
  * @brief   Deinitializes the TIMx peripheral registers to their default
  *        reset values.
  *
- * @param   TIMx - where x can be 1 to 3 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *
  * @return  none
  */
@@ -41,18 +41,13 @@ void TIM_DeInit(TIM_TypeDef *TIMx)
 {
     if(TIMx == TIM1)
     {
-        RCC_PB2PeriphResetCmd(RCC_PB2Periph_TIM1, ENABLE);
-        RCC_PB2PeriphResetCmd(RCC_PB2Periph_TIM1, DISABLE);
+        RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM1, ENABLE);
+        RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM1, DISABLE);
     }
     else if(TIMx == TIM2)
     {
-        RCC_PB1PeriphResetCmd(RCC_PB1Periph_TIM2, ENABLE);
-        RCC_PB1PeriphResetCmd(RCC_PB1Periph_TIM2, DISABLE);
-    }
-    else if(TIMx == TIM3)
-    {
-        RCC_PB1PeriphResetCmd(RCC_PB1Periph_TIM3, ENABLE);
-        RCC_PB1PeriphResetCmd(RCC_PB1Periph_TIM3, DISABLE);
+        RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM2, ENABLE);
+        RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM2, DISABLE);
     }
 }
 
@@ -62,7 +57,7 @@ void TIM_DeInit(TIM_TypeDef *TIMx)
  * @brief   Initializes the TIMx Time Base Unit peripheral according to
  *        the specified parameters in the TIM_TimeBaseInitStruct.
  *
- * @param   TIMx - where x can be 1 to 3 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          TIM_TimeBaseInitStruct - pointer to a TIM_TimeBaseInitTypeDef
  *        structure.
  *
@@ -72,37 +67,27 @@ void TIM_TimeBaseInit(TIM_TypeDef *TIMx, TIM_TimeBaseInitTypeDef *TIM_TimeBaseIn
 {
     uint16_t tmpcr1 = 0;
 
+    tmpcr1 = TIMx->CTLR1;
+
     if((TIMx == TIM1) || (TIMx == TIM2))
     {
-        tmpcr1 = TIMx->CTLR1;
-
         tmpcr1 &= (uint16_t)(~((uint16_t)(TIM_DIR | TIM_CMS)));
         tmpcr1 |= (uint32_t)TIM_TimeBaseInitStruct->TIM_CounterMode;
-
-        tmpcr1 &= (uint16_t)(~((uint16_t)TIM_CTLR1_CKD));
-        tmpcr1 |= (uint32_t)TIM_TimeBaseInitStruct->TIM_ClockDivision;
-
-        TIMx->CTLR1 = tmpcr1;
-        TIMx->ATRLR = TIM_TimeBaseInitStruct->TIM_Period;
-        TIMx->PSC = TIM_TimeBaseInitStruct->TIM_Prescaler;
-
-        if(TIMx == TIM1)
-        {
-            TIMx->RPTCR = TIM_TimeBaseInitStruct->TIM_RepetitionCounter;
-        }
-
-        TIMx->SWEVGR = TIM_PSCReloadMode_Immediate;
     }
-    else if(TIMx == TIM3)
+
+    tmpcr1 &= (uint16_t)(~((uint16_t)TIM_CTLR1_CKD));
+    tmpcr1 |= (uint32_t)TIM_TimeBaseInitStruct->TIM_ClockDivision;
+
+    TIMx->CTLR1 = tmpcr1;
+    TIMx->ATRLR = TIM_TimeBaseInitStruct->TIM_Period;
+    TIMx->PSC = TIM_TimeBaseInitStruct->TIM_Prescaler;
+
+    if(TIMx == TIM1)
     {
-        tmpcr1 = TIMx->TIM3_CTLR;
-
-        tmpcr1 &= (uint16_t)(~((uint16_t)(SLTM_DIR | SLTM_CMS)));
-        tmpcr1 |= (uint32_t)TIM_TimeBaseInitStruct->TIM_CounterMode;
-
-        TIMx->TIM3_CTLR = tmpcr1;
-        TIMx->TIM3_ATRLR = TIM_TimeBaseInitStruct->TIM_Period;
+        TIMx->RPTCR = TIM_TimeBaseInitStruct->TIM_RepetitionCounter;
     }
+
+    TIMx->SWEVGR = TIM_PSCReloadMode_Immediate;
 }
 
 /*********************************************************************
@@ -144,13 +129,6 @@ void TIM_OC1Init(TIM_TypeDef *TIMx, TIM_OCInitTypeDef *TIM_OCInitStruct)
 
         tmpcr2 |= TIM_OCInitStruct->TIM_OCIdleState;
         tmpcr2 |= TIM_OCInitStruct->TIM_OCNIdleState;
-    }
-    else if(TIMx == TIM2)
-    {
-        TIM2->TIM2_DTCR &= 0xFFF2;
-        TIM2->TIM2_DTCR |= (TIM_OCInitStruct->TIM_OutputNState >> 2) \
-                         | (TIM_OCInitStruct->TIM_OCPolarity << 1) \
-                         | (TIM_OCInitStruct->TIM_OCNPolarity);
     }
 
     TIMx->CTLR2 = tmpcr2;
@@ -196,14 +174,6 @@ void TIM_OC2Init(TIM_TypeDef *TIMx, TIM_OCInitTypeDef *TIM_OCInitStruct)
         tmpcr2 &= (uint16_t)(~((uint16_t)TIM_OIS2N));
         tmpcr2 |= (uint16_t)(TIM_OCInitStruct->TIM_OCIdleState << 2);
         tmpcr2 |= (uint16_t)(TIM_OCInitStruct->TIM_OCNIdleState << 2);
-    }
-    else if(TIMx == TIM2)
-    {
-        TIM2->TIM2_DTCR &= 0xFFCD;
-
-        TIM2->TIM2_DTCR |= (TIM_OCInitStruct->TIM_OutputNState >> 1) \
-                         | (TIM_OCInitStruct->TIM_OCPolarity << 3) \
-                         | (TIM_OCInitStruct->TIM_OCNPolarity << 2);
     }
 
     TIMx->CTLR2 = tmpcr2;
@@ -395,7 +365,7 @@ void TIM_PWMIConfig(TIM_TypeDef *TIMx, TIM_ICInitTypeDef *TIM_ICInitStruct)
  * @brief   Configures the: Break feature, dead time, Lock level, the OSSI,
  *      the OSSR State and the AOE(automatic output enable).
  *
- * @param   TIMx - where x can be 1 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          TIM_BDTRInitStruct - pointer to a TIM_BDTRInitTypeDef structure.
  *
  * @return  none
@@ -490,7 +460,7 @@ void TIM_BDTRStructInit(TIM_BDTRInitTypeDef *TIM_BDTRInitStruct)
  *
  * @brief   Enables or disables the specified TIM peripheral.
  *
- * @param   TIMx - where x can be 1 to 3 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          NewState - ENABLE or DISABLE.
  *
  * @return  none
@@ -499,25 +469,11 @@ void TIM_Cmd(TIM_TypeDef *TIMx, FunctionalState NewState)
 {
     if(NewState != DISABLE)
     {
-        if((TIMx == TIM1) || (TIMx == TIM2))
-        {
-            TIMx->CTLR1 |= TIM_CEN;
-        }
-        else if(TIMx == TIM3)
-        {
-            TIMx->TIM3_CTLR |= SLTM_CEN;
-        }
+        TIMx->CTLR1 |= TIM_CEN;
     }
     else
     {
-        if((TIMx == TIM1) || (TIMx == TIM2))
-        {
-            TIMx->CTLR1 &= (uint16_t)(~((uint16_t)TIM_CEN));
-        }
-        else if(TIMx == TIM3)
-        {
-            TIMx->TIM3_CTLR &= (uint16_t)(~((uint16_t)SLTM_CEN));
-        }
+        TIMx->CTLR1 &= (uint16_t)(~((uint16_t)TIM_CEN));
     }
 }
 
@@ -526,7 +482,7 @@ void TIM_Cmd(TIM_TypeDef *TIMx, FunctionalState NewState)
  *
  * @brief   Enables or disables the TIM peripheral Main Outputs.
  *
- * @param   TIMx - where x can be 1 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          NewState - ENABLE or DISABLE.
  *
  * @return  none
@@ -580,15 +536,16 @@ void TIM_ITConfig(TIM_TypeDef *TIMx, uint16_t TIM_IT, FunctionalState NewState)
  * @brief   Configures the TIMx event to be generate by software.
  *
  * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
- *          TIM_EventSource - specifies the TIM event sources.
- *            TIM_EventSource_Update - Timer update Event source.
- *            TIM_EventSource_CC1 - Timer Capture Compare 1 Event source.
- *            TIM_EventSource_CC2 - Timer Capture Compare 2 Event source.
- *            TIM_EventSource_CC3 - Timer Capture Compare 3 Event source.
- *            TIM_EventSource_CC4 - Timer Capture Compare 4 Event source.
- *            TIM_EventSource_COM - Timer COM event source.
- *            TIM_EventSource_Trigger - Timer Trigger Event source.
- *            TIM_EventSource_Break - Timer Break event source.(only for TIM1)
+ *          TIM_IT - specifies the TIM interrupts sources to be enabled or disabled.
+ *            TIM_IT_Update - TIM update Interrupt source.
+ *            TIM_IT_CC1 - TIM Capture Compare 1 Interrupt source.
+ *            TIM_IT_CC2 - TIM Capture Compare 2 Interrupt source
+ *            TIM_IT_CC3 - TIM Capture Compare 3 Interrupt source.
+ *            TIM_IT_CC4 - TIM Capture Compare 4 Interrupt source.
+ *            TIM_IT_COM - TIM Commutation Interrupt source.
+ *            TIM_IT_Trigger - TIM Trigger Interrupt source.
+ *            TIM_IT_Break - TIM Break Interrupt source.
+ *          NewState - ENABLE or DISABLE.
  *
  * @return  none
  */
@@ -637,15 +594,15 @@ void TIM_DMAConfig(TIM_TypeDef *TIMx, uint16_t TIM_DMABase, uint16_t TIM_DMABurs
  *
  * @brief   Enables or disables the TIMx's DMA Requests.
  *
- * @param   TIMx - where x can be 1 to 3 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          TIM_DMASource - specifies the DMA Request sources.
- *            TIM_DMA_Update - TIM update Interrupt source.(for TIM1 TIM2)
- *            TIM_DMA_CC1 - TIM Capture Compare 1 DMA source.(for TIM1 TIM2)
- *            TIM_DMA_CC2 - TIM Capture Compare 2 DMA source.(for TIM1 TIM2)
- *            TIM_DMA_CC3 - TIM Capture Compare 3 DMA source.(for TIM1 TIM2 TIM3)
- *            TIM_DMA_CC4 - TIM Capture Compare 4 DMA source.(for TIM1 TIM2 TIM3)
- *            TIM_DMA_COM - TIM Commutation DMA source.(for TIM1 TIM2)
- *            TIM_DMA_Trigger - TIM Trigger DMA source.(for TIM1 TIM2)
+ *            TIM_DMA_Update - TIM update Interrupt source.
+ *            TIM_DMA_CC1 - TIM Capture Compare 1 DMA source.
+ *            TIM_DMA_CC2 - TIM Capture Compare 2 DMA source.
+ *            TIM_DMA_CC3 - TIM Capture Compare 3 DMA source.
+ *            TIM_DMA_CC4 - TIM Capture Compare 4 DMA source.
+ *            TIM_DMA_COM - TIM Commutation DMA source.
+ *            TIM_DMA_Trigger - TIM Trigger DMA source.
  *          NewState - ENABLE or DISABLE.
  *
  * @return  none
@@ -654,26 +611,11 @@ void TIM_DMACmd(TIM_TypeDef *TIMx, uint16_t TIM_DMASource, FunctionalState NewSt
 {
     if(NewState != DISABLE)
     {
-        if((TIMx == TIM1) || (TIMx == TIM2))
-        {
-            TIMx->DMAINTENR |= TIM_DMASource;
-        }
-        else if(TIMx == TIM3)
-        {
-            TIMx->TIM3_DMAINTENR |= TIM_DMASource;
-        }
+        TIMx->DMAINTENR |= TIM_DMASource;
     }
     else
     {
-        if((TIMx == TIM1) || (TIMx == TIM2))
-        {
-            TIMx->DMAINTENR &= (uint16_t)~TIM_DMASource;
-        }
-        else if(TIMx == TIM3)
-        {
-            TIMx->TIM3_DMAINTENR &= (uint16_t)~TIM_DMASource;;
-        }
-
+        TIMx->DMAINTENR &= (uint16_t)~TIM_DMASource;
     }
 }
 
@@ -682,20 +624,13 @@ void TIM_DMACmd(TIM_TypeDef *TIMx, uint16_t TIM_DMASource, FunctionalState NewSt
  *
  * @brief   Configures the TIMx internal Clock.
  *
- * @param   TIMx - where x can be 1 to 3 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *
  * @return  none
  */
 void TIM_InternalClockConfig(TIM_TypeDef *TIMx)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        TIMx->SMCFGR &= (uint16_t)(~((uint16_t)TIM_SMS));
-    }
-    else if(TIMx == TIM3)
-    {
-        TIMx->TIM3_CTLR &= (uint16_t)(~((uint16_t)SLTM_SMS));
-    }
+    TIMx->SMCFGR &= (uint16_t)(~((uint16_t)TIM_SMS));
 }
 
 /*********************************************************************
@@ -868,7 +803,7 @@ void TIM_PrescalerConfig(TIM_TypeDef *TIMx, uint16_t Prescaler, uint16_t TIM_PSC
  *
  * @brief   Specifies the TIMx Counter Mode to be used.
  *
- * @param   TIMx - where x can be 1 to 3 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          TIM_CounterMode - specifies the Counter Mode to be used.
  *            TIM_CounterMode_Up - TIM Up Counting Mode.
  *            TIM_CounterMode_Down - TIM Down Counting Mode.
@@ -881,20 +816,11 @@ void TIM_PrescalerConfig(TIM_TypeDef *TIMx, uint16_t Prescaler, uint16_t TIM_PSC
 void TIM_CounterModeConfig(TIM_TypeDef *TIMx, uint16_t TIM_CounterMode)
 {
     uint16_t tmpcr1 = 0;
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        tmpcr1 = TIMx->CTLR1;
-        tmpcr1 &= (uint16_t)(~((uint16_t)(TIM_DIR | TIM_CMS)));
-        tmpcr1 |= TIM_CounterMode;
-        TIMx->CTLR1 = tmpcr1;
-    }
-    else if(TIMx == TIM3)
-    {
-        tmpcr1 = TIMx->TIM3_CTLR;
-        tmpcr1 &= (uint16_t)(~((uint16_t)(SLTM_DIR | SLTM_CMS)));
-        tmpcr1 |= TIM_CounterMode;
-        TIMx->TIM3_CTLR = tmpcr1;
-    }
+
+    tmpcr1 = TIMx->CTLR1;
+    tmpcr1 &= (uint16_t)(~((uint16_t)(TIM_DIR | TIM_CMS)));
+    tmpcr1 |= TIM_CounterMode;
+    TIMx->CTLR1 = tmpcr1;
 }
 
 /*********************************************************************
@@ -1065,7 +991,7 @@ void TIM_ForcedOC4Config(TIM_TypeDef *TIMx, uint16_t TIM_ForcedAction)
  *
  * @brief   Enables or disables TIMx peripheral Preload register on ARR.
  *
- * @param   TIMx - where x can be 1 to 3 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          NewState - ENABLE or DISABLE.
  *
  * @return  none
@@ -1074,25 +1000,11 @@ void TIM_ARRPreloadConfig(TIM_TypeDef *TIMx, FunctionalState NewState)
 {
     if(NewState != DISABLE)
     {
-        if((TIMx == TIM1) || (TIMx == TIM2))
-        {
-            TIMx->CTLR1 |= TIM_ARPE;
-        }
-        else if(TIMx == TIM3)
-        {
-            TIMx->TIM3_CTLR |= SLTM_ARPE;
-        }
+        TIMx->CTLR1 |= TIM_ARPE;
     }
     else
     {
-        if((TIMx == TIM1) || (TIMx == TIM2))
-        {
-            TIMx->CTLR1 &= (uint16_t) ~((uint16_t)TIM_ARPE);
-        }
-        else if(TIMx == TIM3)
-        {
-            TIMx->TIM3_CTLR &= (uint16_t) ~((uint16_t)SLTM_ARPE);
-        }
+        TIMx->CTLR1 &= (uint16_t) ~((uint16_t)TIM_ARPE);
     }
 }
 
@@ -1101,7 +1013,7 @@ void TIM_ARRPreloadConfig(TIM_TypeDef *TIMx, FunctionalState NewState)
  *
  * @brief   Selects the TIM peripheral Commutation event.
  *
- * @param   TIMx - where x can be 1 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          NewState - ENABLE or DISABLE.
  *
  * @return  none
@@ -1145,7 +1057,7 @@ void TIM_SelectCCDMA(TIM_TypeDef *TIMx, FunctionalState NewState)
  *
  * @brief   DSets or Resets the TIM peripheral Capture Compare Preload Control bit.
  *        reset values  .
- * @param   TIMx - where x can be 1 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          NewState - ENABLE or DISABLE.
  *
  * @return  none
@@ -1167,7 +1079,7 @@ void TIM_CCPreloadControl(TIM_TypeDef *TIMx, FunctionalState NewState)
  *
  * @brief   Enables or disables the TIMx peripheral Preload register on CCR1.
  *
- * @param   TIMx - where x can be 1 to 3 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          TIM_OCPreload - new state of the TIMx peripheral Preload register.
  *            TIM_OCPreload_Enable.
  *            TIM_OCPreload_Disable.
@@ -1178,20 +1090,10 @@ void TIM_OC1PreloadConfig(TIM_TypeDef *TIMx, uint16_t TIM_OCPreload)
 {
     uint16_t tmpccmr1 = 0;
 
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        tmpccmr1 = TIMx->CHCTLR1;
-        tmpccmr1 &= (uint16_t) ~((uint16_t)TIM_OC1PE);
-        tmpccmr1 |= TIM_OCPreload;
-        TIMx->CHCTLR1 = tmpccmr1;
-    }
-    else if(TIMx == TIM3)
-    {
-        tmpccmr1 = TIMx->TIM3_DMAINTENR;
-        tmpccmr1 &= (uint16_t) ~((uint16_t)SLTM_OC1PE);
-        tmpccmr1 |= (TIM_OCPreload >> 3);
-        TIMx->TIM3_DMAINTENR = tmpccmr1;
-    }
+    tmpccmr1 = TIMx->CHCTLR1;
+    tmpccmr1 &= (uint16_t) ~((uint16_t)TIM_OC1PE);
+    tmpccmr1 |= TIM_OCPreload;
+    TIMx->CHCTLR1 = tmpccmr1;
 }
 
 /*********************************************************************
@@ -1199,7 +1101,7 @@ void TIM_OC1PreloadConfig(TIM_TypeDef *TIMx, uint16_t TIM_OCPreload)
  *
  * @brief   Enables or disables the TIMx peripheral Preload register on CCR2.
  *
- * @param   TIMx - where x can be 1 to 3 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          TIM_OCPreload - new state of the TIMx peripheral Preload register.
  *            TIM_OCPreload_Enable.
  *            TIM_OCPreload_Disable.
@@ -1210,20 +1112,10 @@ void TIM_OC2PreloadConfig(TIM_TypeDef *TIMx, uint16_t TIM_OCPreload)
 {
     uint16_t tmpccmr1 = 0;
 
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        tmpccmr1 = TIMx->CHCTLR1;
-        tmpccmr1 &= (uint16_t) ~((uint16_t)TIM_OC2PE);
-        tmpccmr1 |= (uint16_t)(TIM_OCPreload << 8);
-        TIMx->CHCTLR1 = tmpccmr1;
-    }
-    else if(TIMx == TIM3)
-    {
-        tmpccmr1 = TIMx->TIM3_DMAINTENR;
-        tmpccmr1 &= (uint16_t) ~((uint16_t)SLTM_OC2PE);
-        tmpccmr1 |= (TIM_OCPreload >> 2);
-        TIMx->TIM3_DMAINTENR = tmpccmr1;
-    }
+    tmpccmr1 = TIMx->CHCTLR1;
+    tmpccmr1 &= (uint16_t) ~((uint16_t)TIM_OC2PE);
+    tmpccmr1 |= (uint16_t)(TIM_OCPreload << 8);
+    TIMx->CHCTLR1 = tmpccmr1;
 }
 
 /*********************************************************************
@@ -1231,7 +1123,7 @@ void TIM_OC2PreloadConfig(TIM_TypeDef *TIMx, uint16_t TIM_OCPreload)
  *
  * @brief   Enables or disables the TIMx peripheral Preload register on CCR3.
  *
- * @param   TIMx - where x can be 1 to 3 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          TIM_OCPreload - new state of the TIMx peripheral Preload register.
  *            TIM_OCPreload_Enable.
  *            TIM_OCPreload_Disable.
@@ -1242,20 +1134,10 @@ void TIM_OC3PreloadConfig(TIM_TypeDef *TIMx, uint16_t TIM_OCPreload)
 {
     uint16_t tmpccmr2 = 0;
 
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        tmpccmr2 = TIMx->CHCTLR2;
-        tmpccmr2 &= (uint16_t) ~((uint16_t)TIM_OC3PE);
-        tmpccmr2 |= TIM_OCPreload;
-        TIMx->CHCTLR2 = tmpccmr2;
-    }
-    else if(TIMx == TIM3)
-    {
-        tmpccmr2 = TIMx->TIM3_DMAINTENR;
-        tmpccmr2 &= (uint16_t) ~((uint16_t)SLTM_OC3PE);
-        tmpccmr2 |= (TIM_OCPreload >> 1);
-        TIMx->TIM3_DMAINTENR = tmpccmr2;
-    }
+    tmpccmr2 = TIMx->CHCTLR2;
+    tmpccmr2 &= (uint16_t) ~((uint16_t)TIM_OC3PE);
+    tmpccmr2 |= TIM_OCPreload;
+    TIMx->CHCTLR2 = tmpccmr2;
 }
 
 /*********************************************************************
@@ -1263,7 +1145,7 @@ void TIM_OC3PreloadConfig(TIM_TypeDef *TIMx, uint16_t TIM_OCPreload)
  *
  * @brief   Enables or disables the TIMx peripheral Preload register on CCR4.
  *
- * @param   TIMx - where x can be 1 to 3 to select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 to select the TIM peripheral.
  *          TIM_OCPreload - new state of the TIMx peripheral Preload register.
  *            TIM_OCPreload_Enable.
  *            TIM_OCPreload_Disable.
@@ -1274,20 +1156,10 @@ void TIM_OC4PreloadConfig(TIM_TypeDef *TIMx, uint16_t TIM_OCPreload)
 {
     uint16_t tmpccmr2 = 0;
 
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        tmpccmr2 = TIMx->CHCTLR2;
-        tmpccmr2 &= (uint16_t) ~((uint16_t)TIM_OC4PE);
-        tmpccmr2 |= (uint16_t)(TIM_OCPreload << 8);
-        TIMx->CHCTLR2 = tmpccmr2;
-    }
-    else if(TIMx == TIM3)
-    {
-        tmpccmr2 = TIMx->TIM3_DMAINTENR;
-        tmpccmr2 &= (uint16_t) ~((uint16_t)SLTM_OC4PE);
-        tmpccmr2 |= TIM_OCPreload;
-        TIMx->TIM3_DMAINTENR = tmpccmr2;
-    }
+    tmpccmr2 = TIMx->CHCTLR2;
+    tmpccmr2 &= (uint16_t) ~((uint16_t)TIM_OC4PE);
+    tmpccmr2 |= (uint16_t)(TIM_OCPreload << 8);
+    TIMx->CHCTLR2 = tmpccmr2;
 }
 
 /*********************************************************************
@@ -1722,7 +1594,7 @@ void TIM_SelectOCxM(TIM_TypeDef *TIMx, uint16_t TIM_Channel, uint16_t TIM_OCMode
  *
  * @brief   Enables or Disables the TIMx Update event.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *          NewState - ENABLE or DISABLE.
  *
  * @return  none
@@ -1731,25 +1603,11 @@ void TIM_UpdateDisableConfig(TIM_TypeDef *TIMx, FunctionalState NewState)
 {
     if(NewState != DISABLE)
     {
-        if((TIMx == TIM1) || (TIMx == TIM2))
-        {
-            TIMx->CTLR1 |= TIM_UDIS;
-        }
-        else if(TIMx == TIM3)
-        {
-            TIMx->TIM3_CTLR |= SLTM_UDIS;
-        }
+        TIMx->CTLR1 |= TIM_UDIS;
     }
     else
     {
-        if((TIMx == TIM1) || (TIMx == TIM2))
-        {
-            TIMx->CTLR1 &= (uint16_t) ~((uint16_t)TIM_UDIS);
-        }
-        else if(TIMx == TIM3)
-        {
-            TIMx->TIM3_CTLR &= (uint16_t) ~((uint16_t)SLTM_UDIS);
-        }
+        TIMx->CTLR1 &= (uint16_t) ~((uint16_t)TIM_UDIS);
     }
 }
 
@@ -1850,7 +1708,7 @@ void TIM_SelectOutputTrigger(TIM_TypeDef *TIMx, uint16_t TIM_TRGOSource)
  *
  * @brief   Selects the TIMx Slave Mode.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *          TIM_SlaveMode - specifies the Timer Slave Mode.
  *            TIM_SlaveMode_Reset - Rising edge of the selected trigger
  *        signal (TRGI) re-initializes.
@@ -1865,16 +1723,8 @@ void TIM_SelectOutputTrigger(TIM_TypeDef *TIMx, uint16_t TIM_TRGOSource)
  */
 void TIM_SelectSlaveMode(TIM_TypeDef *TIMx, uint16_t TIM_SlaveMode)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        TIMx->SMCFGR &= (uint16_t) ~((uint16_t)TIM_SMS);
-        TIMx->SMCFGR |= TIM_SlaveMode;
-    }
-    else if(TIMx == TIM3)
-    {
-        TIMx->TIM3_CTLR &= (uint16_t) ~((uint16_t)SLTM_SMS);
-        TIMx->TIM3_CTLR |= (TIM_SlaveMode << 8);
-    }
+    TIMx->SMCFGR &= (uint16_t) ~((uint16_t)TIM_SMS);
+    TIMx->SMCFGR |= TIM_SlaveMode;
 }
 
 /*********************************************************************
@@ -1901,21 +1751,14 @@ void TIM_SelectMasterSlaveMode(TIM_TypeDef *TIMx, uint16_t TIM_MasterSlaveMode)
  *
  * @brief   Sets the TIMx Counter Register value.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *          Counter - specifies the Counter register new value.
  *
  * @return  none
  */
 void TIM_SetCounter(TIM_TypeDef *TIMx, uint16_t Counter)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        TIMx->CNT = Counter;
-    }
-    else if(TIMx == TIM3)
-    {
-        TIMx->TIM3_CNT = Counter;
-    }
+    TIMx->CNT = Counter;
 }
 
 /*********************************************************************
@@ -1923,21 +1766,14 @@ void TIM_SetCounter(TIM_TypeDef *TIMx, uint16_t Counter)
  *
  * @brief   Sets the TIMx Autoreload Register value.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *          Autoreload - specifies the Autoreload register new value.
  *
  * @return  none
  */
 void TIM_SetAutoreload(TIM_TypeDef *TIMx, uint16_t Autoreload)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        TIMx->ATRLR = Autoreload;
-    }
-    else if(TIMx == TIM3)
-    {
-        TIMx->TIM3_ATRLR = Autoreload;
-    }
+    TIMx->ATRLR = Autoreload;
 }
 
 /*********************************************************************
@@ -1945,21 +1781,14 @@ void TIM_SetAutoreload(TIM_TypeDef *TIMx, uint16_t Autoreload)
  *
  * @brief   Sets the TIMx Capture Compare1 Register value.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *          Compare1 - specifies the Capture Compare1 register new value.
  *
  * @return  none
  */
 void TIM_SetCompare1(TIM_TypeDef *TIMx, uint16_t Compare1)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        TIMx->CH1CVR = Compare1;
-    }
-    else if(TIMx == TIM3)
-    {
-        TIMx->TIM3_CH1CVR = Compare1;
-    }
+    TIMx->CH1CVR = Compare1;
 }
 
 /*********************************************************************
@@ -1967,21 +1796,14 @@ void TIM_SetCompare1(TIM_TypeDef *TIMx, uint16_t Compare1)
  *
  * @brief   Sets the TIMx Capture Compare2 Register value.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *          Compare1 - specifies the Capture Compare1 register new value.
  *
  * @return  none
  */
 void TIM_SetCompare2(TIM_TypeDef *TIMx, uint16_t Compare2)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        TIMx->CH2CVR = Compare2;
-    }
-    else if(TIMx == TIM3)
-    {
-        TIMx->TIM3_CH2CVR = Compare2;
-    }
+    TIMx->CH2CVR = Compare2;
 }
 
 /*********************************************************************
@@ -1989,21 +1811,14 @@ void TIM_SetCompare2(TIM_TypeDef *TIMx, uint16_t Compare2)
  *
  * @brief   Sets the TIMx Capture Compare3 Register value.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *          Compare1 - specifies the Capture Compare1 register new value.
  *
  * @return  none
  */
 void TIM_SetCompare3(TIM_TypeDef *TIMx, uint16_t Compare3)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        TIMx->CH3CVR = Compare3;
-    }
-    else if(TIMx == TIM3)
-    {
-        TIMx->TIM3_CH3CVR = Compare3;
-    }
+    TIMx->CH3CVR = Compare3;
 }
 
 /*********************************************************************
@@ -2011,21 +1826,14 @@ void TIM_SetCompare3(TIM_TypeDef *TIMx, uint16_t Compare3)
  *
  * @brief   Sets the TIMx Capture Compare4 Register value.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *          Compare1 - specifies the Capture Compare1 register new value.
  *
  * @return  none
  */
 void TIM_SetCompare4(TIM_TypeDef *TIMx, uint16_t Compare4)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        TIMx->CH4CVR = Compare4;
-    }
-    else if(TIMx == TIM3)
-    {
-        TIMx->TIM3_CH4CVR = Compare4;
-    }
+    TIMx->CH4CVR = Compare4;
 }
 
 /*********************************************************************
@@ -2132,21 +1940,13 @@ void TIM_SetClockDivision(TIM_TypeDef *TIMx, uint16_t TIM_CKD)
  *
  * @brief   Gets the TIMx Input Capture 1 value.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *
  * @return  TIMx->CH1CVR - Capture Compare 1 Register value.
  */
 uint16_t TIM_GetCapture1(TIM_TypeDef *TIMx)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        return TIMx->CH1CVR;
-    }
-    else if(TIMx == TIM3)
-    {
-        return TIMx->TIM3_CH1CVR;
-    }
-    return 0;
+    return TIMx->CH1CVR;
 }
 
 /*********************************************************************
@@ -2154,21 +1954,13 @@ uint16_t TIM_GetCapture1(TIM_TypeDef *TIMx)
  *
  * @brief   Gets the TIMx Input Capture 2 value.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *
  * @return  TIMx->CH2CVR - Capture Compare 2 Register value.
  */
 uint16_t TIM_GetCapture2(TIM_TypeDef *TIMx)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        return TIMx->CH2CVR;
-    }
-    else if(TIMx == TIM3)
-    {
-        return TIMx->TIM3_CH2CVR;
-    }
-    return 0;
+    return TIMx->CH2CVR;
 }
 
 /*********************************************************************
@@ -2176,21 +1968,13 @@ uint16_t TIM_GetCapture2(TIM_TypeDef *TIMx)
  *
  * @brief   Gets the TIMx Input Capture 3 value.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *
  * @return  TIMx->CH3CVR - Capture Compare 3 Register value.
  */
 uint16_t TIM_GetCapture3(TIM_TypeDef *TIMx)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        return TIMx->CH3CVR;
-    }
-    else if(TIMx == TIM3)
-    {
-        return TIMx->TIM3_CH3CVR;
-    }
-    return 0;
+    return TIMx->CH3CVR;
 }
 
 /*********************************************************************
@@ -2198,21 +1982,13 @@ uint16_t TIM_GetCapture3(TIM_TypeDef *TIMx)
  *
  * @brief   Gets the TIMx Input Capture 4 value.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *
  * @return  TIMx->CH4CVR - Capture Compare 4 Register value.
  */
 uint16_t TIM_GetCapture4(TIM_TypeDef *TIMx)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        return TIMx->CH4CVR;
-    }
-    else if(TIMx == TIM3)
-    {
-        return TIMx->TIM3_CH4CVR;
-    }
-    return 0;
+    return TIMx->CH4CVR;
 }
 
 /*********************************************************************
@@ -2220,21 +1996,13 @@ uint16_t TIM_GetCapture4(TIM_TypeDef *TIMx)
  *
  * @brief   Gets the TIMx Counter value.
  *
- * @param   TIMx - where x can be 1 to 3 select the TIM peripheral.
+ * @param   TIMx - where x can be 1 to 2 select the TIM peripheral.
  *
  * @return  TIMx->CNT - Counter Register value.
  */
 uint16_t TIM_GetCounter(TIM_TypeDef *TIMx)
 {
-    if((TIMx == TIM1) || (TIMx == TIM2))
-    {
-        return TIMx->CNT;
-    }
-    else if(TIMx == TIM3)
-    {
-        return TIMx->TIM3_CNT;
-    }
-    return 0;
+    return TIMx->CNT;
 }
 
 /*********************************************************************
@@ -2416,6 +2184,11 @@ static void TI1_Config(TIM_TypeDef *TIMx, uint16_t TIM_ICPolarity, uint16_t TIM_
         tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC1P));
         tmpccer |= (uint16_t)(TIM_ICPolarity | (uint16_t)TIM_CC1E);
     }
+    else
+    {
+        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC1P | TIM_CC1NP));
+        tmpccer |= (uint16_t)(TIM_ICPolarity | (uint16_t)TIM_CC1E);
+    }
 
     TIMx->CHCTLR1 = tmpccmr1;
     TIMx->CCER = tmpccer;
@@ -2460,6 +2233,11 @@ static void TI2_Config(TIM_TypeDef *TIMx, uint16_t TIM_ICPolarity, uint16_t TIM_
     {
         tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC2P));
         tmpccer |= (uint16_t)(tmp | (uint16_t)TIM_CC2E);
+    }
+    else
+    {
+        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC2P | TIM_CC2NP));
+        tmpccer |= (uint16_t)(TIM_ICPolarity | (uint16_t)TIM_CC2E);
     }
 
     TIMx->CHCTLR1 = tmpccmr1;
@@ -2506,6 +2284,11 @@ static void TI3_Config(TIM_TypeDef *TIMx, uint16_t TIM_ICPolarity, uint16_t TIM_
         tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P));
         tmpccer |= (uint16_t)(tmp | (uint16_t)TIM_CC3E);
     }
+    else
+    {
+        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P | TIM_CC3NP));
+        tmpccer |= (uint16_t)(TIM_ICPolarity | (uint16_t)TIM_CC3E);
+    }
 
     TIMx->CHCTLR2 = tmpccmr2;
     TIMx->CCER = tmpccer;
@@ -2551,6 +2334,11 @@ static void TI4_Config(TIM_TypeDef *TIMx, uint16_t TIM_ICPolarity, uint16_t TIM_
         tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC4P));
         tmpccer |= (uint16_t)(tmp | (uint16_t)TIM_CC4E);
     }
+    else
+    {
+        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P));
+        tmpccer |= (uint16_t)(TIM_ICPolarity | (uint16_t)TIM_CC4E);
+    }
 
     TIMx->CHCTLR2 = tmpccmr2;
     TIMx->CCER = tmpccer;
@@ -2577,24 +2365,3 @@ void TIM_IndicateCaptureLevelCmd(TIM_TypeDef *TIMx, FunctionalState NewState)
     }
 }
 
-/*********************************************************************
- * @fn      TIM_DeadTimeConfig
- *
- * @brief   Configures the TIM2 complementary output dead time.
- *
- * @param   TIMx - where x can be 2 to select the TIM peripheral.
- *          DeadTime - This parameter can be a number between 0x00 and 0xFF.
- *          TIM_Channel - TIM2 out channel.
- *            TIM_Channel_1 - TIM output Channel 1.
- *            TIM_Channel_2 - TIM output Channel 2.
- *
- * @return  none
- */
-void TIM_DeadTimeConfig(TIM_TypeDef *TIMx, uint16_t TIM_Channel, uint8_t DeadTime)
-{
-    if(TIMx == TIM2)
-    {
-        TIM2->TIM2_DTCR &= ~((0xF << (TIM_Channel + 8)));
-        TIM2->TIM2_DTCR |= ((uint16_t)DeadTime) << (TIM_Channel + 8);
-    }
-}

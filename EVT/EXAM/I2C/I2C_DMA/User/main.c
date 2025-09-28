@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/01/01
+ * Date               : 2023/12/25
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -30,8 +30,8 @@
 #define SLAVE_MODE   1
 
 /* I2C Communication Mode Selection */
-#define I2C_MODE   HOST_MODE
-//#define I2C_MODE   SLAVE_MODE
+//#define I2C_MODE   HOST_MODE
+#define I2C_MODE   SLAVE_MODE
 
 /* Global define */
 #define Size   6
@@ -55,8 +55,8 @@ void IIC_Init(u32 bound, u16 address)
     GPIO_InitTypeDef GPIO_InitStructure={0};
     I2C_InitTypeDef I2C_InitTSturcture={0};
 
-    RCC_PB2PeriphClockCmd( RCC_PB2Periph_GPIOC | RCC_PB2Periph_AFIO, ENABLE );
-    RCC_PB1PeriphClockCmd( RCC_PB1Periph_I2C1, ENABLE );
+    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO, ENABLE );
+    RCC_APB1PeriphClockCmd( RCC_APB1Periph_I2C1, ENABLE );
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
@@ -79,6 +79,7 @@ void IIC_Init(u32 bound, u16 address)
     I2C_DMACmd( I2C1, ENABLE );
 
     I2C_Cmd( I2C1, ENABLE );
+
 }
 
 /*********************************************************************
@@ -96,8 +97,9 @@ void IIC_Init(u32 bound, u16 address)
 void DMA_Tx_Init(DMA_Channel_TypeDef *DMA_CHx, u32 ppadr, u32 memadr, u16 bufsize)
 {
     DMA_InitTypeDef DMA_InitStructure={0};
+    NVIC_InitTypeDef NVIC_InitStructure={0};
 
-    RCC_HBPeriphClockCmd( RCC_HBPeriph_DMA1, ENABLE );
+    RCC_AHBPeriphClockCmd( RCC_AHBPeriph_DMA1, ENABLE );
 
     DMA_DeInit(DMA_CHx);
 
@@ -113,6 +115,14 @@ void DMA_Tx_Init(DMA_Channel_TypeDef *DMA_CHx, u32 ppadr, u32 memadr, u16 bufsiz
     DMA_InitStructure.DMA_Priority = DMA_Priority_VeryHigh;
     DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
     DMA_Init( DMA_CHx, &DMA_InitStructure );
+
+    NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel6_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+
+    DMA_ITConfig( DMA1_Channel6, DMA_IT_TC, ENABLE );
 }
 
 /*********************************************************************
@@ -131,7 +141,7 @@ void DMA_Rx_Init(DMA_Channel_TypeDef *DMA_CHx, u32 ppadr, u32 memadr, u16 bufsiz
 {
     DMA_InitTypeDef DMA_InitStructure={0};
 
-    RCC_HBPeriphClockCmd( RCC_HBPeriph_DMA1, ENABLE );
+    RCC_AHBPeriphClockCmd( RCC_AHBPeriph_DMA1, ENABLE );
 
     DMA_DeInit(DMA_CHx);
 
@@ -158,16 +168,13 @@ void DMA_Rx_Init(DMA_Channel_TypeDef *DMA_CHx, u32 ppadr, u32 memadr, u16 bufsiz
  */
 int main(void)
 {
+    uint8_t i ,t;
 	uint8_t j ;
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+    NVIC_PriorityGroupConfig( NVIC_PriorityGroup_1 );
     SystemCoreClockUpdate();
     Delay_Init();
 
-#if (SDI_PRINT == SDI_PR_OPEN)
-    SDI_Printf_Enable();
-#else
-    USART_Printf_Init( 460800 );
-#endif
+    USART_Printf_Init(460800);
 
     printf("SystemClk:%d\r\n",SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
@@ -222,4 +229,19 @@ int main(void)
     while(1);
 }
 
+/*******************************************************************************
+* Function Name  : DMA1_Channel6_IRQHandler
+* Description    : This function handles DMA1 channel6 exception.
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+void DMA1_Channel6_IRQHandler()
+{
+    if( DMA_GetITStatus( DMA1_IT_TC6 ) != RESET )
+    {
+        DMA_Cmd( DMA1_Channel6, DISABLE );
+        DMA_ClearITPendingBit( DMA1_IT_TC6 );
+    }
+}
 
