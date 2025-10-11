@@ -214,7 +214,7 @@ int _write(int fd, char *buf, int size)
 
 
 #endif
-    return writeSize;
+    return size;
 }
 
 /*********************************************************************
