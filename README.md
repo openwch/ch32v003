@@ -4,7 +4,7 @@ EN | [中文](README_zh.md)
 
 
 ### Overview
-CH32V003 series is based on QingKe RISC-V2A core design of industrial-grade general-purpose microcontroller, support 48MHz system main frequency, with wide voltage, 1-wire serial debug interface, low-power consumption, ultra-small package, etc. CH32V003 series built-in a group of DMA controller, a group of 10-bit ADC, a group of op-amp comparators, multiple timers and standard communication interfaces USART, I2C, SPI, etc.
+The CH32V003 series is an industrial-grade general-purpose microcontroller designed based on the RISC-V2A core of barley. It supports a system clock frequency of 48MHz and features wide voltage tolerance, single-wire debugging, low power consumption, and ultra-small packaging. It provides common peripheral functions, including a built-in DMA controller, a 10-bit analog-to-digital converter (ADC), a comparator, multiple timers, and standard communication interfaces such as USART, I2C, and SPI. The product is rated for operating voltages of 3.3V or 5V, with an industrial-grade temperature range of -40°C to 85°C
 
 ### System Block Diagram
 <img src="image/frame.jpg" alt="frame" style="zoom:50%;" />
@@ -23,6 +23,6 @@ CH32V003 series is based on QingKe RISC-V2A core design of industrial-grade gene
 - 2 WDOG, 1×32-bit SysTick
 - 1 USART interface, 1 group of I2C interface, 1 group of SPI interface
 - 18 I/O ports, mapping an external interrupt
-- 64-bit chip unique ID
+- 96-bit chip unique ID
 - 1-wire serial debug interface (SDI)
 - Package: TSSOP20, QFN20, SOP16, SOP8
