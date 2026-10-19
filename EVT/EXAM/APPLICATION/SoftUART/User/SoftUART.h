@@ -80,7 +80,7 @@ typedef struct
     void (*Init)(u32 baudrate); // initialization function  pointer
 #endif
     void (*TransmitBytes)(vu8 *data, u16 len);  // transmit function pointer
-    u8 (*ReceiveBytes)(vu8 *data, u16 timeout); // receive function pointer
+    u16 (*ReceiveBytes)(vu8 *data, u16 timeout, u16 maxlen); // receive function pointer
 } SoftUARTFunc_t;
 
 /*

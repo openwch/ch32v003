@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : SoftUART.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/08/23
+ * Version            : V1.0.1
+ * Date               : 2026/10/14
  * Description        : Simulate UART with software
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -14,9 +14,9 @@
 static uint8_t ByteSize;
 
 static vu8 RxBuffer[BUFFER_SIZE] = {0};
-static vu8 rec_stat = 0, rec_len = 0, ReciveCP = 0;
+static vu8 rec_stat = 0, ReciveCP = 0;
+static vu16 rec_len = 0;
 static vu32 rec_buff = 0;
-static vu16 recout = 0;
 
 SoftUARTHardware_t SoftUARTHardware;
 SoftUARTFunc_t SoftUARTFunc = {Init};
@@ -92,14 +92,14 @@ void TIM1_UP_IRQHandler(void)
                         if (isOdd(rec_buff))
                         {
                             RxBuffer[rec_len] = (rec_buff >> 1) & 0xff;
-                            rec_len = (rec_len + 1) % 127;
+                            rec_len = (rec_len + 1) % BUFFER_SIZE;
                         }
                         break;
                     case Even:
                         if (!isOdd(rec_buff))
                         {
                             RxBuffer[rec_len] = (rec_buff >> 1) & 0xff;
-                            rec_len = (rec_len + 1) % 127;
+                            rec_len = (rec_len + 1) % BUFFER_SIZE;
                         }
                         break;
 
@@ -278,7 +278,7 @@ static void TxInit()
 static void TransmitBytes(vu8 *data, vu16 len)
 {
     u16 length = strnlen((u8 *)data, 127);
-    u16 *buffer = malloc(ByteSize);
+    u16 *buffer = malloc(ByteSize * sizeof(u16));
     if (buffer != NULL)
     {
         for (u16 i = 0; i < (len > 0 ? len : length); i++)
@@ -338,7 +338,7 @@ static void TransmitBytes(vu8 *data, vu16 len)
 
             for (u8 q = 0; q < SoftUARTPara.stopbits; q++)
             {
-                buffer[ByteSize - q] = 0x5;
+                buffer[ByteSize -1 - q] = 0x5;
             }
             SoftUARTHardware.txDMA->MADDR = (u32)buffer;
             SoftUARTHardware.txDMA->CNTR = ByteSize;
@@ -363,7 +363,7 @@ static void TransmitBytes(vu8 *data, vu16 len)
  * @return  0 - on unsuccess,
  *          other - return the received bytes quantity
  */
-static u8 ReceiveBytes(vu8 *data, u16 timeout)
+static u16 ReceiveBytes(vu8 *data, u16 timeout, u16 maxlen)
 {
     while (ReciveCP == 0 && --timeout)
     {
@@ -374,13 +374,15 @@ static u8 ReceiveBytes(vu8 *data, u16 timeout)
         return 0;
     }
     else
-    {
-        recout = rec_len;
-        memcpy((u8 *)data, (u8 *)RxBuffer, rec_len);
-        memset((u8 *)RxBuffer, 0, rec_len + 1);
+    {   
+        __disable_irq();
+        u16 n = (rec_len > maxlen) ? maxlen : rec_len;
+        memcpy((u8 *)data, (u8 *)RxBuffer, n);
+        memset((u8 *)RxBuffer, 0, sizeof(RxBuffer));
         ReciveCP = 0;
         rec_len = 0;
-        return recout;
+        __enable_irq();
+        return n;
     }
 }
 #if !USER_SOFTUART_COSTOM

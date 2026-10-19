@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2024/02/26
+ * Version            : V1.0.1
+ * Date               : 2026/10/15
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -189,8 +189,7 @@ int main(void)
         {
             printf("Encoder position= %d circle %d step\r\n", circle, TIM1->CNT);
             if (time != 0)
-//                printf("Encoder speed= %f\r\n", -(float)(precircle * 80 + precnt - (circle * 80 + TIM2->CNT)) / (float)time * 1000.0/(float)SpeedSampleTimeMs / 80.0);
-                printf("Encoder speed null!!\r\n");
+                printf("Encoder speed= %f\r\n", -(float)(precircle * 80 + precnt - (circle * 80 + TIM2->CNT)) / (float)time * 1000.0/(float)SpeedSampleTimeMs / 80.0);
             else
                 printf("Encoder speed null!!\r\n");
             time = 0;

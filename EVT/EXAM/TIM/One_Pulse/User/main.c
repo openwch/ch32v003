@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Version            : V1.0.1
+ * Date               : 2026/10/15
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -23,7 +23,7 @@
 /*********************************************************************
  * @fn      One_Pulse_Init
  *
- * @brief   Initializes TIM1 one pulse.
+ * @brief   Initializes TIM2 one pulse.
  *
  * @param   arr - the period value.
  *          psc - the prescaler value.

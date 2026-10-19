@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Version            : V1.0.1
+ * Date               : 2026/10/15
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -55,7 +55,6 @@ void TIM1_Synchro_ExtTrigger_Init(u16 arr, u16 psc)
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
     GPIO_Init( GPIOD, &GPIO_InitStructure);
-    GPIO_ResetBits( GPIOD, GPIO_Pin_2 );
 
     TIM_TimeBaseInitStructure.TIM_Period = arr;
     TIM_TimeBaseInitStructure.TIM_Prescaler = psc;
@@ -80,7 +79,7 @@ void TIM1_Synchro_ExtTrigger_Init(u16 arr, u16 psc)
     TIM_SelectSlaveMode( TIM1, TIM_SlaveMode_Gated );
 
 #elif (SLAVE_MODE == TRIGGER__MODE)
-    TIM_SelectMasterSlaveMode( TIM1, TIM_SlaveMode_Trigger );
+    TIM_SelectSlaveMode( TIM1, TIM_SlaveMode_Trigger );
 
 #endif
 

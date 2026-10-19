@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : iap.c
  * Author             : WCH
- * Version            : V1.0.1
- * Date               : 2025/01/09
+ * Version            : V1.0.2
+ * Date               : 2026/10/14
  * Description        : IAP
  *******************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -18,10 +18,10 @@
 
 u32 Program_addr = FLASH_Base;
 u32 Verify_addr = FLASH_Base;
-u8 Verify_Star_flag = 0;
-u8 Fast_Program_Buf[128];
-u16 CodeLen = 0;
-u8 End_Flag = 0;
+vu8 Verify_Star_flag = 0;
+vu8 Fast_Program_Buf[128];
+vu16 CodeLen = 0;
+vu8 End_Flag = 0;
 u8 EP2_Rx_Buffer[USBD_DATA_SIZE+4];
 #define  isp_cmd_t   ((isp_cmd  *)EP2_Rx_Buffer)
 
@@ -58,9 +58,9 @@ void USART1_CFG(void)
  */
 u8 RecData_Deal(void)
 {
-    u8 i, s, Lenth;
+    u8 i, s, Length;
 
-    Lenth = isp_cmd_t->UART.Len;
+    Length = isp_cmd_t->UART.Len;
 
     switch ( isp_cmd_t->UART.Cmd) {
         case CMD_IAP_ERASE:
@@ -70,10 +70,10 @@ u8 RecData_Deal(void)
             break;
 
         case CMD_IAP_PROM:
-            for (i = 0; i < Lenth; i++) {
+            for (i = 0; i < Length; i++) {
                 Fast_Program_Buf[CodeLen + i] = isp_cmd_t->UART.data[i];
             }
-            CodeLen += Lenth;
+            CodeLen += Length;
             if (CodeLen >= 64) {
                 CH32_IAP_Program(Program_addr, (u32*) Fast_Program_Buf);
                 CodeLen -= 64;
@@ -102,14 +102,14 @@ u8 RecData_Deal(void)
             }
 
             s = ERR_SUCCESS;
-            for (i = 0; i < Lenth; i++) {
+            for (i = 0; i < Length; i++) {
                 if (isp_cmd_t->UART.data[i] != *(u8*) (Verify_addr + i)) {
                     s = ERR_ERROR;
                     break;
                 }
             }
 
-            Verify_addr += Lenth;
+            Verify_addr += Length;
 
             break;
 

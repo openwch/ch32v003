@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2024/11/20
+ * Version            : V1.0.1
+ * Date               : 2026/10/15
  * Description        : Main program body.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -38,7 +38,7 @@ void TIM1_Phase_shift_Init1( void )
     TIM_OCInitTypeDef TIM_OCInitStructure={0};
     TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure={0};
 
-    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOA |RCC_APB2Periph_GPIOC | RCC_APB2Periph_TIM1, ENABLE );
+    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOD |RCC_APB2Periph_GPIOC | RCC_APB2Periph_TIM1, ENABLE );
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
@@ -58,7 +58,7 @@ void TIM1_Phase_shift_Init1( void )
     TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
     TIM_OCInitStructure.TIM_Pulse = 0;
     TIM_OC1Init( TIM1, &TIM_OCInitStructure );
-    TIM_OCInitStructure.TIM_Pulse = 50;//Phase shift 90
+    TIM_OCInitStructure.TIM_Pulse = 50;
     TIM_OC4Init( TIM1, &TIM_OCInitStructure );
 
     TIM_CtrlPWMOutputs(TIM1, ENABLE );
@@ -82,7 +82,7 @@ void TIM1_Phase_shift_Init2( void )
     TIM_OCInitTypeDef TIM_OCInitStructure={0};
     TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure={0};
 
-    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOA | RCC_APB2Periph_TIM1, ENABLE );
+    RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOD | RCC_APB2Periph_TIM1, ENABLE );
     RCC_APB1PeriphClockCmd(  RCC_APB1Periph_TIM2, ENABLE );
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_4;
@@ -100,7 +100,7 @@ void TIM1_Phase_shift_Init2( void )
     TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
     TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
     TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
-    TIM_OCInitStructure.TIM_Pulse = 25;//Phase shift 90
+    TIM_OCInitStructure.TIM_Pulse = 25;
     TIM_OC1Init( TIM1, &TIM_OCInitStructure );
     TIM_OCInitStructure.TIM_Pulse = 25;
     TIM_OC1Init( TIM2, &TIM_OCInitStructure );

@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Version            : V1.0.2
+ * Date               : 2026/10/14
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -75,17 +75,17 @@ void Flash_Test(void)
 
     if((WRPR_Value & FLASH_PAGES_TO_BE_PROTECTED) != 0x00)
     {
-        FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_WRPRTERR);
+        FLASH_ClearFlag(FLASH_FLAG_EOP | FLASH_FLAG_WRPRTERR);
 
         for(EraseCounter = 0; (EraseCounter < NbrOfPage) && (FLASHStatus == FLASH_COMPLETE); EraseCounter++)
         {
             FLASHStatus = FLASH_ErasePage(PAGE_WRITE_START_ADDR + (FLASH_PAGE_SIZE * EraseCounter));
             if(FLASHStatus != FLASH_COMPLETE)
             {
-                printf("FLASH Erase ERR at Page%d\r\n", EraseCounter + 60);
+                printf("FLASH Erase ERR at Page%d\r\n", ((EraseCounter*FLASH_PAGE_SIZE) +PAGE_WRITE_START_ADDR));
                 return;
             }
-            printf("FLASH Erase Page%d...\r\n", EraseCounter + 60);
+            printf("FLASH Erase Page Suc \r\n");
         }
 
         Address = PAGE_WRITE_START_ADDR;

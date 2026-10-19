@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.1
- * Date               : 2025/01/09
+ * Version            : V1.0.2
+ * Date               : 2026/10/14
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -28,7 +28,7 @@
 #include "string.h"
 #include "iap.h"
 
-extern u8 End_Flag;
+extern vu8 End_Flag;
 #define UPGRADE_MODE_COMMAND   0
 #define UPGRADE_MODE_IO        1
 

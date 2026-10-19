@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : ch32v00x_usart.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Version            : V1.0.2
+ * Date               : 2026/05/09
  * Description        : This file provides all the USART firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -49,10 +49,6 @@
 #define GPR_MSB_Mask              ((uint16_t)0xFF00) /* Guard Time Register MSB Mask */
 #define IT_Mask                   ((uint16_t)0x001F) /* USART Interrupt Mask */
 
-/* USART OverSampling-8 Mask */
-#define CTLR1_OVER8_Set           ((uint16_t)0x8000) /* USART OVER8 mode Enable Mask */
-#define CTLR1_OVER8_Reset         ((uint16_t)0x7FFF) /* USART OVER8 mode Disable Mask */
-
 /* USART One Bit Sampling Mask */
 #define CTLR3_ONEBITE_Set         ((uint16_t)0x0800) /* USART ONEBITE mode Enable Mask */
 #define CTLR3_ONEBITE_Reset       ((uint16_t)0xF7FF) /* USART ONEBITE mode Disable Mask */
@@ -97,10 +93,6 @@ void USART_Init(USART_TypeDef *USARTx, USART_InitTypeDef *USART_InitStruct)
     uint32_t          usartxbase = 0;
     RCC_ClocksTypeDef RCC_ClocksStatus;
 
-    if(USART_InitStruct->USART_HardwareFlowControl != USART_HardwareFlowControl_None)
-    {
-    }
-
     usartxbase = (uint32_t)USARTx;
     tmpreg = USARTx->CTLR2;
     tmpreg &= CTLR2_STOP_CLEAR_Mask;
@@ -129,28 +121,21 @@ void USART_Init(USART_TypeDef *USARTx, USART_InitTypeDef *USART_InitStruct)
         apbclock = RCC_ClocksStatus.PCLK1_Frequency;
     }
 
-    if((USARTx->CTLR1 & CTLR1_OVER8_Set) != 0)
-    {
-        integerdivider = ((25 * apbclock) / (2 * (USART_InitStruct->USART_BaudRate)));
-    }
-    else
-    {
-        integerdivider = ((25 * apbclock) / (4 * (USART_InitStruct->USART_BaudRate)));
-    }
+    integerdivider = ((25 * apbclock) / (4 * (USART_InitStruct->USART_BaudRate)));
     tmpreg = (integerdivider / 100) << 4;
-
     fractionaldivider = integerdivider - (100 * (tmpreg >> 4));
 
-    if((USARTx->CTLR1 & CTLR1_OVER8_Set) != 0)
+    fractionaldivider = (((fractionaldivider * 16) + 50) / 100);
+    if (fractionaldivider > 0xf)
     {
-        tmpreg |= ((((fractionaldivider * 8) + 50) / 100)) & ((uint8_t)0x07);
+        tmpreg += 1 << 4;
     }
     else
     {
-        tmpreg |= ((((fractionaldivider * 16) + 50) / 100)) & ((uint8_t)0x0F);
+        tmpreg |= fractionaldivider & ((uint8_t)0x0f);
     }
-
-    USARTx->BRR = (uint16_t)tmpreg;
+    
+    USARTx->BRR = (uint16_t)tmpreg; 
 }
 
 /*********************************************************************
@@ -550,30 +535,6 @@ void USART_HalfDuplexCmd(USART_TypeDef *USARTx, FunctionalState NewState)
     else
     {
         USARTx->CTLR3 &= CTLR3_HDSEL_Reset;
-    }
-}
-
-/*********************************************************************
- * @fn      USART_OverSampling8Cmd
- *
- * @brief   Enables or disables the USART's 8x oversampling mode.
- *
- * @param   USARTx - where x can be 1 to select the USART peripheral.
- *          NewState - ENABLE or DISABLE.
- *          Note-
- *          This function has to be called before calling USART_Init()
- *          function in order to have correct baudrate Divider value. 
- * @return  none
- */
-void USART_OverSampling8Cmd(USART_TypeDef *USARTx, FunctionalState NewState)
-{
-    if(NewState != DISABLE)
-    {
-        USARTx->CTLR1 |= CTLR1_OVER8_Set;
-    }
-    else
-    {
-        USARTx->CTLR1 &= CTLR1_OVER8_Reset;
     }
 }
 
