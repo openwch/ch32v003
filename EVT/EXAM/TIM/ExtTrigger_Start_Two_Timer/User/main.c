@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Version            : V1.0.1
+ * Date               : 2026/10/15
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -56,7 +56,7 @@ void ExtTrigger_Start_Two_TIM(u16 arr, u16 psc)
     TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
     TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
     TIM_ICInitStructure.TIM_ICFilter = 0x00;
-    TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Falling;
+    TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
     TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
     TIM_ICInit( TIM1, &TIM_ICInitStructure );
 

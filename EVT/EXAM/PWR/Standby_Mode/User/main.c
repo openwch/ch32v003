@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -15,8 +15,10 @@
  *Low power, standby mode routine:
  *AWU automatically wakes up
  *This example demonstrates that WFI enters standby mode and wakes up automatically.
- *Note: In order to reduce power consumption as much as possible, it is recommended
- *to set the unused GPIO to pull-down mode.
+ *Note:For the small package model of the chip, there are some pins that have not been
+ *led out compared to the largest package, or some pins that have been packaged 
+ *but not used. These pins need to be set as pull-down\up inputs to reduce power 
+ *consumption.Please refer to the routine configuration for details. 
  *
  */
 
@@ -62,14 +64,16 @@ int main(void)
     SystemCoreClockUpdate();
     Delay_Init();
     Delay_Ms(1000);
-    Delay_Ms(1000);
+
     EXTI_INT_INIT();
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD, ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
+
+    GPIO_PinRemapConfig(GPIO_Remap_SDI_Disable,ENABLE);
+
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
-
     GPIO_Init(GPIOA, &GPIO_InitStructure);
     GPIO_Init(GPIOC, &GPIO_InitStructure);
     GPIO_Init(GPIOD, &GPIO_InitStructure);
@@ -79,10 +83,9 @@ int main(void)
 #else
     USART_Printf_Init(115200);
 #endif
-    printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf("SystemClk:%u\r\n", SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf("Standby Mode Test\r\n");
-    printf("0x1FFFF800-%08x\r\n", *(u32*)0x1FFFF800);
 
     RCC_LSICmd(ENABLE);
     while(RCC_GetFlagStatus(RCC_FLAG_LSIRDY) == RESET);

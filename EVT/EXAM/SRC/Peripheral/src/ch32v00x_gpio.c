@@ -440,7 +440,7 @@ void GPIO_IPD_Unused(void)
     chip =  *( uint32_t * )0x1FFFF7C4 & (~0x000000F0);
     switch(chip)
     {
-        case 0x00320500:     //CH32V003A4M6
+        case 0x00320500:     //CH32V003A4M
         {
             GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_2\
                                          |GPIO_Pin_3;
@@ -451,7 +451,7 @@ void GPIO_IPD_Unused(void)
             GPIO_Init(GPIOC, &GPIO_InitStructure);
             break;
         }
-        case 0x00330500:     //CH32V003J4M6
+        case 0x00330500:     //CH32V003J4M
         {
             GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_2|GPIO_Pin_3\
                                           |GPIO_Pin_7;

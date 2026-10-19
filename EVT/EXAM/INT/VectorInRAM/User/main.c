@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2025/01/22
+ * Version            : V1.0.1
+ * Date               : 2026/10/15
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -53,7 +53,11 @@ int main(void)
     }
 }
 
-void __attribute__((interrupt("WCH-Interrupt-fast"))) SW_Handler(){
+void SW_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast"))); 
+void SW_Handler(void)
+{
     NVIC_ClearPendingIRQ(Software_IRQn);
+    #if 0
     printf("Software interrupt\n");
+    #endif
 }

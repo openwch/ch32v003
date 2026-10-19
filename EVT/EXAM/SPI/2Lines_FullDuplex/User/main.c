@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2024/06/01
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -129,11 +129,11 @@ int main(void)
 {
     u8 i=0;
     u8 j=0;
-    u8 value;
+    int value;
 
     SystemCoreClockUpdate();
     Delay_Init();
-    USART_Printf_Init(460800);
+    USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n",SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
@@ -174,7 +174,7 @@ int main(void)
             }
         }
 
-        value = memcmp( TxData, RxData, Size );
+        value = memcmp( TxData, RxData, Size * sizeof(u16) );
 
         if( value == 0 )
         {

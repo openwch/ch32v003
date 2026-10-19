@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/22
+ * Version            : V1.0.1
+ * Date               : 2026/10/15
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -43,7 +43,7 @@ void EXTI0_INT_INIT(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
 
-    /* GPIOA ----> EXTI_Line0 */
+    /* GPIOD ----> EXTI_Line0 */
     GPIO_EXTILineConfig(GPIO_PortSourceGPIOD, GPIO_PinSource0);
     EXTI_InitStructure.EXTI_Line = EXTI_Line0;
     EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
@@ -91,7 +91,7 @@ int main(void)
 void EXTI7_0_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 /*********************************************************************
- * @fn      EXTI0_IRQHandler
+ * @fn      EXTI7_0_IRQHandler
  *
  * @brief   This function handles EXTI0 Handler.
  *
@@ -101,7 +101,9 @@ void EXTI7_0_IRQHandler(void)
 {
     if(EXTI_GetITStatus(EXTI_Line0)!=RESET)
     {
+        #if 0
         printf("Run at EXTI\r\n");
+        #endif
         EXTI_ClearITPendingBit(EXTI_Line0);     /* Clear Flag */
     }
 }

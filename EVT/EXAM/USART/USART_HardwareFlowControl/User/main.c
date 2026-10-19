@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -132,7 +132,7 @@ int main(void)
             RxBuffer[RxCnt] = USART_ReceiveData(USART1);
             USART_SendData(USART1, RxBuffer[RxCnt++]); /* send it when receive a byte */
         }
-    } while((RxBuffer[RxCnt - 1] != '\r') && (RxCnt != TxSize));
+    } while((RxCnt == 0) || ((RxBuffer[RxCnt - 1] != '\r') && (RxCnt != TxSize)));
 
     while(1)
     {

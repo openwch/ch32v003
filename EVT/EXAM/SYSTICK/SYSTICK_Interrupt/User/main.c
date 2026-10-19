@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2024/07/04
+ * Version            : V1.0.1
+ * Date               : 2026/10/15
  * Description        : Main program body.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -60,6 +60,8 @@ void SysTick_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
  */
 void SysTick_Handler(void)
 {
+    #if 0
     printf("Systick\r\n");
+    #endif
     SysTick->SR = 0;
 }

@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Version            : V1.0.2
+ * Date               : 2026/10/24
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -15,7 +15,7 @@
  *low power, sleep mode routine:
  *EXTI_Line0(PD0)
  *This routine demonstrates that WFI enters the sleep mode, and the PD0 pin input
- *low level triggers the external interrupt EXTI_Line0 to exit the sleep mode,
+ *high level triggers the external interrupt EXTI_Line0 to exit the sleep mode,
  *Program execution continues after wake-up.
  *
  */
@@ -42,15 +42,14 @@ void EXTI0_INT_INIT(void)
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO | RCC_APB2Periph_GPIOD, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_30MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
 
-    /* GPIOA.0 ----> EXTI_Line0 */
+    /* GPIOD.0 ----> EXTI_Line0 */
     GPIO_EXTILineConfig(GPIO_PortSourceGPIOD, GPIO_PinSource0);
     EXTI_InitStructure.EXTI_Line = EXTI_Line0;
     EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
     EXTI_InitStructure.EXTI_LineCmd = ENABLE;
     EXTI_Init(&EXTI_InitStructure);
 
@@ -70,17 +69,29 @@ void EXTI0_INT_INIT(void)
  */
 int main(void)
 {
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     SystemCoreClockUpdate();
     Delay_Init();
     Delay_Ms(1000);
-    Delay_Ms(1000);
+
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
+
+    GPIO_PinRemapConfig(GPIO_Remap_SDI_Disable,ENABLE);
+
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+
 #if (SDI_PRINT == SDI_PR_OPEN)
     SDI_Printf_Enable();
 #else
     USART_Printf_Init(115200);
 #endif
-    printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf("SystemClk:%u\r\n", SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     printf("Sleep Mode Test\r\n");
@@ -111,7 +122,6 @@ void EXTI7_0_IRQHandler(void)
 {
     if(EXTI_GetITStatus(EXTI_Line0)!=RESET)
     {
-        printf("EXTI0 Wake_up\r\n");
         EXTI_ClearITPendingBit(EXTI_Line0);     /* Clear Flag */
     }
 }

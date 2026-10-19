@@ -15,7 +15,7 @@
  * 6_six_PWM output routine:
  * TIM1_CH1(PC4) TIM1_CH1N(PC3)
  * TIM1_CH2(PC7) TIM1_CH2N(PD2)
- * TIM1_CH2(PC5) TIM1_CH3N(PC6)
+ * TIM1_CH3(PC5) TIM1_CH3N(PC6)
  * Only advanced timer (channel 1,2,3) have this function.
 */
 

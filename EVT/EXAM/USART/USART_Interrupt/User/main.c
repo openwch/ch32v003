@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/25
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -202,7 +202,10 @@ void USART1_IRQHandler(void)
 {
     if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
     {
-        RxBuffer1[RxCnt1++] = USART_ReceiveData(USART1);
+        if(RxCnt1 < TxSize1)
+        {
+            RxBuffer1[RxCnt1++] = USART_ReceiveData(USART1);
+        }
 
         if(RxCnt1 == TxSize1)
         {

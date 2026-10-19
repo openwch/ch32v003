@@ -89,7 +89,7 @@ typedef enum
 #define FLASH_FLAG_BSY                   ((uint32_t)0x00000001) /* FLASH Busy flag */
 #define FLASH_FLAG_EOP                   ((uint32_t)0x00000020) /* FLASH End of Operation flag */
 #define FLASH_FLAG_WRPRTERR              ((uint32_t)0x00000010) /* FLASH Write protected error flag */
-#define FLASH_FLAG_OPTERR                ((uint32_t)0x00000001) /* FLASH Option Byte error flag */
+#define FLASH_FLAG_OPTERR                ((uint32_t)0x80000001) /* FLASH Option Byte error flag */
 
 #define FLASH_FLAG_BANK1_BSY             FLASH_FLAG_BSY       /* FLASH BANK1 Busy flag*/
 #define FLASH_FLAG_BANK1_EOP             FLASH_FLAG_EOP       /* FLASH BANK1 End of Operation flag */

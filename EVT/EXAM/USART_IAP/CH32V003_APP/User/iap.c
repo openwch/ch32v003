@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : iap.c
  * Author             : WCH
- * Version            : V1.0.1
- * Date               : 2025/01/09
+ * Version            : V1.0.2
+ * Date               : 2026/10/14
  * Description        : IAP
  *******************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -16,12 +16,12 @@
 
 /******************************************************************************/
 
-u32 Program_addr = FLASH_Base;
-u32 Verify_addr = FLASH_Base;
-u8 Verify_Star_flag = 0;
-u8 Fast_Program_Buf[128];
-u16 CodeLen = 0;
-u8 End_Flag = 0;
+vu32 Program_addr = FLASH_Base;
+vu32 Verify_addr = FLASH_Base;
+vu8 Verify_Star_flag = 0;
+vu8 Fast_Program_Buf[128];
+vu16 CodeLen = 0;
+vu8 End_Flag = 0;
 u8 EP2_Rx_Buffer[USBD_DATA_SIZE+4];
 #define  isp_cmd_t   ((isp_cmd  *)EP2_Rx_Buffer)
 

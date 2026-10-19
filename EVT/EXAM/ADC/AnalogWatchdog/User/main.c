@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/22
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -20,6 +20,7 @@
 
 #include "debug.h"
 
+vu8  IntResponse=0 ;
 /*********************************************************************
  * @fn      ADC_Function_Init
  *
@@ -95,7 +96,7 @@ void ADC_Function_Init(void)
 u16 Get_ADC_Val(u8 ch)
 {
     u16 val;
-
+    ADC_RegularChannelConfig(ADC1, ch, 1, ADC_SampleTime_241Cycles);
     ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 
     while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC));
@@ -133,6 +134,11 @@ int main(void)
     {
         ADC_val = Get_ADC_Val(ADC_Channel_2);
         Delay_Ms(500);
+	   if(IntResponse == 1)
+        {
+			IntResponse=0;
+           printf( "Enter AnalogWatchdog Interrupt\r\n" );
+        }
         printf("%04d\r\n", ADC_val);
         Delay_Ms(2);
     }
@@ -150,7 +156,7 @@ void ADC1_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void ADC1_IRQHandler(void)
 {
     if(ADC_GetITStatus( ADC1, ADC_IT_AWD)){
-        printf( "Enter AnalogWatchdog Interrupt\r\n" );
+        IntResponse=1;
     }
 
     ADC_ClearITPendingBit( ADC1, ADC_IT_AWD);

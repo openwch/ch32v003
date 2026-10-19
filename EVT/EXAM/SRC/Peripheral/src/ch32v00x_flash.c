@@ -550,7 +550,7 @@ FlagStatus FLASH_GetFlagStatus(uint32_t FLASH_FLAG)
 
     if(FLASH_FLAG == FLASH_FLAG_OPTERR)
     {
-        if((FLASH->OBR & FLASH_FLAG_OPTERR) != (uint32_t)RESET)
+        if(((FLASH->OBR & ( 1<<0 ))) != (uint32_t)RESET)
         {
             bitstatus = SET;
         }

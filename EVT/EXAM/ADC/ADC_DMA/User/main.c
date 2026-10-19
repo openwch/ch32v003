@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2022/08/08
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -19,9 +19,11 @@
 */
 
 #include "debug.h"
+/* Global define */
+#define Num 10
 
-/* Global Variable */
-u16 TxBuf[10];
+/* Global Variable */ 
+volatile u16 TxBuf[Num]; 
 
 /*********************************************************************
  * @fn      ADC_Function_Init
@@ -117,15 +119,17 @@ int main(void)
 
     ADC_Function_Init();
 
-    DMA_Tx_Init(DMA1_Channel1, (u32)&ADC1->RDATAR, (u32)TxBuf, 10);
+	DMA_Tx_Init( DMA1_Channel1, (u32)&ADC1->RDATAR, (u32)TxBuf, Num );  
     DMA_Cmd(DMA1_Channel1, ENABLE);
 
     ADC_RegularChannelConfig(ADC1, ADC_Channel_2, 1, ADC_SampleTime_241Cycles);
     ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-    Delay_Ms(50);
+    while(DMA_GetFlagStatus(DMA1_FLAG_TC1) == RESET) /* Wait until ADC DMA1 Transfer Complete */
+    {
+    }
     ADC_SoftwareStartConvCmd(ADC1, DISABLE);
 
-    for(i = 0; i < 10; i++){
+	for(i=0; i<Num; i++){
         printf("%04d\r\n", TxBuf[i]);
         Delay_Ms(10);
     }
